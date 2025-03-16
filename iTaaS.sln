@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTaaS.Api", "iTaaS.Api\iTaaS.Api.csproj", "{E864917B-DD4C-4184-AC5A-A0097800BBA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTaaS.Tests", "iTaaS.Tests\iTaaS.Tests.csproj", "{0A5005D5-89A2-41B7-B51B-0B7FC39F39E1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E864917B-DD4C-4184-AC5A-A0097800BBA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E864917B-DD4C-4184-AC5A-A0097800BBA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E864917B-DD4C-4184-AC5A-A0097800BBA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E864917B-DD4C-4184-AC5A-A0097800BBA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A5005D5-89A2-41B7-B51B-0B7FC39F39E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A5005D5-89A2-41B7-B51B-0B7FC39F39E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A5005D5-89A2-41B7-B51B-0B7FC39F39E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A5005D5-89A2-41B7-B51B-0B7FC39F39E1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {347F5ED5-74CA-4017-8D44-4204DA246CB0}
+	EndGlobalSection
+EndGlobal
