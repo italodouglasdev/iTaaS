@@ -40,5 +40,14 @@ namespace iTaaS.Api.Aplicacao.Interfaces.Servicos
          string cashStatus,
          TipoFormatoExibicaoLog tipoFormatoExibicaoLog);
 
+
+        Task<Resultado<string>> ObtenhaPorIdentificador(
+        int id,
+        TipoFormatoExibicaoLog tipoFormatoExibicaoLog);
+
+
+        Task<Resultado<string>> ObtenhaTransformadoPorIdentificador(
+        int id,
+        TipoFormatoExibicaoLog tipoFormatoExibicaoLog);
     }
 }

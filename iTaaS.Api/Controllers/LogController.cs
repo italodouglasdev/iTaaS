@@ -135,6 +135,41 @@ namespace iTaaS.Api.Controllers
 
 
 
+        [HttpGet("BuscarSalvoId")]
+        public async Task<ActionResult<LogDto>> BuscarSalvoId(int Id, TipoFormatoExibicaoLog tipoFormatoExibicaoLog)
+        {
+            var resultado = await LogService.ObtenhaPorIdentificador(
+                Id,
+                tipoFormatoExibicaoLog);
+
+            if (resultado.Sucesso)
+            {
+                return Content(string.Join(Environment.NewLine, resultado.Dados), "text/plain", Encoding.UTF8);
+            }
+            else
+            {
+                return BadRequest(resultado.Inconsistencias);
+            }
+
+        }
+
+        [HttpGet("BuscarTransformadoId")]
+        public async Task<ActionResult<LogDto>> BuscarTransformadoId(int Id, TipoFormatoExibicaoLog tipoFormatoExibicaoLog)
+        {
+            var resultado = await LogService.ObtenhaTransformadoPorIdentificador(
+                Id,
+                tipoFormatoExibicaoLog);
+
+            if (resultado.Sucesso)
+            {
+                return Content(string.Join(Environment.NewLine, resultado.Dados), "text/plain", Encoding.UTF8);
+            }
+            else
+            {
+                return BadRequest(resultado.Inconsistencias);
+            }
+
+        }
 
         //[HttpGet("{id}")]
         //public async Task<ActionResult<LogDto>> ObterPorId(int id)
