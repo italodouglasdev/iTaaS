@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace iTaaS.Api.Migrations
 {
-    public partial class CriacaoBanco : Migration
+    public partial class Criacao_BancoDados : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,8 @@ namespace iTaaS.Api.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Hash = table.Column<string>(nullable: true),
-                    DataHoraRecebimento = table.Column<DateTime>(nullable: false)
+                    DataHoraRecebimento = table.Column<DateTime>(nullable: false),
+                    UrlOrigem = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

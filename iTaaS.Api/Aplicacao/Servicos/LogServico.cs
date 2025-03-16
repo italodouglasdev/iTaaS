@@ -114,7 +114,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         }
 
 
-        public async Task<Resultado<string>> ImportarPorUrl(string url, TipoRetornoTranformacao tipoRetornoTranformacao)
+        public async Task<Resultado<string>> ImportarPorUrl(string url, TipoRetornoLog tipoLogRetorno)
         {
             var resultado = new Resultado<string>();
 
@@ -127,6 +127,8 @@ namespace iTaaS.Api.Aplicacao.Servicos
             }
 
             var logDto = resultadoConversaoUrlDto.Dados;
+            logDto.UrlOrigem = url;
+
             var resultadoCriar = await Criar(logDto);
             if (!resultadoCriar.Sucesso)
             {
@@ -135,15 +137,19 @@ namespace iTaaS.Api.Aplicacao.Servicos
             }
 
             var resultadoConversaoDtoArquivo = new Resultado<string>();
-            if (tipoRetornoTranformacao == TipoRetornoTranformacao.RETORNAR_PATCH)
+            if (tipoLogRetorno == TipoRetornoLog.RETORNAR_PATCH)
             {
                 conversorLog = ConverterLogFabrica.ObterConversor(TipoFormatoLog.AGORA);
                 resultadoConversaoDtoArquivo = conversorLog.ConverterDeDtoParaArquivo(resultadoCriar.Dados);
             }
-            else if (tipoRetornoTranformacao == TipoRetornoTranformacao.RETORNAR_ARQUIVO)
+            else if (tipoLogRetorno == TipoRetornoLog.RETORNAR_ARQUIVO)
             {
                 conversorLog = ConverterLogFabrica.ObterConversor(TipoFormatoLog.AGORA);
                 resultadoConversaoDtoArquivo = conversorLog.ConverterDeDtoParaString(resultadoCriar.Dados);
+            }
+            else
+            {
+                resultadoConversaoDtoArquivo.Dados = JsonConvert.SerializeObject(logDto, Formatting.Indented);
             }
 
             if (!resultadoConversaoDtoArquivo.Sucesso)
@@ -158,7 +164,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
         }
 
-        public async Task<Resultado<string>> ImportarPorId(int id, TipoRetornoTranformacao tipoRetornoTranformacao)
+        public async Task<Resultado<string>> ImportarPorId(int id, TipoRetornoLog tipoLogRetorno)
         {
             var resultado = new Resultado<string>();
 
@@ -172,13 +178,17 @@ namespace iTaaS.Api.Aplicacao.Servicos
             }
 
             var resultadoConversaoDtoArquivo = new Resultado<string>();
-            if (tipoRetornoTranformacao == TipoRetornoTranformacao.RETORNAR_PATCH)
+            if (tipoLogRetorno == TipoRetornoLog.RETORNAR_PATCH)
             {
                 resultadoConversaoDtoArquivo = conversorLog.ConverterDeDtoParaArquivo(resultadoObtenhaPorId.Dados);
             }
-            else if (tipoRetornoTranformacao == TipoRetornoTranformacao.RETORNAR_ARQUIVO)
+            else if (tipoLogRetorno == TipoRetornoLog.RETORNAR_ARQUIVO)
             {
                 resultadoConversaoDtoArquivo = conversorLog.ConverterDeDtoParaString(resultadoObtenhaPorId.Dados);
+            }
+            else
+            {
+                resultadoConversaoDtoArquivo.Dados = JsonConvert.SerializeObject(resultadoObtenhaPorId.Dados, Formatting.Indented);
             }
 
             if (!resultadoConversaoDtoArquivo.Sucesso)
@@ -241,7 +251,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
          int tamanhoRespostaInicial,
          int tamanhoRespostaFinal,
          string cashStatus,
-         TipoFormatoExibicaoLog tipoFormatoExibicaoLog)
+         TipoRetornoLog tipoRetornoLog)
         {
             var resultadoService = new Resultado<string>();
 
@@ -267,7 +277,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var conversorLog = ConverterLogFabrica.ObterConversor(TipoFormatoLog.MINHA_CDN);
 
 
-            if (tipoFormatoExibicaoLog == TipoFormatoExibicaoLog.URLs)
+            if (tipoRetornoLog == TipoRetornoLog.RETORNAR_PATCH)
             {
                 foreach (var logEntidade in resultadoRepository.Dados)
                 {
@@ -276,7 +286,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                     strinBuilderLogs.AppendLine(resultadoConversaoDtoArquivo.Dados);
                 }
             }
-            else if (tipoFormatoExibicaoLog == TipoFormatoExibicaoLog.JSON)
+            else if (tipoRetornoLog == TipoRetornoLog.RETORNAR_JSON)
             {
                 var listaLogsDto = LogMapper.ConverterListaParaDto(resultadoRepository.Dados);
                 strinBuilderLogs.Append(JsonConvert.SerializeObject(listaLogsDto, Formatting.Indented));
@@ -311,7 +321,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
          int tamanhoRespostaInicial,
          int tamanhoRespostaFinal,
          string cashStatus,
-         TipoFormatoExibicaoLog tipoFormatoExibicaoLog)
+         TipoRetornoLog tipoRetornoLog)
         {
             var resultadoService = new Resultado<string>();
 
@@ -338,7 +348,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var conversorLogAgora = ConverterLogFabrica.ObterConversor(TipoFormatoLog.AGORA);
 
 
-            if (tipoFormatoExibicaoLog == TipoFormatoExibicaoLog.URLs)
+            if (tipoRetornoLog == TipoRetornoLog.RETORNAR_PATCH)
             {
                 foreach (var logEntidade in resultadoRepository.Dados)
                 {
@@ -352,7 +362,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                     strinBuilderLogs.AppendLine();
                 }
             }
-            else if (tipoFormatoExibicaoLog == TipoFormatoExibicaoLog.JSON)
+            else if (tipoRetornoLog == TipoRetornoLog.RETORNAR_JSON)
             {
                 var listaLogsJson = new List<LogJson>();
 
@@ -399,7 +409,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         }
 
 
-        public async Task<Resultado<string>> ObtenhaPorIdentificador(int id, TipoFormatoExibicaoLog tipoFormatoExibicaoLog)
+        public async Task<Resultado<string>> ObtenhaPorIdentificador(int id, TipoRetornoLog tipoRetornoLog)
         {
             var resultadorObtenhaPorIdentificador = new Resultado<string>();
 
@@ -415,12 +425,12 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var conversorLogMinhaCdn = ConverterLogFabrica.ObterConversor(TipoFormatoLog.MINHA_CDN);
 
 
-            if (tipoFormatoExibicaoLog == TipoFormatoExibicaoLog.URLs)
+            if (tipoRetornoLog == TipoRetornoLog.RETORNAR_PATCH)
             {
                 var resultadoConversaoDtoArquivoMinhaCdn = conversorLogMinhaCdn.ConverterDeDtoParaArquivo(logDto);
                 resultadorObtenhaPorIdentificador.Dados = resultadoConversaoDtoArquivoMinhaCdn.Dados;
             }
-            else if (tipoFormatoExibicaoLog == TipoFormatoExibicaoLog.JSON)
+            else if (tipoRetornoLog == TipoRetornoLog.RETORNAR_JSON)
             {
                 resultadorObtenhaPorIdentificador.Dados = JsonConvert.SerializeObject(logDto, Formatting.Indented);
             }
@@ -434,7 +444,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             return resultadorObtenhaPorIdentificador;
         }
 
-        public async Task<Resultado<string>> ObtenhaTransformadoPorIdentificador(int id, TipoFormatoExibicaoLog tipoFormatoExibicaoLog)
+        public async Task<Resultado<string>> ObtenhaTransformadoPorIdentificador(int id, TipoRetornoLog tipoRetornoLog)
         {
             var resultadorObtenhaPorIdentificador = new Resultado<string>();
 
@@ -448,12 +458,12 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var logDto = resultadoObtenha.Dados;
 
             var conversorLogAgora = ConverterLogFabrica.ObterConversor(TipoFormatoLog.AGORA);
-            if (tipoFormatoExibicaoLog == TipoFormatoExibicaoLog.URLs)
+            if (tipoRetornoLog == TipoRetornoLog.RETORNAR_PATCH)
             {
                 var resultadoConversaoDtoArquivoMinhaCdn = conversorLogAgora.ConverterDeDtoParaArquivo(logDto);
                 resultadorObtenhaPorIdentificador.Dados = resultadoConversaoDtoArquivoMinhaCdn.Dados;
             }
-            else if (tipoFormatoExibicaoLog == TipoFormatoExibicaoLog.JSON)
+            else if (tipoRetornoLog == TipoRetornoLog.RETORNAR_JSON)
             {
                 resultadorObtenhaPorIdentificador.Dados = JsonConvert.SerializeObject(logDto, Formatting.Indented);
             }

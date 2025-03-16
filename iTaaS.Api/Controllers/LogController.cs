@@ -3,6 +3,7 @@ using iTaaS.Api.Aplicacao.Interfaces.Servicos;
 using iTaaS.Api.Dominio.Enumeradores;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,16 +20,17 @@ namespace iTaaS.Api.Controllers
             this.LogService = logService;
         }
 
+
         /// <summary>
-        /// Teste descrição Swagger
+        /// Realiza a transformação de um log disponível em uma url
         /// </summary>
-        /// <param name="url">Url contendo o arquivo de log para transformação.</param>
-        /// <param name="tipoRetornoTranformacao">Tipo de retorno da tranformação. [0] Log em texto, [1] Url do log transformado</param>
+        /// <param name="url">Url em que o log está localizado</param>
+        /// <param name="tipoLogRetorno"></param>
         /// <returns></returns>
         [HttpPost("TranformarLogUrl")]
-        public async Task<ActionResult<LogDto>> TranformarLogUrl(string url, TipoRetornoTranformacao tipoRetornoTranformacao)
+        public async Task<ActionResult<LogDto>> TranformarLogUrl(string url, TipoRetornoLog tipoLogRetorno)
         {
-            var resultado = await LogService.ImportarPorUrl(url, tipoRetornoTranformacao);
+            var resultado = await LogService.ImportarPorUrl(url, tipoLogRetorno);
 
             if (resultado.Sucesso)
             {
@@ -44,10 +46,11 @@ namespace iTaaS.Api.Controllers
         }
 
 
+        
         [HttpPost("TranformarLogId")]
-        public async Task<ActionResult<LogDto>> TranformarLogId(int Id, TipoRetornoTranformacao tipoRetornoTranformacao)
+        public async Task<ActionResult<LogDto>> TranformarLogId(int Id, TipoRetornoLog tipoLogRetorno)
         {
-            var resultado = await LogService.ImportarPorId(Id, tipoRetornoTranformacao);
+            var resultado = await LogService.ImportarPorId(Id, tipoLogRetorno);
 
             if (resultado.Sucesso)
             {
@@ -60,7 +63,6 @@ namespace iTaaS.Api.Controllers
             }
 
         }
-
 
         [HttpGet("Ver/{nomeArquivo}")]
         public async Task<ActionResult<LogDto>> Ver(string nomeArquivo)
@@ -78,9 +80,8 @@ namespace iTaaS.Api.Controllers
 
         }
 
-
         [HttpGet("BuscarSalvos")]
-        public async Task<ActionResult<LogDto>> BuscarSalvos(string DataHoraRecebimentoInicio, string DataHoraReceimentoFim, string MetodoHttp, int CodigoStatus, string CaminhoUrl, decimal TempoRespostaInicial, decimal TempoRespostaFinal, int TamanhoRespostaInicial, int TamanhoRespostaFinal, string CashStatus, TipoFormatoExibicaoLog tipoFormatoExibicaoLog)
+        public async Task<ActionResult<LogDto>> BuscarSalvos(string DataHoraRecebimentoInicio, string DataHoraReceimentoFim, string MetodoHttp, int CodigoStatus, string CaminhoUrl, decimal TempoRespostaInicial, decimal TempoRespostaFinal, int TamanhoRespostaInicial, int TamanhoRespostaFinal, string CashStatus, TipoRetornoLog tipoRetornoLog)
         {
             var resultado = await LogService.ObterLogsFiltrados(
                 DataHoraRecebimentoInicio,
@@ -93,7 +94,7 @@ namespace iTaaS.Api.Controllers
                 TamanhoRespostaInicial,
                 TamanhoRespostaFinal,
                 CashStatus,
-                tipoFormatoExibicaoLog);
+                tipoRetornoLog);
 
             if (resultado.Sucesso)
             {
@@ -107,7 +108,7 @@ namespace iTaaS.Api.Controllers
         }
 
         [HttpGet("BuscarTransformados")]
-        public async Task<ActionResult<LogDto>> BuscarTransformados(string DataHoraRecebimentoInicio, string DataHoraReceimentoFim, string MetodoHttp, int CodigoStatus, string CaminhoUrl, decimal TempoRespostaInicial, decimal TempoRespostaFinal, int TamanhoRespostaInicial, int TamanhoRespostaFinal, string CashStatus, TipoFormatoExibicaoLog tipoFormatoExibicaoLog)
+        public async Task<ActionResult<LogDto>> BuscarTransformados(string DataHoraRecebimentoInicio, string DataHoraReceimentoFim, string MetodoHttp, int CodigoStatus, string CaminhoUrl, decimal TempoRespostaInicial, decimal TempoRespostaFinal, int TamanhoRespostaInicial, int TamanhoRespostaFinal, string CashStatus, TipoRetornoLog tipoRetornoLog)
         {
             var resultado = await LogService.ObterLogsTransformados(
                 DataHoraRecebimentoInicio,
@@ -120,7 +121,7 @@ namespace iTaaS.Api.Controllers
                 TamanhoRespostaInicial,
                 TamanhoRespostaFinal,
                 CashStatus,
-                tipoFormatoExibicaoLog);
+                tipoRetornoLog);
 
             if (resultado.Sucesso)
             {
@@ -133,14 +134,12 @@ namespace iTaaS.Api.Controllers
 
         }
 
-
-
-        [HttpGet("BuscarSalvoId")]
-        public async Task<ActionResult<LogDto>> BuscarSalvoId(int Id, TipoFormatoExibicaoLog tipoFormatoExibicaoLog)
+        [HttpGet("BuscarSalvoId/{Id}")]
+        public async Task<ActionResult<LogDto>> BuscarSalvoId(int Id, TipoRetornoLog tipoRetornoLog)
         {
             var resultado = await LogService.ObtenhaPorIdentificador(
                 Id,
-                tipoFormatoExibicaoLog);
+                tipoRetornoLog);
 
             if (resultado.Sucesso)
             {
@@ -153,12 +152,12 @@ namespace iTaaS.Api.Controllers
 
         }
 
-        [HttpGet("BuscarTransformadoId")]
-        public async Task<ActionResult<LogDto>> BuscarTransformadoId(int Id, TipoFormatoExibicaoLog tipoFormatoExibicaoLog)
+        [HttpGet("BuscarTransformadoId/{Id}")]
+        public async Task<ActionResult<LogDto>> BuscarTransformadoId(int Id, TipoRetornoLog tipoRetornoLog)
         {
             var resultado = await LogService.ObtenhaTransformadoPorIdentificador(
                 Id,
-                tipoFormatoExibicaoLog);
+                tipoRetornoLog);
 
             if (resultado.Sucesso)
             {
@@ -171,56 +170,40 @@ namespace iTaaS.Api.Controllers
 
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<LogDto>> ObterPorId(int id)
-        //{
-        //    var log = await this.LogService.ObterPorId(id);
 
-        //    if (log == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    return Ok(log);
-        //}
+             
 
-        //[HttpGet]
-        //public async Task<ActionResult<List<LogDto>>> ObterLista()
-        //{
-        //    var logs = await this.LogService.ObterLista();
-        //    return Ok(logs);
-        //}
+        [HttpPost("Criar")]
+        public async Task<ActionResult<LogDto>> Criar([FromBody] LogDto logDto)
+        {
+            if (logDto == null)
+            {
+                return BadRequest("Dados inválidos.");
+            }
 
-        //[HttpPost]
-        //public async Task<ActionResult<LogDto>> Criar([FromBody] LogDto logDto)
-        //{
-        //    if (logDto == null)
-        //    {
-        //        return BadRequest("Dados inválidos.");
-        //    }
+            var logCriado = await this.LogService.Criar(logDto);
 
-        //    var logCriado = await this.LogService.Criar(logDto);
+            return Ok();
+        }
 
-        //    return Ok();
-        //}
+        [HttpPut("Salvar")]
+        public async Task<ActionResult<LogDto>> Atualizar([FromBody] LogDto logDto)
+        {
+            if (logDto == null)
+            {
+                return BadRequest("Dados inválidos.");
+            }
 
-        //[HttpPut]
-        //public async Task<ActionResult<LogDto>> Atualizar([FromBody] LogDto logDto)
-        //{
-        //    if (logDto == null)
-        //    {
-        //        return BadRequest("Dados inválidos.");
-        //    }
+            var logAtualizado = await this.LogService.Atualizar(logDto);
+            return Ok(logAtualizado);
+        }
 
-        //    var logAtualizado = await this.LogService.Atualizar(logDto);
-        //    return Ok(logAtualizado);
-        //}
-
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<LogDto>> Deletar(int id)
-        //{
-        //    var logDeletado = await this.LogService.Deletar(id);
-        //    return Ok(logDeletado);
-        //}
+        [HttpDelete("Deletar/{id}")]
+        public async Task<ActionResult<LogDto>> Deletar(int id)
+        {
+            var logDeletado = await this.LogService.Deletar(id);
+            return Ok(logDeletado);
+        }
     }
 }

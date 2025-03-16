@@ -1,10 +1,11 @@
-﻿using iTaaS.Api.Dominio.Helpers;
+﻿using iTaaS.Api.Aplicacao.Interfaces.DTOs;
+using iTaaS.Api.Dominio.Helpers;
 using System;
 using System.Collections.Generic;
 
 namespace iTaaS.Api.Aplicacao.DTOs
 {
-    public class LogDto
+    public class LogDto : ILogDto
     {
         public LogDto()
         {
@@ -14,6 +15,9 @@ namespace iTaaS.Api.Aplicacao.DTOs
         public int Id { get; set; }
         public string Hash { get; set; }
         public DateTime DataHoraRecebimento { get; set; }
+        public string UrlOrigem { get; set; }
+
+
         public ICollection<LogLinhaDto> Linhas { get; set; }
 
 

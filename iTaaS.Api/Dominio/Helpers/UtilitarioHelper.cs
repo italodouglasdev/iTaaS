@@ -36,7 +36,7 @@ namespace iTaaS.Api.Dominio.Helpers
 
         public static string ObtenhaDiretorioBase()
         {
-            return $"C:\\Arquivos_Log";
+            return $"C:\\iTaaS_Logs";
         }
 
         public static string ObtenhaCaminhoDiretorioPorDataHora(DateTime dataHora)

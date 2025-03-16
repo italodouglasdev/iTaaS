@@ -1,6 +1,8 @@
-﻿namespace iTaaS.Api.Aplicacao.DTOs
+﻿using iTaaS.Api.Aplicacao.Interfaces.DTOs;
+
+namespace iTaaS.Api.Aplicacao.DTOs
 {
-    public class LogLinhaDto
+    public class LogLinhaDto : ILogLinhaDto
     {
         public int Id { get; set; }
         public int LogId { get; set; }

@@ -24,6 +24,7 @@ namespace iTaaS.Api.Aplicacao.Mapeadores
             {
                 Id = entity.Id,
                 Hash = entity.Hash,
+                UrlOrigem = entity.UrlOrigem,
                 DataHoraRecebimento = entity.DataHoraRecebimento,
                 Linhas = LogLinhaMapper.ConverterListaParaDto(entity.Linhas.ToList())
             };
@@ -38,6 +39,7 @@ namespace iTaaS.Api.Aplicacao.Mapeadores
             {
                 Id = dto.Id,
                 Hash = dto.Hash,
+                UrlOrigem = dto.UrlOrigem,
                 DataHoraRecebimento = dto.DataHoraRecebimento,
                 Linhas = LogLinhaMapper.ConverterListaParaEntity(dto.Linhas.ToList())
             };

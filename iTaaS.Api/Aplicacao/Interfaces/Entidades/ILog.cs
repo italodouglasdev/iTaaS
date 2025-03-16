@@ -10,6 +10,8 @@ namespace iTaaS.Api.Aplicacao.Interfaces.Entidades
 
         DateTime DataHoraRecebimento { get; set; }
 
+        string UrlOrigem { get; set; }
+
         ICollection<LogLinhaEntidade> Linhas { get; set; }
 
     }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using iTaaS.Api.Infraestrutura.BancoDeDados;
 
 namespace iTaaS.Api.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20250316233723_Criacao_BancoDados")]
+    partial class Criacao_BancoDados
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,7 @@ namespace iTaaS.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("iTaaS.Api.Entities.LogEntity", b =>
+            modelBuilder.Entity("iTaaS.Api.Dominio.Entidades.LogEntidade", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -29,12 +31,14 @@ namespace iTaaS.Api.Migrations
 
                     b.Property<string>("Hash");
 
+                    b.Property<string>("UrlOrigem");
+
                     b.HasKey("Id");
 
                     b.ToTable("Logs");
                 });
 
-            modelBuilder.Entity("iTaaS.Api.Entities.LogLinhaEntity", b =>
+            modelBuilder.Entity("iTaaS.Api.Dominio.Entidades.LogLinhaEntidade", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,9 +65,9 @@ namespace iTaaS.Api.Migrations
                     b.ToTable("LogsLinhas");
                 });
 
-            modelBuilder.Entity("iTaaS.Api.Entities.LogLinhaEntity", b =>
+            modelBuilder.Entity("iTaaS.Api.Dominio.Entidades.LogLinhaEntidade", b =>
                 {
-                    b.HasOne("iTaaS.Api.Entities.LogEntity", "Log")
+                    b.HasOne("iTaaS.Api.Dominio.Entidades.LogEntidade", "Log")
                         .WithMany("Linhas")
                         .HasForeignKey("LogId")
                         .OnDelete(DeleteBehavior.Cascade);
