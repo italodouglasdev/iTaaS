@@ -5,7 +5,6 @@ using iTaaS.Api.Infraestrutura.BancoDeDados;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace iTaaS.Api.Infraestrutura.Repositorios

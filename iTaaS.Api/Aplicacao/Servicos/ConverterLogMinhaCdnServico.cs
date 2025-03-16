@@ -11,6 +11,8 @@ namespace iTaaS.Api.Aplicacao.Servicos
     public class ConverterLogMinhaCdnServico : IConverterLogServico
     {
 
+        private const string SUFIXO_TIPO_LOG_MINHA_CDN = "MINHA_CDN";
+
         private const string DEMILITADOR_PIPE = "|";
         private const string DEMILITADOR_ESPACO = " ";
 
@@ -55,14 +57,46 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 return resultadoArquivo;
             }
 
-            var consultaCriarArquivoTxt = UtilitarioHelper.CriarArquivoTxt(consultaArvoreDiretorios.Dados, resultadoDtoString.Dados);
-            if (!consultaCriarArquivoTxt.Sucesso)
+
+            var nomeArquivo = logDto.ObtenhaNomeArquivo(SUFIXO_TIPO_LOG_MINHA_CDN);
+            var caminhoArquivo = $"{consultaArvoreDiretorios.Dados}\\{nomeArquivo}";
+            var consultaArquivoTxt = UtilitarioHelper.CriarArquivoTxt(caminhoArquivo, resultadoDtoString.Dados);
+            if (!consultaArquivoTxt.Sucesso)
             {
-                resultadoArquivo.Inconsistencias = consultaCriarArquivoTxt.Inconsistencias;
+                resultadoArquivo.Inconsistencias = consultaArquivoTxt.Inconsistencias;
                 return resultadoArquivo;
             }
 
+            //Ajustar
+            resultadoArquivo.Dados = $"https://localhost:44339/api/Log/Ver/{nomeArquivo}";
+
             return resultadoArquivo;
+
+
+            //var resultadoArquivo = new Resultado<string>();
+
+            //var resultadoDtoString = ConverterDeDtoParaString(logDto);
+            //if (!resultadoDtoString.Sucesso)
+            //{
+            //    resultadoArquivo.Inconsistencias = resultadoDtoString.Inconsistencias;
+            //    return resultadoArquivo;
+            //}
+
+            //var consultaArvoreDiretorios = UtilitarioHelper.CriarArvoreDiretorios(logDto.DataHoraRecebimento);
+            //if (!consultaArvoreDiretorios.Sucesso)
+            //{
+            //    resultadoArquivo.Inconsistencias = consultaArvoreDiretorios.Inconsistencias;
+            //    return resultadoArquivo;
+            //}
+
+            //var consultaCriarArquivoTxt = UtilitarioHelper.CriarArquivoTxt(consultaArvoreDiretorios.Dados, resultadoDtoString.Dados);
+            //if (!consultaCriarArquivoTxt.Sucesso)
+            //{
+            //    resultadoArquivo.Inconsistencias = consultaCriarArquivoTxt.Inconsistencias;
+            //    return resultadoArquivo;
+            //}
+
+            //return resultadoArquivo;
         }
 
         public Resultado<string> ConverterDeDtoParaString(LogDto logDto)

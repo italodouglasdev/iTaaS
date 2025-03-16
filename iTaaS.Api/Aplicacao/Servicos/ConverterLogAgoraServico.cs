@@ -67,9 +67,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             }
 
             //Ajustar
-            resultadoArquivo.Dados = $"https://localhost:44339/api/Log/Ver/{nomeArquivo}";
-
-            //resultadoArquivo.Dados = caminhoArquivo;
+            resultadoArquivo.Dados = $"https://localhost:44339/api/Log/Ver/{nomeArquivo}";                       
 
             return resultadoArquivo;
 

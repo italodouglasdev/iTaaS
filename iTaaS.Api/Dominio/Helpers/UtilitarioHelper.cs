@@ -72,16 +72,7 @@ namespace iTaaS.Api.Dominio.Helpers
         }
 
 
-        //public static string ConverterDiretorioParaUrl(string caminhoArquivo)
-        //{
-
-        //}
-
-        //public static string ConverterUrlParaDiretorio(string url)
-        //{
-
-        //}
-
+        
 
         public static Resultado<List<string>> LerArquivoTxt(string caminhoArquivo)
         {
@@ -221,7 +212,6 @@ namespace iTaaS.Api.Dominio.Helpers
 
             return valorDecimal;
         }
-
         public static int ConverterDecimalParaInt(decimal valor)
         {
             try
@@ -234,6 +224,14 @@ namespace iTaaS.Api.Dominio.Helpers
                 return 0;
             }
 
+        }
+
+        public static DateTime ConverterStringParaDataTime(string data)
+        {
+            string formato = "yyyyMMddHHmm";
+            return DateTime.TryParseExact(data, formato, CultureInfo.InvariantCulture, DateTimeStyles.None, out var resultado)
+                ? resultado
+                : new DateTime();
         }
 
 

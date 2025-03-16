@@ -1,9 +1,9 @@
 ﻿namespace iTaaS.Api.Dominio.Enumeradores
 {
-    public enum TipoFormatoLog
+    public enum TipoFormatoExibicaoLog
     {
-        MINHA_CDN = 0,
-        AGORA = 1,
+        TEXTO = 0,
+        URLs = 1,
         JSON = 2
     }
 }

@@ -31,7 +31,7 @@ namespace iTaaS.Api.Controllers
             var resultado = await LogService.ImportarPorUrl(url, tipoRetornoTranformacao);
 
             if (resultado.Sucesso)
-            {              
+            {
 
                 return Content(resultado.Dados, "text/plain", Encoding.UTF8);
 
@@ -77,6 +77,62 @@ namespace iTaaS.Api.Controllers
             }
 
         }
+
+
+        [HttpGet("BuscarSalvos")]
+        public async Task<ActionResult<LogDto>> BuscarSalvos(string DataHoraRecebimentoInicio, string DataHoraReceimentoFim, string MetodoHttp, int CodigoStatus, string CaminhoUrl, decimal TempoRespostaInicial, decimal TempoRespostaFinal, int TamanhoRespostaInicial, int TamanhoRespostaFinal, string CashStatus, TipoFormatoExibicaoLog tipoFormatoExibicaoLog)
+        {
+            var resultado = await LogService.ObterLogsFiltrados(
+                DataHoraRecebimentoInicio,
+                DataHoraReceimentoFim,
+                MetodoHttp,
+                CodigoStatus,
+                CaminhoUrl,
+                TempoRespostaInicial,
+                TempoRespostaFinal,
+                TamanhoRespostaInicial,
+                TamanhoRespostaFinal,
+                CashStatus,
+                tipoFormatoExibicaoLog);
+
+            if (resultado.Sucesso)
+            {
+                return Content(string.Join(Environment.NewLine, resultado.Dados), "text/plain", Encoding.UTF8);
+            }
+            else
+            {
+                return BadRequest(resultado.Inconsistencias);
+            }
+
+        }
+
+        [HttpGet("BuscarTransformados")]
+        public async Task<ActionResult<LogDto>> BuscarTransformados(string DataHoraRecebimentoInicio, string DataHoraReceimentoFim, string MetodoHttp, int CodigoStatus, string CaminhoUrl, decimal TempoRespostaInicial, decimal TempoRespostaFinal, int TamanhoRespostaInicial, int TamanhoRespostaFinal, string CashStatus, TipoFormatoExibicaoLog tipoFormatoExibicaoLog)
+        {
+            var resultado = await LogService.ObterLogsTransformados(
+                DataHoraRecebimentoInicio,
+                DataHoraReceimentoFim,
+                MetodoHttp,
+                CodigoStatus,
+                CaminhoUrl,
+                TempoRespostaInicial,
+                TempoRespostaFinal,
+                TamanhoRespostaInicial,
+                TamanhoRespostaFinal,
+                CashStatus,
+                tipoFormatoExibicaoLog);
+
+            if (resultado.Sucesso)
+            {
+                return Content(string.Join(Environment.NewLine, resultado.Dados), "text/plain", Encoding.UTF8);
+            }
+            else
+            {
+                return BadRequest(resultado.Inconsistencias);
+            }
+
+        }
+
 
 
 

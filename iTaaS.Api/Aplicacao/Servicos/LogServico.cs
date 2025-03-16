@@ -2,18 +2,20 @@
 using iTaaS.Api.Aplicacao.Interfaces.Mapeadores;
 using iTaaS.Api.Aplicacao.Interfaces.Repositorios;
 using iTaaS.Api.Aplicacao.Interfaces.Servicos;
+using iTaaS.Api.Dominio.Entidades;
 using iTaaS.Api.Dominio.Enumeradores;
 using iTaaS.Api.Dominio.Fabricas;
 using iTaaS.Api.Dominio.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace iTaaS.Api.Aplicacao.Servicos
 {
     public class LogServico : ILogServico
     {
-
         const string SEPARADOR_UNDERLINE = "_";
         const int INDEX_ID_LOG = 0;
 
@@ -109,23 +111,6 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
             return resultadoService;
         }
-
-
-        //public async Task<Resultado<LogDto>> CriarLogComLinhas(LogDto logDto)
-        //{
-        //    var resultadoCriarLogComLinhas = new Resultado<LogDto>();
-
-        //    var resultadoCriarLog = await Criar(logDto);
-
-        //    //foreach (var logLinha in resultadoCriarLog.Dados.Linhas)
-        //    //{
-        //    //    var entityLogLinha = this.LogMapper.ConverterParaEntity(logLinha);
-
-        //    //    LogLinhaRepository.Criar(logLinhs);
-        //    //}
-
-        //    return resultadoCriarLogComLinhas;
-        //}
 
 
         public async Task<Resultado<string>> ImportarPorUrl(string url, TipoRetornoTranformacao tipoRetornoTranformacao)
@@ -241,6 +226,175 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
             return resultado;
 
+        }
+
+
+        public async Task<Resultado<string>> ObterLogsFiltrados(
+         string dataHoraRecebimentoInicio,
+         string dataHoraRecebimentoFim,
+         string metodoHttp,
+         int codigoStatus,
+         string caminhoUrl,
+         decimal tempoRespostaInicial,
+         decimal tempoRespostaFinal,
+         int tamanhoRespostaInicial,
+         int tamanhoRespostaFinal,
+         string cashStatus,
+         TipoFormatoExibicaoLog tipoFormatoExibicaoLog)
+        {
+            var resultadoService = new Resultado<string>();
+
+            var resultadoRepository = await LogRepository.ObterLogsFiltrados(
+                dataHoraRecebimentoInicio,
+                dataHoraRecebimentoFim,
+                metodoHttp,
+                codigoStatus,
+                caminhoUrl,
+                tempoRespostaInicial,
+                tempoRespostaFinal,
+                tamanhoRespostaInicial,
+                tamanhoRespostaFinal,
+                cashStatus);
+
+            if (!resultadoRepository.Sucesso)
+            {
+                resultadoService.Inconsistencias = resultadoRepository.Inconsistencias;
+                return resultadoService;
+            }
+
+            var strinBuilderLogs = new StringBuilder();
+            var conversorLog = ConverterLogFabrica.ObterConversor(TipoFormatoLog.MINHA_CDN);
+
+            if (tipoFormatoExibicaoLog == TipoFormatoExibicaoLog.TEXTO)
+            {
+                foreach (var logEntidade in resultadoRepository.Dados)
+                {
+                    var logDto = LogMapper.ConverterParaDto(logEntidade);
+                    var resultadoConversaoDtoString = conversorLog.ConverterDeDtoParaString(logDto);
+
+                    strinBuilderLogs.AppendLine(resultadoConversaoDtoString.Dados);
+                    strinBuilderLogs.AppendLine();
+                }
+
+            }
+            else if (tipoFormatoExibicaoLog == TipoFormatoExibicaoLog.URLs)
+            {
+                foreach (var logEntidade in resultadoRepository.Dados)
+                {
+                    var logDto = LogMapper.ConverterParaDto(logEntidade);
+                    var resultadoConversaoDtoArquivo = conversorLog.ConverterDeDtoParaArquivo(logDto);
+                    strinBuilderLogs.AppendLine(resultadoConversaoDtoArquivo.Dados);
+                }
+            }
+            else
+            {
+                var listaLogsDto = LogMapper.ConverterListaParaDto(resultadoRepository.Dados);
+                strinBuilderLogs.Append(JsonConvert.SerializeObject(listaLogsDto, Formatting.Indented));
+            }
+
+            resultadoService.Dados = strinBuilderLogs.ToString();
+
+            return resultadoService;
+        }
+
+
+        public async Task<Resultado<string>> ObterLogsTransformados(
+         string dataHoraRecebimentoInicio,
+         string dataHoraRecebimentoFim,
+         string metodoHttp,
+         int codigoStatus,
+         string caminhoUrl,
+         decimal tempoRespostaInicial,
+         decimal tempoRespostaFinal,
+         int tamanhoRespostaInicial,
+         int tamanhoRespostaFinal,
+         string cashStatus,
+         TipoFormatoExibicaoLog tipoFormatoExibicaoLog)
+        {
+            var resultadoService = new Resultado<string>();
+
+            var resultadoRepository = await LogRepository.ObterLogsFiltrados(
+                dataHoraRecebimentoInicio,
+                dataHoraRecebimentoFim,
+                metodoHttp,
+                codigoStatus,
+                caminhoUrl,
+                tempoRespostaInicial,
+                tempoRespostaFinal,
+                tamanhoRespostaInicial,
+                tamanhoRespostaFinal,
+                cashStatus);
+
+            if (!resultadoRepository.Sucesso)
+            {
+                resultadoService.Inconsistencias = resultadoRepository.Inconsistencias;
+                return resultadoService;
+            }
+
+            var strinBuilderLogs = new StringBuilder();
+            var conversorLogMinhaCdn = ConverterLogFabrica.ObterConversor(TipoFormatoLog.MINHA_CDN);
+            var conversorLogAgora = ConverterLogFabrica.ObterConversor(TipoFormatoLog.AGORA);
+
+            if (tipoFormatoExibicaoLog == TipoFormatoExibicaoLog.TEXTO)
+            {
+                foreach (var logEntidade in resultadoRepository.Dados)
+                {
+                    var logDto = LogMapper.ConverterParaDto(logEntidade);
+
+                    var resultadoConversaoDtoStringMinhaCdn = conversorLogMinhaCdn.ConverterDeDtoParaString(logDto);
+                    strinBuilderLogs.AppendLine(resultadoConversaoDtoStringMinhaCdn.Dados);
+                    strinBuilderLogs.AppendLine();
+
+                    var resultadoConversaoDtoArquivoAgora = conversorLogAgora.ConverterDeDtoParaString(logDto);
+                    strinBuilderLogs.AppendLine(resultadoConversaoDtoArquivoAgora.Dados);
+                    strinBuilderLogs.AppendLine();
+                    strinBuilderLogs.AppendLine("---");
+                    strinBuilderLogs.AppendLine();
+                }
+
+            }
+            else if (tipoFormatoExibicaoLog == TipoFormatoExibicaoLog.URLs)
+            {
+                foreach (var logEntidade in resultadoRepository.Dados)
+                {
+                    var logDto = LogMapper.ConverterParaDto(logEntidade);
+                    var resultadoConversaoDtoArquivoMinhaCdn = conversorLogMinhaCdn.ConverterDeDtoParaArquivo(logDto);
+                    strinBuilderLogs.AppendLine(resultadoConversaoDtoArquivoMinhaCdn.Dados);
+
+                    var resultadoConversaoDtoArquivoAgora = conversorLogAgora.ConverterDeDtoParaArquivo(logDto);
+                    strinBuilderLogs.AppendLine(resultadoConversaoDtoArquivoAgora.Dados);
+
+                    strinBuilderLogs.AppendLine();
+                }
+            }
+            else
+            {
+                var listaLogsJson = new List<LogJson>();
+
+                foreach (var logEntidade in resultadoRepository.Dados)
+                {
+                    var logDto = LogMapper.ConverterParaDto(logEntidade);
+
+                    var logJson = new LogJson();
+                    logJson.Id = logDto.Id;
+
+                    var resultadoConversaoDtoArquivoMinhaCdn = conversorLogMinhaCdn.ConverterDeDtoParaString(logDto);
+                    logJson.LogMinhaCdn = resultadoConversaoDtoArquivoMinhaCdn.Dados;
+
+                    var resultadoConversaoDtoArquivoAgora = conversorLogAgora.ConverterDeDtoParaString(logDto);
+                    logJson.LogAgora = resultadoConversaoDtoArquivoAgora.Dados;
+
+                    listaLogsJson.Add(logJson);
+
+                }
+
+
+                strinBuilderLogs.Append(JsonConvert.SerializeObject(listaLogsJson, Formatting.Indented));
+            }
+
+            resultadoService.Dados = strinBuilderLogs.ToString();
+
+            return resultadoService;
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iTaaS.Api.Dominio.Helpers;
+using System;
 using System.Collections.Generic;
 
 namespace iTaaS.Api.Aplicacao.DTOs
@@ -16,9 +17,14 @@ namespace iTaaS.Api.Aplicacao.DTOs
         public ICollection<LogLinhaDto> Linhas { get; set; }
 
 
-        public string ObtenhaNomeArquivo(string sufixo)
+        public string ObtenhaNomeArquivo(string sufixo = null)
         {
-            return $"{Id.ToString("D10")}_{sufixo}.txt";
+            var nomeArquivo = $"{Id.ToString("D10")}";
+
+            if (!UtilitarioHelper.StringEhNulaOuVazia(sufixo))
+                return $"{nomeArquivo}_{sufixo}.txt";
+
+            return nomeArquivo;
         }
 
     }

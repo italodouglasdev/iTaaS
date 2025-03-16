@@ -1,10 +1,12 @@
 ﻿using iTaaS.Api.Aplicacao.DTOs;
 using iTaaS.Api.Aplicacao.Interfaces.Repositorios;
 using iTaaS.Api.Dominio.Entidades;
+using iTaaS.Api.Dominio.Helpers;
 using iTaaS.Api.Infraestrutura.BancoDeDados;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace iTaaS.Api.Infraestrutura.Repositorios
@@ -45,6 +47,75 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
 
             return resultado;
         }
+
+
+        public async Task<Resultado<List<LogEntidade>>> ObterLogsFiltrados(
+          string dataHoraRecebimentoInicio,
+          string dataHoraRecebimentoFim,
+          string metodoHttp,
+          int codigoStatus,
+          string caminhoUrl,
+          decimal tempoRespostaInicial,
+          decimal tempoRespostaFinal,
+          int tamanhoRespostaInicial,
+          int tamanhoRespostaFinal,
+          string cashStatus)
+        {
+            var resultado = new Resultado<List<LogEntidade>>();
+
+            var query = context.Logs.Include(l => l.Linhas).AsQueryable();
+
+
+            //Filtros de Data
+
+            if (!UtilitarioHelper.StringEhNulaOuVazia(dataHoraRecebimentoInicio))
+            {
+                var dataInicial = UtilitarioHelper.ConverterStringParaDataTime(dataHoraRecebimentoInicio);
+                query = query.Where(l => l.DataHoraRecebimento >= dataInicial);
+            }
+            if (!UtilitarioHelper.StringEhNulaOuVazia(dataHoraRecebimentoFim))
+            {
+                var dataFinal = UtilitarioHelper.ConverterStringParaDataTime(dataHoraRecebimentoFim);
+                query = query.Where(l => l.DataHoraRecebimento <= dataFinal);
+            }
+         
+
+            // Filtros nos LogsLinhas
+            if (!UtilitarioHelper.StringEhNulaOuVazia(metodoHttp))
+                query = query.Where(l => l.Linhas.Any(ll => ll.MetodoHttp == metodoHttp));
+
+            if (codigoStatus > 0)
+                query = query.Where(l => l.Linhas.Any(ll => ll.CodigoStatus == codigoStatus));
+
+            if (!UtilitarioHelper.StringEhNulaOuVazia(caminhoUrl))
+                query = query.Where(l => l.Linhas.Any(ll => ll.CaminhoUrl.Contains(caminhoUrl)));
+
+            if (tempoRespostaInicial > 0)
+                query = query.Where(l => l.Linhas.Any(ll => ll.TempoResposta >= tempoRespostaInicial));
+
+            if (tempoRespostaFinal > 0)
+                query = query.Where(l => l.Linhas.Any(ll => ll.TempoResposta <= tempoRespostaFinal));
+
+            if (tamanhoRespostaInicial > 0)
+                query = query.Where(l => l.Linhas.Any(ll => ll.TamahoResposta >= tamanhoRespostaInicial));
+
+            if (tamanhoRespostaFinal > 0)
+                query = query.Where(l => l.Linhas.Any(ll => ll.TamahoResposta <= tamanhoRespostaFinal));
+
+            if (!UtilitarioHelper.StringEhNulaOuVazia(cashStatus))
+                query = query.Where(l => l.Linhas.Any(ll => ll.CacheStatus == cashStatus));
+
+
+            var logs = await query.ToListAsync();
+
+            if (!logs.Any())
+                resultado.AdicionarInconsistencia("SEM_REGISTROS", "Nenhum log foi encontrado com os filtros informados.");
+
+            resultado.Dados = logs;
+
+            return resultado;
+        }
+
 
         public async Task<Resultado<LogEntidade>> Criar(LogEntidade entity)
         {
@@ -129,23 +200,6 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
 
             return resultado;
         }
-
-
-
-        //public async Task<Resultado<LogEntity>> CriarLogComLinhas(LogEntity entity)
-        //{
-        //    var resultado = new Resultado<LogEntity>();
-
-        //    var repositorio = new LogRepository(context);
-
-        //    entity.Hash = Guid.NewGuid().ToString();
-
-        //    var resultadoLogCriar = repositorio.Criar(entity);
-
-
-
-        //    return resultado;
-        //}
 
     }
 }
