@@ -9,9 +9,9 @@ namespace iTaaS.Api.Dominio.Fabricas
         public static IConverterLogServico ObterConversor(TipoFormatoLog tipoFormato)
         {
             if (tipoFormato == TipoFormatoLog.AGORA)
-                return new ConverterLogAgoraServico();
+                return new LogAgoraServico();
 
-            return new ConverterLogMinhaCdnServico();
+            return new LogMinhaCdnServico();
         }
     }
 }

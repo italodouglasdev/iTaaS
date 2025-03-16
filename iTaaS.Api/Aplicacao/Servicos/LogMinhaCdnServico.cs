@@ -8,7 +8,7 @@ using System.Text;
 
 namespace iTaaS.Api.Aplicacao.Servicos
 {
-    public class ConverterLogMinhaCdnServico : IConverterLogServico
+    public class LogMinhaCdnServico : IConverterLogServico
     {
 
         private const string SUFIXO_TIPO_LOG_MINHA_CDN = "MINHA_CDN";

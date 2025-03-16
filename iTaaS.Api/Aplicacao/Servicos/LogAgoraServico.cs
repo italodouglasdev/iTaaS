@@ -6,7 +6,7 @@ using System.Text;
 
 namespace iTaaS.Api.Aplicacao.Servicos
 {
-    public class ConverterLogAgoraServico : IConverterLogServico
+    public class LogAgoraServico : IConverterLogServico
     {
 
         private const string PROVEDOR = "MINHA CDN";
