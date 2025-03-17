@@ -7,12 +7,12 @@ using System.Text;
 
 namespace iTaaS.Api.Aplicacao.Servicos
 {
-    public class LogAgoraServico : IConverterLogServico
+    public class LogAgoraServico : ILogTipoServico
     {
 
         private const string PROVEDOR = "MINHA CDN";
 
-        private const string SUFIXO_TIPO_LOG_AGORA = "LOG_AGORA";
+        private const string SUFIXO_TIPO_LOG_AGORA = "LOG_AGORA";       
 
 
         public Resultado<LogDto> ConverterDeArquivoParaDto(string caminho)
@@ -39,7 +39,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             return resultadoString;
         }
 
-        public Resultado<string> ConverterDeDtoParaArquivo(LogDto logDto)
+        public Resultado<string> ConverterDeDtoParaArquivo(string urlBase, LogDto logDto)
         {
             var resultadoArquivo = new Resultado<string>();
 
@@ -67,8 +67,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 return resultadoArquivo;
             }
 
-            //Ajustar
-            resultadoArquivo.Dados = $"https://localhost:44339/api/Log/Ver/{nomeArquivo}";                       
+            resultadoArquivo.Dados = $"{urlBase}/Api/Log/BuscarTransformadoId/{logDto.Id}";
 
             return resultadoArquivo;
 

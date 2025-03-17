@@ -30,17 +30,18 @@ namespace iTaaS.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
 
             //Registo de dependências
             services.AddScoped<ILogServico, LogServico>();
             services.AddScoped<ILogRepositorio, LogRepositorio>();
             services.AddScoped<ILogMapeador, LogMapeador>();
-
             services.AddScoped<ILogLinhaServico, LogLinhaServico>();
             services.AddScoped<ILogLinhaRepositorio, LogLinhaRepositorio>();
             services.AddScoped<ILogLinhaMapeador, LogLinhaMapeador>();
-
-            services.AddTransient<IConverterLogServico, LogMinhaCdnServico>();
+            services.AddScoped<IHttpContextoServico, HttpContextoServico>();
+            services.AddTransient<ILogTipoServico, LogMinhaCdnServico>();   
+           
 
 
             //Entity FrameWork  

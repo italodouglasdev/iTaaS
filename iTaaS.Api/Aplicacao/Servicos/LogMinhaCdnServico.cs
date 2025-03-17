@@ -9,9 +9,8 @@ using System.Text;
 
 namespace iTaaS.Api.Aplicacao.Servicos
 {
-    public class LogMinhaCdnServico : IConverterLogServico
+    public class LogMinhaCdnServico : ILogTipoServico
     {
-
         private const string SUFIXO_TIPO_LOG_MINHA_CDN = "MINHA_CDN";
 
         private const string DEMILITADOR_PIPE = "|";
@@ -29,7 +28,6 @@ namespace iTaaS.Api.Aplicacao.Servicos
         private const int INDEX_TEMPO_RESPOSTA = 4;
 
 
-
         public Resultado<LogDto> ConverterDeArquivoParaDto(string caminho)
         {
             throw new NotImplementedException();
@@ -40,7 +38,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             throw new NotImplementedException();
         }
 
-        public Resultado<string> ConverterDeDtoParaArquivo(LogDto logDto)
+        public Resultado<string> ConverterDeDtoParaArquivo(string urlBase, LogDto logDto)
         {
             var resultadoArquivo = new Resultado<string>();
 
@@ -57,10 +55,8 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 resultadoArquivo.Inconsistencias = consultaArvoreDiretorios.Inconsistencias;
                 return resultadoArquivo;
             }
-
-
-            var nomeArquivo = logDto.ObtenhaNomeArquivo(SUFIXO_TIPO_LOG_MINHA_CDN);
-            var caminhoArquivo = $"{consultaArvoreDiretorios.Dados}\\{nomeArquivo}";
+                                  
+            var caminhoArquivo = $"{consultaArvoreDiretorios.Dados}\\{logDto.ObtenhaNomeArquivo(SUFIXO_TIPO_LOG_MINHA_CDN)}";
             var consultaArquivoTxt = SistemaArquivosHelper.CriarArquivoTxt(caminhoArquivo, resultadoDtoString.Dados);
             if (!consultaArquivoTxt.Sucesso)
             {
@@ -68,36 +64,10 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 return resultadoArquivo;
             }
 
-            //Ajustar
-            resultadoArquivo.Dados = $"https://localhost:44339/api/Log/Ver/{nomeArquivo}";
+            resultadoArquivo.Dados = $"{urlBase}/Api/Log/BuscarSalvoId/{logDto.Id}";
 
             return resultadoArquivo;
-
-
-            //var resultadoArquivo = new Resultado<string>();
-
-            //var resultadoDtoString = ConverterDeDtoParaString(logDto);
-            //if (!resultadoDtoString.Sucesso)
-            //{
-            //    resultadoArquivo.Inconsistencias = resultadoDtoString.Inconsistencias;
-            //    return resultadoArquivo;
-            //}
-
-            //var consultaArvoreDiretorios = UtilitarioHelper.CriarArvoreDiretorios(logDto.DataHoraRecebimento);
-            //if (!consultaArvoreDiretorios.Sucesso)
-            //{
-            //    resultadoArquivo.Inconsistencias = consultaArvoreDiretorios.Inconsistencias;
-            //    return resultadoArquivo;
-            //}
-
-            //var consultaCriarArquivoTxt = UtilitarioHelper.CriarArquivoTxt(consultaArvoreDiretorios.Dados, resultadoDtoString.Dados);
-            //if (!consultaCriarArquivoTxt.Sucesso)
-            //{
-            //    resultadoArquivo.Inconsistencias = consultaCriarArquivoTxt.Inconsistencias;
-            //    return resultadoArquivo;
-            //}
-
-            //return resultadoArquivo;
+           
         }
 
         public Resultado<string> ConverterDeDtoParaString(LogDto logDto)

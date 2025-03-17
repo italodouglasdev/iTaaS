@@ -18,16 +18,17 @@ namespace iTaaS.Api.Aplicacao.Servicos
 {
     public class LogServico : ILogServico
     {
-        const string SEPARADOR_UNDERLINE = "_";
-        const int INDEX_ID_LOG = 0;
 
         private readonly ILogRepositorio LogRepository;
         private readonly ILogMapeador LogMapper;
+        private readonly IHttpContextoServico HttpContextoServico;
 
-        public LogServico(ILogRepositorio logRepository, ILogMapeador logMapper)
+
+        public LogServico(ILogRepositorio LogRepository, ILogMapeador LogMapper, IHttpContextoServico HttpContextoServico)
         {
-            LogRepository = logRepository;
-            LogMapper = logMapper;
+            this.LogRepository = LogRepository;
+            this.LogMapper = LogMapper;
+            this.HttpContextoServico = HttpContextoServico;
         }
 
         public async Task<Resultado<LogDto>> ObterPorId(int id)
@@ -141,7 +142,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             if (tipoLogRetorno == TipoRetornoLog.RETORNAR_PATCH)
             {
                 conversorLog = LogFormatoFabrica.ObterConversor(TipoFormatoLog.AGORA);
-                resultadoConversaoDtoArquivo = conversorLog.ConverterDeDtoParaArquivo(resultadoCriar.Dados);
+                resultadoConversaoDtoArquivo = conversorLog.ConverterDeDtoParaArquivo(this.HttpContextoServico.ObtenhaUrlBase(), resultadoCriar.Dados);
             }
             else if (tipoLogRetorno == TipoRetornoLog.RETORNAR_ARQUIVO)
             {
@@ -181,7 +182,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoConversaoDtoArquivo = new Resultado<string>();
             if (tipoLogRetorno == TipoRetornoLog.RETORNAR_PATCH)
             {
-                resultadoConversaoDtoArquivo = conversorLog.ConverterDeDtoParaArquivo(resultadoObtenhaPorId.Dados);
+                resultadoConversaoDtoArquivo = conversorLog.ConverterDeDtoParaArquivo(this.HttpContextoServico.ObtenhaUrlBase(), resultadoObtenhaPorId.Dados);
             }
             else if (tipoLogRetorno == TipoRetornoLog.RETORNAR_ARQUIVO)
             {
@@ -199,42 +200,6 @@ namespace iTaaS.Api.Aplicacao.Servicos
             }
 
             resultado.Dados = resultadoConversaoDtoArquivo.Dados;
-
-            return resultado;
-
-        }
-
-        public async Task<Resultado<string>> VerPorNomeArquivo(string nomeArquivo)
-        {
-            var resultado = new Resultado<string>();
-
-            var resultadoCamposNome = ConversorHelper.ConverterStringEmListaPorDelimitador(nomeArquivo, SEPARADOR_UNDERLINE);
-            if (!resultadoCamposNome.Sucesso)
-            {
-                resultado.AdicionarInconsistencia("ERRO_FORMATO", "O nome do arquivo está em um formato inválido!");
-                return resultado;
-            }
-
-            var listaCamposNomeArquivo = resultadoCamposNome.Dados;
-            var id = ConversorHelper.ConverterStringParaInt(listaCamposNomeArquivo[INDEX_ID_LOG]);
-
-            var resultadoObtenhaPorId = await ObterPorId(id);
-            if (!resultadoObtenhaPorId.Sucesso)
-            {
-                resultado.Inconsistencias = resultadoObtenhaPorId.Inconsistencias;
-                return resultado;
-            }
-
-            var conversorLog = LogFormatoFabrica.ObterConversor(TipoFormatoLog.AGORA);
-
-
-            var caminhoArquivo = $"{SistemaArquivosHelper.ObtenhaCaminhoDiretorioPorDataHora(resultadoObtenhaPorId.Dados.DataHoraRecebimento)}\\{nomeArquivo.Replace(".txt", "")}.txt";
-            var resultadoArquivoString = conversorLog.ConverterDeArquivoParaString(caminhoArquivo);
-            if (!resultadoArquivoString.Sucesso)
-                resultado.Inconsistencias = resultadoArquivoString.Inconsistencias;
-
-
-            resultado.Dados = resultadoArquivoString.Dados;
 
             return resultado;
 
@@ -283,7 +248,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 foreach (var logEntidade in resultadoRepository.Dados)
                 {
                     var logDto = LogMapper.MapearDeEntidadeParaDto(logEntidade);
-                    var resultadoConversaoDtoArquivo = conversorLog.ConverterDeDtoParaArquivo(logDto);
+                    var resultadoConversaoDtoArquivo = conversorLog.ConverterDeDtoParaArquivo(this.HttpContextoServico.ObtenhaUrlBase(), logDto);
                     strinBuilderLogs.AppendLine(resultadoConversaoDtoArquivo.Dados);
                 }
             }
@@ -354,10 +319,10 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 foreach (var logEntidade in resultadoRepository.Dados)
                 {
                     var logDto = LogMapper.MapearDeEntidadeParaDto(logEntidade);
-                    var resultadoConversaoDtoArquivoMinhaCdn = conversorLogMinhaCdn.ConverterDeDtoParaArquivo(logDto);
+                    var resultadoConversaoDtoArquivoMinhaCdn = conversorLogMinhaCdn.ConverterDeDtoParaArquivo(this.HttpContextoServico.ObtenhaUrlBase(), logDto);
                     strinBuilderLogs.AppendLine(resultadoConversaoDtoArquivoMinhaCdn.Dados);
 
-                    var resultadoConversaoDtoArquivoAgora = conversorLogAgora.ConverterDeDtoParaArquivo(logDto);
+                    var resultadoConversaoDtoArquivoAgora = conversorLogAgora.ConverterDeDtoParaArquivo(this.HttpContextoServico.ObtenhaUrlBase(), logDto);
                     strinBuilderLogs.AppendLine(resultadoConversaoDtoArquivoAgora.Dados);
 
                     strinBuilderLogs.AppendLine();
@@ -428,7 +393,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
             if (tipoRetornoLog == TipoRetornoLog.RETORNAR_PATCH)
             {
-                var resultadoConversaoDtoArquivoMinhaCdn = conversorLogMinhaCdn.ConverterDeDtoParaArquivo(logDto);
+                var resultadoConversaoDtoArquivoMinhaCdn = conversorLogMinhaCdn.ConverterDeDtoParaArquivo(this.HttpContextoServico.ObtenhaUrlBase(), logDto);
                 resultadorObtenhaPorIdentificador.Dados = resultadoConversaoDtoArquivoMinhaCdn.Dados;
             }
             else if (tipoRetornoLog == TipoRetornoLog.RETORNAR_JSON)
@@ -461,7 +426,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var conversorLogAgora = LogFormatoFabrica.ObterConversor(TipoFormatoLog.AGORA);
             if (tipoRetornoLog == TipoRetornoLog.RETORNAR_PATCH)
             {
-                var resultadoConversaoDtoArquivoMinhaCdn = conversorLogAgora.ConverterDeDtoParaArquivo(logDto);
+                var resultadoConversaoDtoArquivoMinhaCdn = conversorLogAgora.ConverterDeDtoParaArquivo(this.HttpContextoServico.ObtenhaUrlBase(), logDto);
                 resultadorObtenhaPorIdentificador.Dados = resultadoConversaoDtoArquivoMinhaCdn.Dados;
             }
             else if (tipoRetornoLog == TipoRetornoLog.RETORNAR_JSON)

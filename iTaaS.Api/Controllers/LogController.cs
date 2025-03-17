@@ -69,28 +69,7 @@ namespace iTaaS.Api.Controllers
                 return BadRequest(resultadoServico.Inconsistencias);
             }
 
-        }
-
-        /// <summary>
-        /// Visualiza um log salvo a partir do nome do arquivo.
-        /// </summary>
-        /// <param name="nomeArquivo">Nome do arquivo contendo o log.</param>
-        /// <returns>Retorna o conteúdo do log ou erros de inconsistência.</returns>
-        [HttpGet("Ver/{nomeArquivo}")]
-        public async Task<ActionResult<LogDto>> Ver(string nomeArquivo)
-        {
-            var resultadoServico = await LogService.VerPorNomeArquivo(nomeArquivo);
-
-            if (resultadoServico.Sucesso)
-            {
-                return Content(string.Join(Environment.NewLine, resultadoServico.Dados), "text/plain", Encoding.UTF8);
-            }
-            else
-            {
-                return BadRequest(resultadoServico.Inconsistencias);
-            }
-
-        }
+        }       
 
 
         /// <summary>

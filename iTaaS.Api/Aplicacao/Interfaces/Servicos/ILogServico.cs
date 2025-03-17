@@ -7,12 +7,9 @@ namespace iTaaS.Api.Aplicacao.Interfaces.Servicos
 {
     public interface ILogServico : IServicoBase<LogDto>
     {
-
         Task<Resultado<string>> ImportarPorUrl(string url, TipoRetornoLog tipoLogRetorno);
 
-        Task<Resultado<string>> ImportarPorId(int id, TipoRetornoLog tipoLogRetorno);
-
-        Task<Resultado<string>> VerPorNomeArquivo(string nomeArquivo);
+        Task<Resultado<string>> ImportarPorId(int id, TipoRetornoLog tipoLogRetorno);    
 
         Task<Resultado<string>> ObterLogsFiltrados(
         string dataHoraRecebimentoInicio,

@@ -3,11 +3,11 @@ using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
 
 namespace iTaaS.Api.Aplicacao.Interfaces.Servicos
 {
-    public interface IConverterLogServico
+    public interface ILogTipoServico
     {
         Resultado<string> ConverterDeDtoParaString(LogDto logDto);
 
-        Resultado<string> ConverterDeDtoParaArquivo(LogDto logDto);
+        Resultado<string> ConverterDeDtoParaArquivo(string urlBase, LogDto logDto);
 
         Resultado<LogDto> ConverterDeStringParaDto(string logString);
 
