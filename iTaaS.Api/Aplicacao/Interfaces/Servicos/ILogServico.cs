@@ -11,7 +11,7 @@ namespace iTaaS.Api.Aplicacao.Interfaces.Servicos
 
         Task<Resultado<string>> ImportarPorId(int id, TipoRetornoLog tipoLogRetorno);    
 
-        Task<Resultado<string>> ObterLogsFiltrados(
+        Task<Resultado<string>> BuscarSalvos(
         string dataHoraRecebimentoInicio,
         string dataHoraRecebimentoFim,
         string metodoHttp,
@@ -24,7 +24,7 @@ namespace iTaaS.Api.Aplicacao.Interfaces.Servicos
         string cashStatus,
         TipoRetornoLog tipoRetornoLog);
 
-        Task<Resultado<string>> ObterLogsTransformados(
+        Task<Resultado<string>> BuscarTransformados(
          string dataHoraRecebimentoInicio,
          string dataHoraRecebimentoFim,
          string metodoHttp,
@@ -37,11 +37,11 @@ namespace iTaaS.Api.Aplicacao.Interfaces.Servicos
          string cashStatus,
          TipoRetornoLog tipoRetornoLog);
 
-        Task<Resultado<string>> ObtenhaPorIdentificador(
+        Task<Resultado<string>> BuscarPorIdentificador(
         int id,
         TipoRetornoLog tipoRetornoLog);
 
-        Task<Resultado<string>> ObtenhaTransformadoPorIdentificador(
+        Task<Resultado<string>> BuscarTransformadoPorIdentificador(
         int id,
         TipoRetornoLog tipoRetornoLog);
     }

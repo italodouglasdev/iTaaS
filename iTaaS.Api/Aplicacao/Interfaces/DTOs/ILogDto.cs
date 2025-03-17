@@ -11,6 +11,7 @@ namespace iTaaS.Api.Aplicacao.Interfaces.DTOs
         string Hash { get; set; }
         DateTime DataHoraRecebimento { get; set; }
         string UrlOrigem { get; set; }
+         string Versao { get; set; }
         ICollection<LogLinhaDto> Linhas { get; set; }
 
 

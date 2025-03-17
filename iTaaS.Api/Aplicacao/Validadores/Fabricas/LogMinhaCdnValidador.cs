@@ -1,7 +1,5 @@
-﻿using System.Text.RegularExpressions;
-using System;
-using Microsoft.EntityFrameworkCore.Storage.Internal;
-using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
+﻿using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
+using System.Text.RegularExpressions;
 
 namespace iTaaS.Api.Aplicacao.Validadores.Fabricas
 {

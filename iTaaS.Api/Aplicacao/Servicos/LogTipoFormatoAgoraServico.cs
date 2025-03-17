@@ -119,7 +119,18 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
         public Resultado<LogDto> ConverterDeUrlParaDto(string url)
         {
-            throw new NotImplementedException();
+            var resultadoDto = new Resultado<LogDto>();
+
+            var resultadoDeUrlParaString = SistemaArquivosHelper.ObtenhaStringDeUrl(url);
+            if (!resultadoDeUrlParaString.Sucesso)
+            {
+                resultadoDto.AdicionarInconsistencias(resultadoDeUrlParaString.Inconsistencias);
+                return resultadoDto;
+            }
+
+            resultadoDto = ConverterDeStringParaDto(resultadoDeUrlParaString.Dados);
+
+            return resultadoDto;
         }
 
     }
