@@ -9,7 +9,7 @@ using System.Text;
 
 namespace iTaaS.Api.Aplicacao.Servicos
 {
-    public class LogMinhaCdnServico : ILogTipoFormatoServico
+    public class LogTipoFormatoMinhaCdnServico : ILogTipoFormatoServico
     {
         private const string SUFIXO_TIPO_LOG_MINHA_CDN = "MINHA_CDN";
 

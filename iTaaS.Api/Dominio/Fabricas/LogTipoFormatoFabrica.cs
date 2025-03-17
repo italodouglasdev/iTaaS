@@ -4,14 +4,14 @@ using iTaaS.Api.Dominio.Enumeradores;
 
 namespace iTaaS.Api.Dominio.Fabricas
 {
-    public class LogFormatoFabrica
+    public class LogTipoFormatoFabrica
     {       
-        public static ILogTipoFormatoServico ObterConversor(TipoFormatoLog tipoFormato)
+        public static ILogTipoFormatoServico ObtenhaTipoFormato(TipoFormatoLog tipoFormato)
         {
             if (tipoFormato == TipoFormatoLog.AGORA)
-                return new LogAgoraServico();
+                return new LogTipoFormatoAgoraServico();
 
-            return new LogMinhaCdnServico();
+            return new LogTipoFormatoMinhaCdnServico();
         }
     }
 }

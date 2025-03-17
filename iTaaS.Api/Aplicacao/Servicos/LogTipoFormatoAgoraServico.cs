@@ -7,7 +7,7 @@ using System.Text;
 
 namespace iTaaS.Api.Aplicacao.Servicos
 {
-    public class LogAgoraServico : ILogTipoFormatoServico
+    public class LogTipoFormatoAgoraServico : ILogTipoFormatoServico
     {
 
         private const string END_POINT_BUSCAR_TRANSFORMADO_ID = "Api/Log/BuscarTransformadoId";
