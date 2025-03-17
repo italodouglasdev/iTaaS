@@ -10,6 +10,8 @@ namespace iTaaS.Api.Aplicacao.Servicos
     public class LogAgoraServico : ILogTipoFormatoServico
     {
 
+        private const string END_POINT_BUSCAR_TRANSFORMADO_ID = "Api/Log/BuscarTransformadoId";
+
         private const string PROVEDOR = "MINHA CDN";
 
         private const string SUFIXO_TIPO_LOG_AGORA = "LOG_AGORA";
@@ -65,7 +67,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 }
             }
 
-            resultadoArquivo.Dados = $"{urlBase}/Api/Log/BuscarTransformadoId/{logDto.Id}";
+            resultadoArquivo.Dados = $"{urlBase}/{END_POINT_BUSCAR_TRANSFORMADO_ID}/{logDto.Id}";
 
             return resultadoArquivo;
 
@@ -84,7 +86,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
             foreach (var dtoLogLinha in logDto.Linhas)
                 strinBuilder.AppendLine($"\"{PROVEDOR}\" {dtoLogLinha.MetodoHttp} {dtoLogLinha.CodigoStatus} {dtoLogLinha.CaminhoUrl} {ConversorHelper.ConverterDecimalParaInt(dtoLogLinha.TempoResposta)} {dtoLogLinha.TamahoResposta} {dtoLogLinha.CacheStatus}");
-                                  
+
 
             var caminhoArquivo = $"{SistemaArquivosHelper.ObtenhaCaminhoDiretorioPorDataHora(logDto.DataHoraRecebimento)}\\{logDto.ObtenhaNomeArquivo(SUFIXO_TIPO_LOG_AGORA)}";
             var consultaArquivoString = ConverterDeArquivoParaString(caminhoArquivo);
@@ -109,13 +111,12 @@ namespace iTaaS.Api.Aplicacao.Servicos
             resultado.Dados = consultaArquivoString.Dados;
 
             return resultado;
-        }       
+        }
 
         public Resultado<LogDto> ConverterDeStringParaDto(string logString)
         {
             throw new NotImplementedException();
         }
-   
 
         public Resultado<LogDto> ConverterDeUrlParaDto(string url)
         {

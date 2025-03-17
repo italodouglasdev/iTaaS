@@ -26,6 +26,11 @@ namespace iTaaS.Api.Aplicacao.DTOs
         public string Hash { get; set; }
 
         /// <summary>
+        /// Versão do Log.
+        /// </summary>
+        public string Versao { get; set; }
+
+        /// <summary>
         /// Data e Hora do recebimento do Log.
         /// </summary>
         public DateTime DataHoraRecebimento { get; set; }
@@ -35,12 +40,10 @@ namespace iTaaS.Api.Aplicacao.DTOs
         /// </summary>
         public string UrlOrigem { get; set; }
 
-
         /// <summary>
         /// Lista de Linhas que compoem o corpo o Log.
         /// </summary>
         public ICollection<LogLinhaDto> Linhas { get; set; }
-
 
         /// <summary>
         /// Obtém o nome do agrupando ou não o sufixo.       

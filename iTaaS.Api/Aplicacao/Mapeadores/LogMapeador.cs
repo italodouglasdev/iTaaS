@@ -36,6 +36,7 @@ namespace iTaaS.Api.Aplicacao.Mapeadores
             {
                 Id = entity.Id,
                 Hash = entity.Hash,
+                Versao = entity.Versao,
                 UrlOrigem = entity.UrlOrigem,
                 DataHoraRecebimento = entity.DataHoraRecebimento,
                 Linhas = LogLinhaMapper.MapearListaDeEntitadesParaDtos(entity.Linhas.ToList())
@@ -57,6 +58,7 @@ namespace iTaaS.Api.Aplicacao.Mapeadores
             {
                 Id = dto.Id,
                 Hash = dto.Hash,
+                Versao = dto.Versao,
                 UrlOrigem = dto.UrlOrigem,
                 DataHoraRecebimento = dto.DataHoraRecebimento,
                 Linhas = LogLinhaMapper.MapearListaDeDtosParaEntitades(dto.Linhas.ToList())

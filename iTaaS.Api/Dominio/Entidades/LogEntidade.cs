@@ -20,6 +20,11 @@ namespace iTaaS.Api.Dominio.Entidades
         public string Hash { get; set; }
 
         /// <summary>
+        /// Versao do Log.
+        /// </summary>
+        public string Versao { get; set; }
+
+        /// <summary>
         /// Data e Hora do recebimento do Log.
         /// </summary>
         public DateTime DataHoraRecebimento { get; set; }

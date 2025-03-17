@@ -13,6 +13,8 @@ namespace iTaaS.Api.Aplicacao.Servicos
     {
         private const string SUFIXO_TIPO_LOG_MINHA_CDN = "MINHA_CDN";
 
+        private const string END_POINT_BUSCAR_SALVO_ID = "Api/Log/BuscarSalvoId";
+
         private const string DEMILITADOR_PIPE = "|";
         private const string DEMILITADOR_ESPACO = " ";
 
@@ -25,6 +27,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
         private const int INDEX_METODO_HTTP = 0;
         private const int INDEX_CAMINHO_URL = 1;
+        private const int INDEX_VERSAO = 2;
         private const int INDEX_TEMPO_RESPOSTA = 4;
 
 
@@ -79,7 +82,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 }
             }
 
-            resultadoArquivo.Dados = $"{urlBase}/Api/Log/BuscarSalvoId/{logDto.Id}";
+            resultadoArquivo.Dados = $"{urlBase}/{END_POINT_BUSCAR_SALVO_ID}/{logDto.Id}";
 
             return resultadoArquivo;
 
@@ -124,7 +127,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             resultado.Dados = consultaArquivoString.Dados;
 
             return resultado;
-        }     
+        }
 
         public Resultado<LogDto> ConverterDeStringParaDto(string logString)
         {
@@ -187,12 +190,14 @@ namespace iTaaS.Api.Aplicacao.Servicos
                     logLinha.CaminhoUrl = listaCamposMetodoHttp[INDEX_CAMINHO_URL];
                     logLinha.TempoResposta = ConversorHelper.ConverterStringParaDecimal(listaCamposLinha[INDEX_TEMPO_RESPOSTA]);
 
+                    resultadoDto.Dados.Versao = listaCamposMetodoHttp[INDEX_VERSAO].Replace("\"", "").Replace("HTTP/", "");
+
                     resultadoDto.Dados.Linhas.Add(logLinha);
                 }
             }
 
             return resultadoDto;
-        }           
+        }
 
         public Resultado<LogDto> ConverterDeUrlParaDto(string url)
         {

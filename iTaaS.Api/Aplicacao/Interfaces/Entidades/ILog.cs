@@ -7,6 +7,8 @@ namespace iTaaS.Api.Aplicacao.Interfaces.Entidades
     public interface ILog : IEntidadesBase
     {
         string Hash { get; set; }
+     
+        string Versao { get; set; }
 
         DateTime DataHoraRecebimento { get; set; }
 
