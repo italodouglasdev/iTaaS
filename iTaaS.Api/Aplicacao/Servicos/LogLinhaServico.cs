@@ -25,10 +25,10 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
 
         /// <summary>
-        /// Obtém um registro de log de linha pelo seu ID.
+        /// Obtém um log pelo seu identificador único.
         /// </summary>
-        /// <param name="id">ID do log de linha a ser obtido.</param>
-        /// <returns>Resultado contendo o DTO do log de linha ou inconsistências.</returns>
+        /// <param name="id">Identificador único do log.</param>
+        /// <returns>Resultado contendo a dto <see cref="LogLinhaDto"/> encontrada ou uma inconsistência.</returns>
         public async Task<Resultado<LogLinhaDto>> ObterPorId(int id)
         {
             var resultadoService = new Resultado<LogLinhaDto>();
@@ -47,9 +47,9 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
 
         /// <summary>
-        /// Obtém uma lista de registros de log de linha.
+        /// Obtém uma lista de todos os logs armazenados.
         /// </summary>
-        /// <returns>Resultado contendo a lista de DTOs dos logs de linha ou inconsistências.</returns>
+        /// <returns>Resultado contendo uma lista dtos <see cref="LogLinhaDto"/> encontrada ou uma inconsistência.</returns>
         public async Task<Resultado<List<LogLinhaDto>>> ObterLista()
         {
             var resultadoService = new Resultado<List<LogLinhaDto>>();
@@ -68,15 +68,16 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
 
         /// <summary>
-        /// Cria um novo registro de log de linha.
+        /// Cria um novo log.
         /// </summary>
-        /// <param name="dto">DTO do log de linha a ser criado.</param>
-        /// <returns>Resultado contendo o DTO do log de linha criado ou inconsistências.</returns>
-        public async Task<Resultado<LogLinhaDto>> Criar(LogLinhaDto dto)
+        /// <param name="dtoLogLinha">Objeto DTO contendo os dados do log a ser criado.</param>
+        /// <returns>Resultado contendo a dto <see cref="LogDto"/> encontrada ou uma inconsistência.</returns>
+
+        public async Task<Resultado<LogLinhaDto>> Criar(LogLinhaDto dtoLogLinha)
         {
             var resultadoService = new Resultado<LogLinhaDto>();
 
-            var logLinhaEntity = LogLinhaMapper.MapearDeDtoParaEntidade(dto);
+            var logLinhaEntity = LogLinhaMapper.MapearDeDtoParaEntidade(dtoLogLinha);
 
             var resultadoRepository = await LogLinhaRepository.Criar(logLinhaEntity);
             if (!resultadoRepository.Sucesso)
@@ -92,15 +93,15 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
 
         /// <summary>
-        /// Atualiza um registro de log de linha existente.
+        /// Atualiza um log existente com os dados fornecidos.
         /// </summary>
-        /// <param name="dto">DTO do log de linha com as alterações.</param>
-        /// <returns>Resultado contendo o DTO atualizado do log de linha ou inconsistências.</returns>
-        public async Task<Resultado<LogLinhaDto>> Atualizar(LogLinhaDto dto)
+        /// <param name="dtoLogLinha">Objeto DTO com os dados atualizados do log.</param>
+        /// <returns>Resultado contendo a dto <see cref="Atualizar"/> encontrada ou uma inconsistência.</returns>
+        public async Task<Resultado<LogLinhaDto>> Atualizar(LogLinhaDto dtoLogLinha)
         {
             var resultadoService = new Resultado<LogLinhaDto>();
 
-            var logLinhaEntity = LogLinhaMapper.MapearDeDtoParaEntidade(dto);
+            var logLinhaEntity = LogLinhaMapper.MapearDeDtoParaEntidade(dtoLogLinha);
 
             var resultadoRepository = await LogLinhaRepository.Atualizar(logLinhaEntity);
             if (!resultadoRepository.Sucesso)
@@ -113,11 +114,12 @@ namespace iTaaS.Api.Aplicacao.Servicos
             return resultadoService;
         }
 
+
         /// <summary>
-        /// Deleta um registro de log de linha pelo seu ID.
+        /// Deleta um log com base no identificador fornecido.
         /// </summary>
-        /// <param name="id">ID do log de linha a ser deletado.</param>
-        /// <returns>Resultado indicando o sucesso ou falha da operação.</returns>
+        /// <param name="id">Identificador único do log a ser deletado.</param>
+        /// <returns>Resultado contendo a dto <see cref="LogLinhaDto"/> encontrada ou uma inconsistência.</returns>
         public async Task<Resultado<LogLinhaDto>> Deletar(int id)
         {
             var resultadoService = new Resultado<LogLinhaDto>();

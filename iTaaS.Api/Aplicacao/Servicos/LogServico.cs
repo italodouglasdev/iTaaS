@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
 namespace iTaaS.Api.Aplicacao.Servicos
 {
     /// <summary>
@@ -39,7 +41,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         /// Obtém um log pelo seu identificador único.
         /// </summary>
         /// <param name="id">Identificador único do log.</param>
-        /// <returns>Resultado contendo o DTO do log, se encontrado, ou as inconsistências em caso de erro.</returns>
+        /// <returns>Resultado contendo a dto <see cref="LogDto"/> encontrada ou uma inconsistência.</returns>
         public async Task<Resultado<LogDto>> ObterPorId(int id)
         {
             var resultadoService = new Resultado<LogDto>();
@@ -60,7 +62,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         /// <summary>
         /// Obtém uma lista de todos os logs armazenados.
         /// </summary>
-        /// <returns>Resultado contendo uma lista de DTOs de logs.</returns>
+        /// <returns>Resultado contendo uma lista dtos <see cref="LogDto"/> encontrada ou uma inconsistência.</returns>
         public async Task<Resultado<List<LogDto>>> ObterLista()
         {
             var resultadoService = new Resultado<List<LogDto>>();
@@ -82,7 +84,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         /// Cria um novo log e o armazena.
         /// </summary>
         /// <param name="logDto">Objeto DTO contendo os dados do log a ser criado.</param>
-        /// <returns>Resultado com o log recém-criado ou inconsistências, caso falhe.</returns>
+        /// <returns>Resultado contendo a dto <see cref="LogDto"/> encontrada ou uma inconsistência.</returns>
         public async Task<Resultado<LogDto>> Criar(LogDto logDto)
         {
             var resultadoService = new Resultado<LogDto>();
@@ -113,7 +115,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         /// Atualiza um log existente com os dados fornecidos.
         /// </summary>
         /// <param name="logDto">Objeto DTO com os dados atualizados do log.</param>
-        /// <returns>Resultado com o log atualizado ou inconsistências, caso falhe.</returns>
+        /// <returns>Resultado contendo a dto <see cref="LogDto"/> encontrada ou uma inconsistência.</returns>
         public async Task<Resultado<LogDto>> Atualizar(LogDto logDto)
         {
             var resultadoService = new Resultado<LogDto>();
@@ -144,7 +146,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         /// Deleta um log com base no identificador fornecido.
         /// </summary>
         /// <param name="id">Identificador único do log a ser deletado.</param>
-        /// <returns>Resultado indicando se a operação foi bem-sucedida ou se houve inconsistências.</returns>
+        /// <returns>Resultado contendo a dto <see cref="LogDto"/> encontrada ou uma inconsistência.</returns>
         public async Task<Resultado<LogDto>> Deletar(int id)
         {
             var resultadoService = new Resultado<LogDto>();
@@ -237,7 +239,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         /// Importa um log a partir de seu identificador e retorna no formato especificado.
         /// </summary>
         /// <param name="id">Identificador único do log a ser importado.</param>
-        /// <param name="tipoLogRetorno">Tipo de retorno desejado (JSON, arquivo, etc.).</param>
+        /// <param name="tipoRetornoLog">Tipo de retorno desejado (JSON, arquivo, etc.).</param>
         /// <returns>Resultado com o log importado ou inconsistências, caso falhe.</returns>
         public async Task<Resultado<string>> ImportarPorId(int id, TipoRetornoLog tipoRetornoLog)
         {
@@ -309,7 +311,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         /// <param name="tamanhoRespostaInicial">Tamanho inicial da resposta (em bytes).</param>
         /// <param name="tamanhoRespostaFinal">Tamanho final da resposta (em bytes).</param>
         /// <param name="cashStatus">Status do cache da resposta.</param>
-        /// <param name="tipoRetornoLog">Tipo de retorno do log (JSON, PATCH, ou STRING).</param>
+        /// <param name="tipoRetornoLog">Tipo do retorno do log ([0] ARQUIVO | [1] PATCH | [2] JSON).</param>
         /// <returns>Retorna um objeto de resultado com os logs filtrados.</returns>
         public async Task<Resultado<string>> BuscarSalvos(
          string dataHoraRecebimentoInicio,
@@ -415,7 +417,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         /// <param name="tamanhoRespostaInicial">Tamanho inicial da resposta (em bytes).</param>
         /// <param name="tamanhoRespostaFinal">Tamanho final da resposta (em bytes).</param>
         /// <param name="cashStatus">Status do cache da resposta.</param>
-        /// <param name="tipoRetornoLog">Tipo de retorno do log (JSON, PATCH, ou STRING).</param>
+        /// <param name="tipoRetornoLog">Tipo do retorno do log ([0] ARQUIVO | [1] PATCH | [2] JSON).</param>
         /// <returns>Retorna um objeto de resultado com os logs transformados.</returns>
         public async Task<Resultado<string>> BuscarTransformados(
          string dataHoraRecebimentoInicio,
@@ -520,7 +522,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         /// Obtém o log por identificador e retorna o resultado no formato especificado.
         /// </summary>
         /// <param name="id">Identificador do log.</param>
-        /// <param name="tipoRetornoLog">Tipo de retorno do log (JSON, PATCH, ou STRING).</param>
+        /// <param name="tipoRetornoLog">Tipo do retorno do log ([0] ARQUIVO | [1] PATCH | [2] JSON).</param>
         /// <returns>Retorna um objeto de resultado com o log encontrado.</returns>
         public async Task<Resultado<string>> BuscarPorIdentificador(int id, TipoRetornoLog tipoRetornoLog)
         {
@@ -582,7 +584,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         /// Obtém o log transformado por identificador e retorna o resultado no formato especificado.
         /// </summary>
         /// <param name="id">Identificador do log.</param>
-        /// <param name="tipoRetornoLog">Tipo de retorno do log (JSON, PATCH, ou STRING).</param>
+        /// <param name="tipoRetornoLog">Tipo do retorno do log ([0] ARQUIVO | [1] PATCH | [2] JSON).</param>
         /// <returns>Retorna um objeto de resultado com o log transformado.</returns>
         public async Task<Resultado<string>> BuscarTransformadoPorIdentificador(int id, TipoRetornoLog tipoRetornoLog)
         {

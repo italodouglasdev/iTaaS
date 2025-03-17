@@ -26,13 +26,13 @@ namespace iTaaS.Api.Controllers
         /// <summary>
         /// Importa e transforma um log a partir de uma URL.
         /// </summary>
-        /// <param name="url">URL do log a ser importado.</param>
+        /// <param name="Url">URL do log a ser importado.</param>
         /// <param name="TipoRetornoLog">Tipo do retorno do log ([0] ARQUIVO | [1] PATCH | [2] JSON).</param>
         /// <returns>Retorna o log transformado como conteúdo de texto plano ou erros de inconsistência.</returns>
         [HttpPost("TranformarLogUrl")]
-        public async Task<ActionResult<LogDto>> TranformarLogUrl(string Url, TipoRetornoLog TipoLogRetorno)
+        public async Task<ActionResult<LogDto>> TranformarLogUrl(string Url, TipoRetornoLog TipoRetornoLog)
         {
-            var resultadoServico = await this.LogService.ImportarPorUrl(Url, TipoLogRetorno);
+            var resultadoServico = await this.LogService.ImportarPorUrl(Url, TipoRetornoLog);
 
             if (resultadoServico.Sucesso)
             {
@@ -51,13 +51,13 @@ namespace iTaaS.Api.Controllers
         /// <summary>
         /// Importa e transforma um log a partir de um identificador.
         /// </summary>
-        /// <param name="Id">Identificador do log.</param>
+        /// <param name="Id">URL do log a ser importado.</param>
         /// <param name="TipoRetornoLog">Tipo do retorno do log ([0] ARQUIVO | [1] PATCH | [2] JSON).</param>
         /// <returns>Retorna o log transformado como conteúdo de texto plano ou erros de inconsistência.</returns>
         [HttpPost("TranformarLogId")]
-        public async Task<ActionResult<LogDto>> TranformarLogId(int Id, TipoRetornoLog TipoLogRetorno)
+        public async Task<ActionResult<LogDto>> TranformarLogId(int Id, TipoRetornoLog TipoRetornoLog)
         {
-            var resultadoServico = await this.LogService.ImportarPorId(Id, TipoLogRetorno);
+            var resultadoServico = await this.LogService.ImportarPorId(Id, TipoRetornoLog);
 
             if (resultadoServico.Sucesso)
             {
@@ -161,13 +161,13 @@ namespace iTaaS.Api.Controllers
         /// <summary>
         /// Busca um log salvo a partir do identificador.
         /// </summary>
-        /// <param name="Id">Identificador do log.</param>
-        /// <param name="tipoRetornoLog">Tipo de retorno esperado.</param>
+        /// <param name="identificador">Identificador do log.</param>
+        /// <param name="TipoRetornoLog">Tipo do retorno do log ([0] ARQUIVO | [1] PATCH | [2] JSON).</param>
         /// <returns>Retorna o log salvo ou erros de inconsistência.</returns>
         [HttpGet("BuscarSalvoId/{identificador}")]
-        public async Task<ActionResult<LogDto>> BuscarSalvoId([FromRoute] int identificador, [FromQuery] TipoRetornoLog tipoRetornoLog)
+        public async Task<ActionResult<LogDto>> BuscarSalvoId([FromRoute] int identificador, [FromQuery] TipoRetornoLog TipoRetornoLog)
         {
-            var resultadoServico = await this.LogService.BuscarPorIdentificador(identificador, tipoRetornoLog);
+            var resultadoServico = await this.LogService.BuscarPorIdentificador(identificador, TipoRetornoLog);
 
             if (resultadoServico.Sucesso)
             {
@@ -184,13 +184,13 @@ namespace iTaaS.Api.Controllers
         /// <summary>
         /// Busca um log transformado a partir do identificador.
         /// </summary>
-        /// <param name="Id">Identificador do log.</param>
-        /// <param name="tipoRetornoLog">Tipo de retorno esperado.</param>
+        /// <param name="identificador">Identificador do log.</param>
+        /// <param name="TipoRetornoLog">Tipo do retorno do log ([0] ARQUIVO | [1] PATCH | [2] JSON).</param>
         /// <returns>Retorna o log transformado ou erros de inconsistência.</returns>
         [HttpGet("BuscarTransformadoId/{identificador}")]
-        public async Task<ActionResult<LogDto>> BuscarTransformadoId(int identificador, TipoRetornoLog tipoRetornoLog)
+        public async Task<ActionResult<LogDto>> BuscarTransformadoId(int identificador, TipoRetornoLog TipoRetornoLog)
         {
-            var resultadoServico = await this.LogService.BuscarTransformadoPorIdentificador(identificador, tipoRetornoLog);
+            var resultadoServico = await this.LogService.BuscarTransformadoPorIdentificador(identificador, TipoRetornoLog);
 
             if (resultadoServico.Sucesso)
             {

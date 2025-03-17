@@ -7,6 +7,10 @@ using System.Text;
 
 namespace iTaaS.Api.Aplicacao.Servicos
 {
+
+    /// <summary>
+    /// Serviço responsável pela conversão de logs no formato "LOG_AGORA".
+    /// </summary>
     public class LogTipoFormatoAgoraServico : ILogTipoFormatoServico
     {
         private const string END_POINT_BUSCAR_TRANSFORMADO_ID = "Api/Log/BuscarTransformadoId";
@@ -16,6 +20,11 @@ namespace iTaaS.Api.Aplicacao.Servicos
         private const string SUFIXO_TIPO_LOG_AGORA = "LOG_AGORA";
 
 
+        /// <summary>
+        /// Converte um arquivo de log em uma string.
+        /// </summary>
+        /// <param name="caminho">Caminho do arquivo de log.</param>
+        /// <returns>Resultado contendo a dto <see cref="string"/> encontrada ou uma inconsistência.</returns>
         public Resultado<string> ConverterDeArquivoParaString(string caminho)
         {
             var resultadoString = new Resultado<string>();
@@ -36,6 +45,13 @@ namespace iTaaS.Api.Aplicacao.Servicos
             return resultadoString;
         }
 
+
+        /// <summary>
+        /// Converte um DTO de log para um arquivo e retorna a URL do arquivo gerado.
+        /// </summary>
+        /// <param name="urlBase">URL base para a API de log.</param>
+        /// <param name="logDto">Objeto DTO do log.</param>
+        /// <returns>Resultado contendo a dto <see cref="string"/> encontrada ou uma inconsistência.</returns>
         public Resultado<string> ConverterDeDtoParaArquivo(string urlBase, LogDto logDto)
         {
             var resultadoArquivo = new Resultado<string>();
@@ -72,6 +88,12 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
         }
 
+
+        /// <summary>
+        /// Converte um objeto LogDto para uma string formatada de log.
+        /// </summary>
+        /// <param name="logDto">Objeto DTO do log.</param>
+        /// <returns>Resultado contendo a dto <see cref="string"/> encontrada ou uma inconsistência.</returns>
         public Resultado<string> ConverterDeDtoParaString(LogDto logDto)
         {
             var resultado = new Resultado<string>();
@@ -112,11 +134,23 @@ namespace iTaaS.Api.Aplicacao.Servicos
             return resultado;
         }
 
+
+        /// <summary>
+        /// Converte uma string de log em um objeto LogDto.
+        /// </summary>
+        /// <param name="logString">String contendo o log.</param>
+        /// <returns>Resultado contendo a dto <see cref="LogDto"/> encontrada ou uma inconsistência.</returns>
         public Resultado<LogDto> ConverterDeStringParaDto(string logString)
         {
             throw new NotImplementedException();
         }
 
+
+        /// <summary>
+        /// Obtém um log a partir de uma URL e converte para um objeto LogDto.
+        /// </summary>
+        /// <param name="url">URL do log.</param>
+        /// <returns>Resultado contendo a dto <see cref="LogDto"/> encontrada ou uma inconsistência.</returns>
         public Resultado<LogDto> ConverterDeUrlParaDto(string url)
         {
             var resultadoDto = new Resultado<LogDto>();
