@@ -30,19 +30,19 @@ namespace iTaaS.Api.Controllers
         /// <param name="TipoRetornoLog">Tipo do retorno do log ([0] ARQUIVO | [1] PATCH | [2] JSON).</param>
         /// <returns>Retorna o log transformado como conteúdo de texto plano ou erros de inconsistência.</returns>
         [HttpPost("TranformarLogUrl")]
-        public async Task<ActionResult<LogDto>> TranformarLogUrl(string url, TipoRetornoLog TipoLogRetorno)
+        public async Task<ActionResult<LogDto>> TranformarLogUrl(string Url, TipoRetornoLog TipoLogRetorno)
         {
-            var resultado = await LogService.ImportarPorUrl(url, TipoLogRetorno);
+            var resultadoServico = await LogService.ImportarPorUrl(Url, TipoLogRetorno);
 
-            if (resultado.Sucesso)
+            if (resultadoServico.Sucesso)
             {
 
-                return Content(resultado.Dados, "text/plain", Encoding.UTF8);
+                return Content(resultadoServico.Dados, "text/plain", Encoding.UTF8);
 
             }
             else
             {
-                return BadRequest(resultado.Inconsistencias);
+                return BadRequest(resultadoServico.Inconsistencias);
             }
 
         }
@@ -57,16 +57,16 @@ namespace iTaaS.Api.Controllers
         [HttpPost("TranformarLogId")]
         public async Task<ActionResult<LogDto>> TranformarLogId(int Id, TipoRetornoLog TipoLogRetorno)
         {
-            var resultado = await LogService.ImportarPorId(Id, TipoLogRetorno);
+            var resultadoServico = await LogService.ImportarPorId(Id, TipoLogRetorno);
 
-            if (resultado.Sucesso)
+            if (resultadoServico.Sucesso)
             {
-                return Content(resultado.Dados, "text/plain", Encoding.UTF8);
+                return Content(resultadoServico.Dados, "text/plain", Encoding.UTF8);
 
             }
             else
             {
-                return BadRequest(resultado.Inconsistencias);
+                return BadRequest(resultadoServico.Inconsistencias);
             }
 
         }
@@ -79,15 +79,15 @@ namespace iTaaS.Api.Controllers
         [HttpGet("Ver/{nomeArquivo}")]
         public async Task<ActionResult<LogDto>> Ver(string nomeArquivo)
         {
-            var resultado = await LogService.VerPorNomeArquivo(nomeArquivo);
+            var resultadoServico = await LogService.VerPorNomeArquivo(nomeArquivo);
 
-            if (resultado.Sucesso)
+            if (resultadoServico.Sucesso)
             {
-                return Content(string.Join(Environment.NewLine, resultado.Dados), "text/plain", Encoding.UTF8);
+                return Content(string.Join(Environment.NewLine, resultadoServico.Dados), "text/plain", Encoding.UTF8);
             }
             else
             {
-                return BadRequest(resultado.Inconsistencias);
+                return BadRequest(resultadoServico.Inconsistencias);
             }
 
         }
@@ -111,7 +111,7 @@ namespace iTaaS.Api.Controllers
         [HttpGet("BuscarSalvos")]
         public async Task<ActionResult<LogDto>> BuscarSalvos(string DataHoraRecebimentoInicio, string DataHoraRecebimentoFim, string MetodoHttp, int CodigoStatus, string CaminhoUrl, decimal TempoRespostaInicial, decimal TempoRespostaFinal, int TamanhoRespostaInicial, int TamanhoRespostaFinal, string CashStatus, TipoRetornoLog TipoRetornoLog)
         {
-            var resultado = await LogService.ObterLogsFiltrados(
+            var resultadoServico = await LogService.ObterLogsFiltrados(
                 DataHoraRecebimentoInicio,
                 DataHoraRecebimentoFim,
                 MetodoHttp,
@@ -124,13 +124,13 @@ namespace iTaaS.Api.Controllers
                 CashStatus,
                 TipoRetornoLog);
 
-            if (resultado.Sucesso)
+            if (resultadoServico.Sucesso)
             {
-                return Content(string.Join(Environment.NewLine, resultado.Dados), "text/plain", Encoding.UTF8);
+                return Content(string.Join(Environment.NewLine, resultadoServico.Dados), "text/plain", Encoding.UTF8);
             }
             else
             {
-                return BadRequest(resultado.Inconsistencias);
+                return BadRequest(resultadoServico.Inconsistencias);
             }
 
         }
@@ -154,7 +154,7 @@ namespace iTaaS.Api.Controllers
         [HttpGet("BuscarTransformados")]
         public async Task<ActionResult<LogDto>> BuscarTransformados(string DataHoraRecebimentoInicio, string DataHoraRecebimentoFim, string MetodoHttp, int CodigoStatus, string CaminhoUrl, decimal TempoRespostaInicial, decimal TempoRespostaFinal, int TamanhoRespostaInicial, int TamanhoRespostaFinal, string CashStatus, TipoRetornoLog TipoRetornoLog)
         {
-            var resultado = await LogService.ObterLogsTransformados(
+            var resultadoServico = await LogService.ObterLogsTransformados(
                 DataHoraRecebimentoInicio,
                 DataHoraRecebimentoFim,
                 MetodoHttp,
@@ -167,13 +167,13 @@ namespace iTaaS.Api.Controllers
                 CashStatus,
                 TipoRetornoLog);
 
-            if (resultado.Sucesso)
+            if (resultadoServico.Sucesso)
             {
-                return Content(string.Join(Environment.NewLine, resultado.Dados), "text/plain", Encoding.UTF8);
+                return Content(string.Join(Environment.NewLine, resultadoServico.Dados), "text/plain", Encoding.UTF8);
             }
             else
             {
-                return BadRequest(resultado.Inconsistencias);
+                return BadRequest(resultadoServico.Inconsistencias);
             }
 
         }
@@ -185,20 +185,18 @@ namespace iTaaS.Api.Controllers
         /// <param name="Id">Identificador do log.</param>
         /// <param name="tipoRetornoLog">Tipo de retorno esperado.</param>
         /// <returns>Retorna o log salvo ou erros de inconsistência.</returns>
-        [HttpGet("BuscarSalvoId/{Id}")]
-        public async Task<ActionResult<LogDto>> BuscarSalvoId(int Id, TipoRetornoLog tipoRetornoLog)
+        [HttpGet("BuscarSalvoId/{identificador}")]
+        public async Task<ActionResult<LogDto>> BuscarSalvoId([FromRoute] int identificador, [FromQuery] TipoRetornoLog tipoRetornoLog)
         {
-            var resultado = await LogService.ObtenhaPorIdentificador(
-                Id,
-                tipoRetornoLog);
+            var resultadoServico = await LogService.ObtenhaPorIdentificador(identificador, tipoRetornoLog);
 
-            if (resultado.Sucesso)
+            if (resultadoServico.Sucesso)
             {
-                return Content(string.Join(Environment.NewLine, resultado.Dados), "text/plain", Encoding.UTF8);
+                return Content(string.Join(Environment.NewLine, resultadoServico.Dados), "text/plain", Encoding.UTF8);
             }
             else
             {
-                return BadRequest(resultado.Inconsistencias);
+                return BadRequest(resultadoServico.Inconsistencias);
             }
 
         }
@@ -210,20 +208,18 @@ namespace iTaaS.Api.Controllers
         /// <param name="Id">Identificador do log.</param>
         /// <param name="tipoRetornoLog">Tipo de retorno esperado.</param>
         /// <returns>Retorna o log transformado ou erros de inconsistência.</returns>
-        [HttpGet("BuscarTransformadoId/{Id}")]
-        public async Task<ActionResult<LogDto>> BuscarTransformadoId(int Id, TipoRetornoLog tipoRetornoLog)
+        [HttpGet("BuscarTransformadoId/{identificador}")]
+        public async Task<ActionResult<LogDto>> BuscarTransformadoId(int identificador, TipoRetornoLog tipoRetornoLog)
         {
-            var resultado = await LogService.ObtenhaTransformadoPorIdentificador(
-                Id,
-                tipoRetornoLog);
+            var resultadoServico = await LogService.ObtenhaTransformadoPorIdentificador(identificador, tipoRetornoLog);
 
-            if (resultado.Sucesso)
+            if (resultadoServico.Sucesso)
             {
-                return Content(string.Join(Environment.NewLine, resultado.Dados), "text/plain", Encoding.UTF8);
+                return Content(string.Join(Environment.NewLine, resultadoServico.Dados), "text/plain", Encoding.UTF8);
             }
             else
             {
-                return BadRequest(resultado.Inconsistencias);
+                return BadRequest(resultadoServico.Inconsistencias);
             }
 
         }
@@ -236,15 +232,19 @@ namespace iTaaS.Api.Controllers
         /// <returns>Retorna um status de sucesso ou erro caso os dados sejam inválidos.</returns>
         [HttpPost("Criar")]
         public async Task<ActionResult<LogDto>> Criar([FromBody] LogDto logDto)
-        {
-            if (logDto == null)
+        {       
+            var resultadoServico = await this.LogService.Criar(logDto);
+
+            if (resultadoServico.Sucesso)
             {
-                return BadRequest("Dados inválidos.");
+                return Ok(resultadoServico.Dados);
+            }
+            else
+            {
+                return BadRequest(resultadoServico.Inconsistencias);
             }
 
-            var logCriado = await this.LogService.Criar(logDto);
-
-            return Ok();
+           
         }
 
 
@@ -255,14 +255,17 @@ namespace iTaaS.Api.Controllers
         /// <returns>Retorna o log atualizado ou um erro caso os dados sejam inválidos.</returns>
         [HttpPut("Salvar")]
         public async Task<ActionResult<LogDto>> Atualizar([FromBody] LogDto logDto)
-        {
-            if (logDto == null)
-            {
-                return BadRequest("Dados inválidos.");
-            }
+        {         
+            var resultadoServico = await this.LogService.Atualizar(logDto);
 
-            var logAtualizado = await this.LogService.Atualizar(logDto);
-            return Ok(logAtualizado);
+            if (resultadoServico.Sucesso)
+            {
+                return Ok(resultadoServico.Dados);
+            }
+            else
+            {
+                return BadRequest(resultadoServico.Inconsistencias);
+            }
         }
 
 
@@ -274,8 +277,17 @@ namespace iTaaS.Api.Controllers
         [HttpDelete("Deletar/{id}")]
         public async Task<ActionResult<LogDto>> Deletar(int id)
         {
-            var logDeletado = await this.LogService.Deletar(id);
-            return Ok(logDeletado);
+            var resultadoServico = await this.LogService.Deletar(id);
+
+            if (resultadoServico.Sucesso)
+            {
+                return Ok(resultadoServico.Dados);
+            }
+            else
+            {
+                return BadRequest(resultadoServico.Inconsistencias);
+            }
+
         }
     }
 }
