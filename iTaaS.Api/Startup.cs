@@ -43,9 +43,8 @@ namespace iTaaS.Api
             services.AddTransient<ILogTipoFormatoServico, LogTipoFormatoMinhaCdnServico>();
             services.AddTransient<ILogTipoFormatoServico, LogTipoFormatoAgoraServico>();
 
-
-            //Entity FrameWork  
-            services.AddDbContext<Context>(options =>
+                        
+            services.AddDbContext<EntityContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddSwaggerGen(options =>

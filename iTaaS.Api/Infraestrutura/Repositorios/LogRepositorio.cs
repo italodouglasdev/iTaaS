@@ -1,4 +1,5 @@
-﻿using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
+﻿using iTaaS.Api.Aplicacao.DTOs;
+using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
 using iTaaS.Api.Aplicacao.Interfaces.Repositorios;
 using iTaaS.Api.Dominio.Entidades;
 using iTaaS.Api.Dominio.Helpers;
@@ -17,9 +18,9 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
     /// </summary>
     public class LogRepositorio : ILogRepositorio
     {
-        private readonly Context context;
+        private readonly EntityContext context;
 
-        public LogRepositorio(Context context)
+        public LogRepositorio(EntityContext context)
         {
             this.context = context;
         }
@@ -46,6 +47,7 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
             return resultado;
         }
 
+
         /// <summary>
         /// Obtém uma lista de todos os logs.
         /// </summary>
@@ -61,6 +63,7 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
 
             return resultado;
         }
+
 
         /// <summary>
         /// Cria um novo log no banco de dados.
@@ -79,6 +82,7 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
 
             try
             {
+                entity.Hash = Guid.NewGuid().ToString();
                 await context.Logs.AddAsync(entity);
                 await context.SaveChangesAsync();
                 resultado.Dados = entity;

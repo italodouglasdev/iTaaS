@@ -8,7 +8,7 @@ using iTaaS.Api.Infraestrutura.BancoDeDados;
 
 namespace iTaaS.Api.Migrations
 {
-    [DbContext(typeof(Context))]
+    [DbContext(typeof(EntityContext))]
     partial class ContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

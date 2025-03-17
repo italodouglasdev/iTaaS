@@ -95,9 +95,8 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 resultadoService.AdicionarInconsistencias(resultadoValidadorLogDto.Inconsistencias);
                 return resultadoService;
             }
-
+            
             var logEntity = this.LogMapper.MapearDeDtoParaEntidade(logDto);
-
             var resultadoRepository = await this.LogRepository.Criar(logEntity);
             if (!resultadoRepository.Sucesso)
             {
@@ -538,7 +537,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var logDto = resultadoObtenha.Dados;
 
             var logTipoFormatoMinhaCdn = LogTipoFormatoFabrica.ObtenhaTipoFormato(TipoFormatoLog.MINHA_CDN);
-                        
+
             if (tipoRetornoLog == TipoRetornoLog.RETORNAR_PATCH)
             {
                 var resultadoConversaoDtoArquivo = logTipoFormatoMinhaCdn.ConverterDeDtoParaArquivo(this.HttpContextoServico.ObtenhaUrlBase(), logDto);
@@ -599,7 +598,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
             var logDto = resultadoObtenha.Dados;
 
-            var logTipoFormatoAgora = LogTipoFormatoFabrica.ObtenhaTipoFormato(TipoFormatoLog.AGORA);            
+            var logTipoFormatoAgora = LogTipoFormatoFabrica.ObtenhaTipoFormato(TipoFormatoLog.AGORA);
 
             if (tipoRetornoLog == TipoRetornoLog.RETORNAR_PATCH)
             {

@@ -9,7 +9,7 @@ using iTaaS.Api.Infraestrutura.BancoDeDados;
 
 namespace iTaaS.Api.Migrations
 {
-    [DbContext(typeof(Context))]
+    [DbContext(typeof(EntityContext))]
     [Migration("20250317024838_Criacao_BancoDados")]
     partial class Criacao_BancoDados
     {

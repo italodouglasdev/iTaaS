@@ -15,9 +15,9 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
     /// </summary>
     public class LogLinhaRepositorio : ILogLinhaRepositorio
     {
-        private readonly Context context;
+        private readonly EntityContext context;
 
-        public LogLinhaRepositorio(Context context)
+        public LogLinhaRepositorio(EntityContext context)
         {
             this.context = context;
         }

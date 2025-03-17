@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace iTaaS.Api.Infraestrutura.BancoDeDados
 {
-    public class Context : DbContext
+    public class EntityContext : DbContext
     {
-        public Context(DbContextOptions<Context> options) : base(options) { }
+        public EntityContext(DbContextOptions<EntityContext> options) : base(options) { }
 
 
         public DbSet<LogEntidade> Logs { get; set; }
