@@ -30,8 +30,6 @@ namespace iTaaS.Api.Aplicacao.Servicos
         private const int INDEX_VERSAO = 2;
         private const int INDEX_TEMPO_RESPOSTA = 4;
 
-
-
         public Resultado<string> ConverterDeArquivoParaString(string caminho)
         {
             var resultadoString = new Resultado<string>();
@@ -214,5 +212,6 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
             return resultadoDto;
         }
+
     }
 }

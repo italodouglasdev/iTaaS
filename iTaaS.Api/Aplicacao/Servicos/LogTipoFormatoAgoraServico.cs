@@ -9,7 +9,6 @@ namespace iTaaS.Api.Aplicacao.Servicos
 {
     public class LogTipoFormatoAgoraServico : ILogTipoFormatoServico
     {
-
         private const string END_POINT_BUSCAR_TRANSFORMADO_ID = "Api/Log/BuscarTransformadoId";
 
         private const string PROVEDOR = "MINHA CDN";
