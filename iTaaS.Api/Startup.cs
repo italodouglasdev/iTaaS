@@ -31,17 +31,17 @@ namespace iTaaS.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-
-            //Registo de dependências
+            services.AddScoped<IHttpContextoServico, HttpContextoServico>();
+           
             services.AddScoped<ILogServico, LogServico>();
             services.AddScoped<ILogRepositorio, LogRepositorio>();
             services.AddScoped<ILogMapeador, LogMapeador>();
             services.AddScoped<ILogLinhaServico, LogLinhaServico>();
             services.AddScoped<ILogLinhaRepositorio, LogLinhaRepositorio>();
-            services.AddScoped<ILogLinhaMapeador, LogLinhaMapeador>();
-            services.AddScoped<IHttpContextoServico, HttpContextoServico>();
-            services.AddTransient<ILogTipoServico, LogMinhaCdnServico>();   
-           
+            services.AddScoped<ILogLinhaMapeador, LogLinhaMapeador>();            
+
+            services.AddTransient<ILogTipoServico, LogMinhaCdnServico>();
+            services.AddTransient<ILogTipoServico, LogAgoraServico>();
 
 
             //Entity FrameWork  
