@@ -39,13 +39,13 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var consultaLerArquivo = SistemaArquivosHelper.LerArquivoTxt(caminho);
             if (!consultaLerArquivo.Sucesso)
             {
-                resultadoString.Inconsistencias = consultaLerArquivo.Inconsistencias;
+                resultadoString.AdicionarInconsistencias(consultaLerArquivo.Inconsistencias);
                 return resultadoString;
             }
 
             var consultaListaParaString = ConversorHelper.ConverterDeListaParaString(consultaLerArquivo.Dados);
             if (!consultaListaParaString.Sucesso)
-                resultadoString.Inconsistencias = consultaListaParaString.Inconsistencias;
+                resultadoString.AdicionarInconsistencias(consultaListaParaString.Inconsistencias);
 
             resultadoString.Dados = consultaListaParaString.Dados;
 
@@ -59,14 +59,14 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoDtoString = ConverterDeDtoParaString(logDto);
             if (!resultadoDtoString.Sucesso)
             {
-                resultadoArquivo.Inconsistencias = resultadoDtoString.Inconsistencias;
+                resultadoArquivo.AdicionarInconsistencias(resultadoDtoString.Inconsistencias);
                 return resultadoArquivo;
             }
 
             var consultaArvoreDiretorios = SistemaArquivosHelper.CriarArvoreDiretorios(logDto.DataHoraRecebimento);
             if (!consultaArvoreDiretorios.Sucesso)
             {
-                resultadoArquivo.Inconsistencias = consultaArvoreDiretorios.Inconsistencias;
+                resultadoArquivo.AdicionarInconsistencias(consultaArvoreDiretorios.Inconsistencias);
                 return resultadoArquivo;
             }
 
@@ -77,7 +77,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 var consultaArquivoTxt = SistemaArquivosHelper.CriarArquivoTxt(caminhoArquivo, resultadoDtoString.Dados);
                 if (!consultaArquivoTxt.Sucesso)
                 {
-                    resultadoArquivo.Inconsistencias = consultaArquivoTxt.Inconsistencias;
+                    resultadoArquivo.AdicionarInconsistencias(consultaArquivoTxt.Inconsistencias);
                     return resultadoArquivo;
                 }
             }
@@ -100,7 +100,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var consultaArvoreDiretorios = SistemaArquivosHelper.CriarArvoreDiretorios(logDto.DataHoraRecebimento);
             if (!consultaArvoreDiretorios.Sucesso)
             {
-                resultado.Inconsistencias = consultaArvoreDiretorios.Inconsistencias;
+                resultado.AdicionarInconsistencias(consultaArvoreDiretorios.Inconsistencias);
                 return resultado;
             }
 
@@ -111,7 +111,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 var consultaArquivoTxt = SistemaArquivosHelper.CriarArquivoTxt(caminhoArquivo, strinBuilder.ToString());
                 if (!consultaArquivoTxt.Sucesso)
                 {
-                    resultado.Inconsistencias = consultaArquivoTxt.Inconsistencias;
+                    resultado.AdicionarInconsistencias(consultaArquivoTxt.Inconsistencias);
                     return resultado;
                 }
 
@@ -120,7 +120,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
             if (!consultaArquivoString.Sucesso)
             {
-                resultado.Inconsistencias = consultaArquivoString.Inconsistencias;
+                resultado.AdicionarInconsistencias(consultaArquivoString.Inconsistencias);
                 return resultado;
             }
 
@@ -154,7 +154,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                     if (!resultadoConversaoCampos.Sucesso)
                     {
                         resultadoDto.AdicionarInconsistencia("FORMATO_INVALIDO", $"O formato da linha {contadorLinhas} é inválido!");
-                        resultadoDto.Inconsistencias = resultadoConversaoCampos.Inconsistencias;
+                        resultadoDto.AdicionarInconsistencias(resultadoConversaoCampos.Inconsistencias);
                         return resultadoDto;
                     }
 
@@ -180,7 +180,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                     if (!resultadoConversaoCamposHttp.Sucesso)
                     {
                         resultadoDto.AdicionarInconsistencia("FORMATO_INVALIDO", $"O formato da linha {contadorLinhas} é inválido!");
-                        resultadoDto.Inconsistencias = resultadoConversaoCamposHttp.Inconsistencias;
+                        resultadoDto.AdicionarInconsistencias(resultadoConversaoCamposHttp.Inconsistencias);
                         return resultadoDto;
                     }
 
@@ -206,7 +206,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoDeUrlParaString = SistemaArquivosHelper.ObtenhaStringDeUrl(url);
             if (!resultadoDeUrlParaString.Sucesso)
             {
-                resultadoDto.Inconsistencias = resultadoDeUrlParaString.Inconsistencias;
+                resultadoDto.AdicionarInconsistencias(resultadoDeUrlParaString.Inconsistencias);
                 return resultadoDto;
             }
 

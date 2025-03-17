@@ -28,7 +28,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoRepository = await LogLinhaRepository.ObterPorId(id);
             if (!resultadoRepository.Sucesso)
             {
-                resultadoService.Inconsistencias = resultadoRepository.Inconsistencias;
+                resultadoService.AdicionarInconsistencias(resultadoRepository.Inconsistencias);
                 return resultadoService;
             }
 
@@ -44,7 +44,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoRepository = await LogLinhaRepository.ObterLista();
             if (!resultadoRepository.Sucesso)
             {
-                resultadoService.Inconsistencias = resultadoRepository.Inconsistencias;
+                resultadoService.AdicionarInconsistencias(resultadoRepository.Inconsistencias);
                 return resultadoService;
             }
 
@@ -62,7 +62,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoRepository = await LogLinhaRepository.Criar(logLinhaEntity);
             if (!resultadoRepository.Sucesso)
             {
-                resultadoService.Inconsistencias = resultadoRepository.Inconsistencias;
+                resultadoService.AdicionarInconsistencias(resultadoRepository.Inconsistencias);
                 return resultadoService;
             }
             resultadoService.Dados = LogLinhaMapper.MapearDeEntidadeParaDto(logLinhaEntity);
@@ -80,7 +80,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoRepository = await LogLinhaRepository.Atualizar(logLinhaEntity);
             if (!resultadoRepository.Sucesso)
             {
-                resultadoService.Inconsistencias = resultadoRepository.Inconsistencias;
+                resultadoService.AdicionarInconsistencias(resultadoRepository.Inconsistencias);
                 return resultadoService;
             }
             resultadoService.Dados = LogLinhaMapper.MapearDeEntidadeParaDto(logLinhaEntity);
@@ -95,7 +95,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoRepository = await LogLinhaRepository.Deletar(id);
             if (!resultadoRepository.Sucesso)
             {
-                resultadoService.Inconsistencias = resultadoRepository.Inconsistencias;
+                resultadoService.AdicionarInconsistencias(resultadoRepository.Inconsistencias);
                 return resultadoService;
             }
 

@@ -122,7 +122,7 @@ namespace iTaaS.Api.Dominio.Helpers
                 var resultadoArquivoExiste = ArquivoExiste(caminhoArquivo);
                 if (!resultadoArquivoExiste.Sucesso)
                 {
-                    resultado.Inconsistencias = resultadoArquivoExiste.Inconsistencias;
+                    resultado.AdicionarInconsistencias(resultadoArquivoExiste.Inconsistencias);
                     return resultado;
                 }
 
@@ -208,11 +208,11 @@ namespace iTaaS.Api.Dominio.Helpers
             }
             catch (AggregateException ex) when (ex.InnerException is HttpRequestException httpEx)
             {
-                resultado.AdicionarInconsistencia("ERRO_REDE", "Erro na requisição HTTP!");
+                resultado.AdicionarInconsistencia("REDE", "Erro na requisição HTTP!");
             }
             catch (Exception ex)
             {
-                resultado.AdicionarInconsistencia("ERRO_REDE", "Erro na requisição HTTP!");
+                resultado.AdicionarInconsistencia("REDE", "Erro na requisição HTTP!");
             }
 
             return resultado;

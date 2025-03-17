@@ -38,7 +38,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoRepository = await LogRepository.ObterPorId(id);
             if (!resultadoRepository.Sucesso)
             {
-                resultadoService.Inconsistencias = resultadoRepository.Inconsistencias;
+                resultadoService.AdicionarInconsistencias(resultadoRepository.Inconsistencias);
                 return resultadoService;
             }
 
@@ -54,7 +54,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoRepository = await LogRepository.ObterLista();
             if (!resultadoRepository.Sucesso)
             {
-                resultadoService.Inconsistencias = resultadoRepository.Inconsistencias;
+                resultadoService.AdicionarInconsistencias(resultadoRepository.Inconsistencias);
                 return resultadoService;
             }
 
@@ -74,7 +74,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoRepository = await LogRepository.Criar(logEntity);
             if (!resultadoRepository.Sucesso)
             {
-                resultadoService.Inconsistencias = resultadoRepository.Inconsistencias;
+                resultadoService.AdicionarInconsistencias(resultadoRepository.Inconsistencias);
                 return resultadoService;
             }
 
@@ -92,7 +92,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoRepository = await LogRepository.Atualizar(entity);
             if (!resultadoRepository.Sucesso)
             {
-                resultadoService.Inconsistencias = resultadoRepository.Inconsistencias;
+                resultadoService.AdicionarInconsistencias(resultadoRepository.Inconsistencias);
                 return resultadoService;
             }
 
@@ -108,7 +108,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoRepository = await LogRepository.Deletar(id);
             if (!resultadoRepository.Sucesso)
             {
-                resultadoService.Inconsistencias = resultadoRepository.Inconsistencias;
+                resultadoService.AdicionarInconsistencias(resultadoRepository.Inconsistencias);
                 return resultadoService;
             }
 
@@ -124,7 +124,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoConversaoUrlDto = conversorLog.ConverterDeUrlParaDto(url);
             if (!resultadoConversaoUrlDto.Sucesso)
             {
-                resultado.Inconsistencias = resultadoConversaoUrlDto.Inconsistencias;
+                resultado.AdicionarInconsistencias(resultadoConversaoUrlDto.Inconsistencias);
                 return resultado;
             }
 
@@ -134,7 +134,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoCriar = await Criar(logDto);
             if (!resultadoCriar.Sucesso)
             {
-                resultado.Inconsistencias = resultadoCriar.Inconsistencias;
+                resultado.AdicionarInconsistencias(resultadoCriar.Inconsistencias);
                 return resultado;
             }
 
@@ -156,7 +156,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
             if (!resultadoConversaoDtoArquivo.Sucesso)
             {
-                resultado.Inconsistencias = resultadoConversaoDtoArquivo.Inconsistencias;
+                resultado.AdicionarInconsistencias(resultadoConversaoDtoArquivo.Inconsistencias);
                 return resultado;
             }
 
@@ -175,7 +175,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoObtenhaPorId = await ObterPorId(id);
             if (!resultadoObtenhaPorId.Sucesso)
             {
-                resultado.Inconsistencias = resultadoObtenhaPorId.Inconsistencias;
+                resultado.AdicionarInconsistencias(resultadoObtenhaPorId.Inconsistencias);
                 return resultado;
             }
 
@@ -195,7 +195,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
             if (!resultadoConversaoDtoArquivo.Sucesso)
             {
-                resultado.Inconsistencias = resultadoConversaoDtoArquivo.Inconsistencias;
+                resultado.AdicionarInconsistencias(resultadoConversaoDtoArquivo.Inconsistencias);
                 return resultado;
             }
 
@@ -235,7 +235,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
             if (!resultadoRepository.Sucesso)
             {
-                resultadoService.Inconsistencias = resultadoRepository.Inconsistencias;
+                resultadoService.AdicionarInconsistencias(resultadoRepository.Inconsistencias);
                 return resultadoService;
             }
 
@@ -305,7 +305,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
             if (!resultadoRepository.Sucesso)
             {
-                resultadoService.Inconsistencias = resultadoRepository.Inconsistencias;
+                resultadoService.AdicionarInconsistencias(resultadoRepository.Inconsistencias);
                 return resultadoService;
             }
 
@@ -382,7 +382,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoObtenha = await ObterPorId(id);
             if (!resultadoObtenha.Sucesso)
             {
-                resultadorObtenhaPorIdentificador.Inconsistencias = resultadoObtenha.Inconsistencias;
+                resultadorObtenhaPorIdentificador.AdicionarInconsistencias(resultadoObtenha.Inconsistencias);
                 return resultadorObtenhaPorIdentificador;
             }
 
@@ -417,7 +417,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoObtenha = await ObterPorId(id);
             if (!resultadoObtenha.Sucesso)
             {
-                resultadorObtenhaPorIdentificador.Inconsistencias = resultadoObtenha.Inconsistencias;
+                resultadorObtenhaPorIdentificador.AdicionarInconsistencias(resultadoObtenha.Inconsistencias);
                 return resultadorObtenhaPorIdentificador;
             }
 

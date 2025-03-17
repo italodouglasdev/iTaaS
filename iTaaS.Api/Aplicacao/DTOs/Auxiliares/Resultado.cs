@@ -27,5 +27,14 @@ namespace iTaaS.Api.Aplicacao.DTOs.Auxiliares
         {
             this.Inconsistencias.Add(new Inconsistencia(codigo, mensagem));
         }
+
+        /// <summary>
+        /// Adiciona uma nova inconsistência ou múltiplas inconsistências ao objeto Resultado.
+        /// </summary>
+        /// <param name="inconsistencias">Lista de inconsistências a serem adicionadas.</param>
+        public void AdicionarInconsistencias(IEnumerable<Inconsistencia> inconsistencias)
+        {
+            this.Inconsistencias.AddRange(inconsistencias);
+        }
     }
 }
