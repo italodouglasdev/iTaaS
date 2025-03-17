@@ -4,12 +4,12 @@ namespace iTaaS.Api.Aplicacao.Interfaces.Mapeadores
 {
     public interface IMapeadorBase<TEntity, TDto>
     {
-        TDto ConverterParaDto(TEntity entity);
-        TEntity ConverterParaEntity(TDto dto);
+        TDto MapearDeEntidadeParaDto(TEntity entity);
+        TEntity MapearDeDtoParaEntidade(TDto dto);
 
 
-        List<TDto> ConverterListaParaDto(List<TEntity> listaEntities);
-        List<TEntity> ConverterListaParaEntity(List<TDto> listaDtos);
+        List<TDto> MapearListaDeEntitadesParaDtos(List<TEntity> listaEntities);
+        List<TEntity> MapearListaDeDtosParaEntitades(List<TDto> listaDtos);
 
     }
 }

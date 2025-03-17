@@ -1,4 +1,5 @@
 ﻿using iTaaS.Api.Aplicacao.DTOs;
+using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
 using iTaaS.Api.Aplicacao.Interfaces.Servicos;
 using iTaaS.Api.Dominio.Helpers;
 using System;
@@ -24,12 +25,12 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var resultadoString = new Resultado<string>();
 
 
-            var consultaLerArquivo = UtilitarioHelper.LerArquivoTxt(caminho);
+            var consultaLerArquivo = SistemaArquivosHelper.LerArquivoTxt(caminho);
             if (!consultaLerArquivo.Sucesso)
                 resultadoString.Inconsistencias = consultaLerArquivo.Inconsistencias;
 
 
-            var consultaListaParaString = UtilitarioHelper.ConverterDeListaParaString(consultaLerArquivo.Dados);
+            var consultaListaParaString = ConversorHelper.ConverterDeListaParaString(consultaLerArquivo.Dados);
             if (!consultaListaParaString.Sucesso)
                 resultadoString.Inconsistencias = consultaListaParaString.Inconsistencias;
 
@@ -49,7 +50,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 return resultadoArquivo;
             }
 
-            var consultaArvoreDiretorios = UtilitarioHelper.CriarArvoreDiretorios(logDto.DataHoraRecebimento);
+            var consultaArvoreDiretorios = SistemaArquivosHelper.CriarArvoreDiretorios(logDto.DataHoraRecebimento);
             if (!consultaArvoreDiretorios.Sucesso)
             {
                 resultadoArquivo.Inconsistencias = consultaArvoreDiretorios.Inconsistencias;
@@ -59,7 +60,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
             var nomeArquivo = logDto.ObtenhaNomeArquivo(SUFIXO_TIPO_LOG_AGORA);
             var caminhoArquivo = $"{consultaArvoreDiretorios.Dados}\\{nomeArquivo}";
-            var consultaArquivoTxt = UtilitarioHelper.CriarArquivoTxt(caminhoArquivo, resultadoDtoString.Dados);
+            var consultaArquivoTxt = SistemaArquivosHelper.CriarArquivoTxt(caminhoArquivo, resultadoDtoString.Dados);
             if (!consultaArquivoTxt.Sucesso)
             {
                 resultadoArquivo.Inconsistencias = consultaArquivoTxt.Inconsistencias;
@@ -84,7 +85,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             strinBuilder.AppendLine($"#Fields: provider http-method status-code uri-path time-taken response-size cache-status");
             strinBuilder.AppendLine($"");
             foreach (var dtoLogLinha in logDto.Linhas)
-                strinBuilder.AppendLine($"\"{PROVEDOR}\" {dtoLogLinha.MetodoHttp} {dtoLogLinha.CodigoStatus} {dtoLogLinha.CaminhoUrl} {UtilitarioHelper.ConverterDecimalParaInt(dtoLogLinha.TempoResposta)} {dtoLogLinha.TamahoResposta} {dtoLogLinha.CacheStatus}");
+                strinBuilder.AppendLine($"\"{PROVEDOR}\" {dtoLogLinha.MetodoHttp} {dtoLogLinha.CodigoStatus} {dtoLogLinha.CaminhoUrl} {ConversorHelper.ConverterDecimalParaInt(dtoLogLinha.TempoResposta)} {dtoLogLinha.TamahoResposta} {dtoLogLinha.CacheStatus}");
 
             resultado.Dados = strinBuilder.ToString();
 

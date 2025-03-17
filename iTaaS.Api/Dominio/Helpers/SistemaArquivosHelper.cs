@@ -1,24 +1,34 @@
-﻿using iTaaS.Api.Aplicacao.DTOs;
+﻿using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Schema;
 
 namespace iTaaS.Api.Dominio.Helpers
 {
-    public class UtilitarioHelper
+    /// <summary>
+    /// Classe auxiliar para manipulação de arquivos e diretórios.
+    /// </summary>
+    public class SistemaArquivosHelper
     {
 
+        /// <summary>
+        /// Verifica se um diretório existe no caminho especificado.
+        /// </summary>
+        /// <param name="caminhoDiretorio">Caminho do diretório a ser verificado.</param>
+        /// <returns>Retorna <c>true</c> se o diretório existir, caso contrário, <c>false</c>.</returns>
         public static bool DiretorioExiste(string caminhoDiretorio)
         {
             return Directory.Exists(caminhoDiretorio);
         }
 
+
+        /// <summary>
+        /// Cria um diretório no caminho especificado.
+        /// </summary>
+        /// <param name="caminhoDiretorio">Caminho do diretório a ser criado.</param>
+        /// <returns>Retorna <c>true</c> se o diretório foi criado com sucesso, caso contrário, <c>false</c>.</returns>
         public static bool DiretorioCriar(string caminhoDiretorio)
         {
             Directory.CreateDirectory(caminhoDiretorio);
@@ -26,6 +36,12 @@ namespace iTaaS.Api.Dominio.Helpers
             return DiretorioExiste(caminhoDiretorio);
         }
 
+
+        /// <summary>
+        /// Deleta um diretório no caminho especificado.
+        /// </summary>
+        /// <param name="caminhoDiretorio">Caminho do diretório a ser deletado.</param>
+        /// <returns>Retorna <c>true</c> se o diretório foi deletado com sucesso, caso contrário, <c>false</c>.</returns>
         public static bool DiretorioDeletar(string caminhoDiretorio)
         {
             Directory.Delete(caminhoDiretorio);
@@ -33,17 +49,30 @@ namespace iTaaS.Api.Dominio.Helpers
             return DiretorioExiste(caminhoDiretorio);
         }
 
-
+        /// <summary>
+        /// Obtém o diretório base onde os arquivos de log serão armazenados.
+        /// </summary>
+        /// <returns>Retorna o caminho base para os diretórios de log.</returns>
         public static string ObtenhaDiretorioBase()
         {
             return $"C:\\iTaaS_Logs";
         }
 
+        /// <summary>
+        /// Obtém o caminho do diretório a ser criado baseado na data e hora fornecidas.
+        /// </summary>
+        /// <param name="dataHora">Data e hora usada para construir o caminho.</param>
+        /// <returns>Retorna o caminho completo do diretório baseado na data fornecida.</returns>
         public static string ObtenhaCaminhoDiretorioPorDataHora(DateTime dataHora)
         {
             return $"{ObtenhaDiretorioBase()}\\{dataHora.ToString("yyyy")}\\{dataHora.ToString("MM")}\\{dataHora.ToString("dd")}";
         }
 
+        /// <summary>
+        /// Cria a árvore de diretórios de acordo com a data e hora fornecidas e retorna um resultado com o caminho criado.
+        /// </summary>
+        /// <param name="dataHora">Data e hora usada para criar a árvore de diretórios.</param>
+        /// <returns>Retorna um objeto Resultado contendo o caminho do diretório e possíveis inconsistências.</returns>
         public static Resultado<string> CriarArvoreDiretorios(DateTime dataHora)
         {
             var resultado = new Resultado<string>();
@@ -58,6 +87,12 @@ namespace iTaaS.Api.Dominio.Helpers
             return resultado;
         }
 
+
+        /// <summary>
+        /// Verifica se um arquivo existe no caminho especificado.
+        /// </summary>
+        /// <param name="caminhoArquivo">Caminho do arquivo a ser verificado.</param>
+        /// <returns>Retorna um objeto Resultado contendo um booleano indicando se o arquivo existe e possíveis inconsistências.</returns>
         public static Resultado<bool> ArquivoExiste(string caminhoArquivo)
         {
             var resultado = new Resultado<bool>();
@@ -72,8 +107,11 @@ namespace iTaaS.Api.Dominio.Helpers
         }
 
 
-        
-
+        /// <summary>
+        /// Lê o conteúdo de um arquivo texto e retorna uma lista de strings.
+        /// </summary>
+        /// <param name="caminhoArquivo">Caminho do arquivo a ser lido.</param>
+        /// <returns>Retorna um objeto Resultado contendo uma lista de strings com o conteúdo do arquivo ou inconsistências.</returns>
         public static Resultado<List<string>> LerArquivoTxt(string caminhoArquivo)
         {
             var resultado = new Resultado<List<string>>();
@@ -86,7 +124,7 @@ namespace iTaaS.Api.Dominio.Helpers
                 {
                     resultado.Inconsistencias = resultadoArquivoExiste.Inconsistencias;
                     return resultado;
-                }               
+                }
 
                 resultado.Dados = new List<string>(File.ReadAllLines(caminhoArquivo));
 
@@ -98,6 +136,14 @@ namespace iTaaS.Api.Dominio.Helpers
 
             return resultado;
         }
+
+
+        /// <summary>
+        /// Cria ou substitui um arquivo de texto no caminho especificado com o texto fornecido.
+        /// </summary>
+        /// <param name="caminhoArquivo">Caminho do arquivo a ser criado ou substituído.</param>
+        /// <param name="texto">Texto a ser escrito no arquivo.</param>
+        /// <returns>Retorna um objeto Resultado com o caminho do arquivo criado ou substituído e possíveis inconsistências.</returns>
         public static Resultado<string> CriarArquivoTxt(string caminhoArquivo, string texto)
         {
             var resultado = new Resultado<string>();
@@ -117,22 +163,11 @@ namespace iTaaS.Api.Dominio.Helpers
         }
 
 
-        public static Resultado<string> ConverterDeListaParaString(List<string> listaString)
-        {
-            var resultado = new Resultado<string>();
-
-            try
-            {
-                resultado.Dados = string.Join(Environment.NewLine, listaString);
-            }
-            catch
-            {
-                resultado.AdicionarInconsistencia("SISTEMA_ARQUIVOS", "Não foi possível converter de lista para string!");
-            }
-
-            return resultado;
-        }
-
+        /// <summary>
+        /// Obtém uma string de uma URL fornecida.
+        /// </summary>
+        /// <param name="url">URL a ser acessada para obter o conteúdo.</param>
+        /// <returns>Retorna um objeto Resultado contendo o conteúdo obtido da URL ou possíveis inconsistências.</returns>
         public static Resultado<string> ObtenhaStringDeUrl(string url)
         {
             var resultado = new Resultado<string>();
@@ -143,7 +178,7 @@ namespace iTaaS.Api.Dominio.Helpers
 
                 using (HttpClient client = new HttpClient())
                 {
-                    var conteudo = client.GetStringAsync(url).Result; // Executa de forma síncrona
+                    var conteudo = client.GetStringAsync(url).Result;
 
                     using (StringReader reader = new StringReader(conteudo))
                     {
@@ -159,106 +194,15 @@ namespace iTaaS.Api.Dominio.Helpers
             }
             catch (AggregateException ex) when (ex.InnerException is HttpRequestException httpEx)
             {
-                Console.WriteLine($"Erro na requisição HTTP: {httpEx.Message}");
+                resultado.AdicionarInconsistencia("ERRO_REDE", "Erro na requisição HTTP!");  
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro inesperado: {ex.Message}");
+                resultado.AdicionarInconsistencia("ERRO_REDE", "Erro na requisição HTTP!");
             }
 
             return resultado;
         }
-        public static Resultado<List<string>> ConverterStringEmListaPorDelimitador(string textoString, string delimitador)
-        {
-            var resultado = new Resultado<List<string>>();
-
-            if (StringEhNulaOuVazia(textoString) ||
-                StringEhNulaOuVazia(delimitador))
-                return resultado;
-
-            var partes = textoString.Split(delimitador);
-
-            resultado.Dados = new List<string>();
-
-            resultado.Dados.AddRange(partes);
-
-            return resultado;
-        }
-
-
-        public static bool StringEhNulaOuVazia(string texto)
-        {
-            return string.IsNullOrEmpty(texto) ? true : false;
-        }
-        public static int ConverterStringParaInt(string texto)
-        {
-            var valorInt = 0;
-
-            if (StringEhNulaOuVazia(texto))
-                return valorInt;
-
-            int.TryParse(texto, out valorInt);
-
-            return valorInt;
-        }
-        public static decimal ConverterStringParaDecimal(string texto)
-        {
-            var valorDecimal = 0M;
-
-            if (StringEhNulaOuVazia(texto))
-                return valorDecimal;
-
-            decimal.TryParse(texto, NumberStyles.Any, CultureInfo.InvariantCulture, out valorDecimal);
-
-            return valorDecimal;
-        }
-        public static int ConverterDecimalParaInt(decimal valor)
-        {
-            try
-            {
-                return (int)Math.Truncate(valor);
-            }
-            catch
-            {
-
-                return 0;
-            }
-
-        }
-
-        public static DateTime ConverterStringParaDataTime(string data)
-        {
-            string formato = "yyyyMMddHHmm";
-            return DateTime.TryParseExact(data, formato, CultureInfo.InvariantCulture, DateTimeStyles.None, out var resultado)
-                ? resultado
-                : new DateTime();
-        }
-
-
-        //public static async Task<Resultado<string>> ObtenhaStringDeUrl(string url)
-        //{
-        //    var resultado = new Resultado<string>();
-
-        //    var stringBuilderLog = new StringBuilder();
-
-        //    using (HttpClient client = new HttpClient())
-        //    {
-        //        var conteudo = await client.GetStringAsync(url);
-
-        //        using (StringReader reader = new StringReader(conteudo))
-        //        {
-        //            string linha;
-        //            while ((linha = reader.ReadLine()) != null)
-        //            {
-        //                stringBuilderLog.AppendLine(linha);
-        //            }
-        //        }
-        //    }
-
-        //    resultado.Dados = stringBuilderLog.ToString();
-
-        //    return resultado;
-        //}
 
 
     }

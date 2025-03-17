@@ -1,4 +1,5 @@
 ﻿using iTaaS.Api.Aplicacao.DTOs;
+using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
 using iTaaS.Api.Aplicacao.Interfaces.Mapeadores;
 using iTaaS.Api.Aplicacao.Interfaces.Repositorios;
 using iTaaS.Api.Aplicacao.Interfaces.Servicos;
@@ -31,7 +32,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 return resultadoService;
             }
 
-            resultadoService.Dados = LogLinhaMapper.ConverterParaDto(resultadoRepository.Dados);
+            resultadoService.Dados = LogLinhaMapper.MapearDeEntidadeParaDto(resultadoRepository.Dados);
 
             return resultadoService;
         }
@@ -47,7 +48,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 return resultadoService;
             }
 
-            resultadoService.Dados = LogLinhaMapper.ConverterListaParaDto(resultadoRepository.Dados);
+            resultadoService.Dados = LogLinhaMapper.MapearListaDeEntitadesParaDtos(resultadoRepository.Dados);
 
             return resultadoService;
         }
@@ -56,7 +57,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         {
             var resultadoService = new Resultado<LogLinhaDto>();
 
-            var logLinhaEntity = LogLinhaMapper.ConverterParaEntity(dto);
+            var logLinhaEntity = LogLinhaMapper.MapearDeDtoParaEntidade(dto);
 
             var resultadoRepository = await LogLinhaRepository.Criar(logLinhaEntity);
             if (!resultadoRepository.Sucesso)
@@ -64,7 +65,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 resultadoService.Inconsistencias = resultadoRepository.Inconsistencias;
                 return resultadoService;
             }
-            resultadoService.Dados = LogLinhaMapper.ConverterParaDto(logLinhaEntity);
+            resultadoService.Dados = LogLinhaMapper.MapearDeEntidadeParaDto(logLinhaEntity);
 
             return resultadoService;
 
@@ -74,7 +75,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         {
             var resultadoService = new Resultado<LogLinhaDto>();
 
-            var logLinhaEntity = LogLinhaMapper.ConverterParaEntity(dto);
+            var logLinhaEntity = LogLinhaMapper.MapearDeDtoParaEntidade(dto);
 
             var resultadoRepository = await LogLinhaRepository.Atualizar(logLinhaEntity);
             if (!resultadoRepository.Sucesso)
@@ -82,7 +83,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 resultadoService.Inconsistencias = resultadoRepository.Inconsistencias;
                 return resultadoService;
             }
-            resultadoService.Dados = LogLinhaMapper.ConverterParaDto(logLinhaEntity);
+            resultadoService.Dados = LogLinhaMapper.MapearDeEntidadeParaDto(logLinhaEntity);
 
             return resultadoService;
         }

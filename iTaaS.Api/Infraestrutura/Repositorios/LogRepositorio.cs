@@ -1,4 +1,4 @@
-﻿using iTaaS.Api.Aplicacao.DTOs;
+﻿using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
 using iTaaS.Api.Aplicacao.Interfaces.Repositorios;
 using iTaaS.Api.Dominio.Entidades;
 using iTaaS.Api.Dominio.Helpers;
@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 
 namespace iTaaS.Api.Infraestrutura.Repositorios
 {
+    /// <summary>
+    /// Repositório responsável pela manipulação dos dados de <see cref="LogEntidade"/>.
+    /// Implementa a interface <see cref="ILogRepositorio"/>.
+    /// </summary>
     public class LogRepositorio : ILogRepositorio
     {
         private readonly Context context;
@@ -20,6 +24,12 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
             this.context = context;
         }
 
+
+        /// <summary>
+        /// Obtém um log específico pelo ID.
+        /// </summary>
+        /// <param name="id">ID do log a ser buscado.</param>
+        /// <returns>Resultado contendo a entidade <see cref="LogEntidade"/> encontrada ou uma inconsistência.</returns>
         public async Task<Resultado<LogEntidade>> ObterPorId(int id)
         {
             var resultado = new Resultado<LogEntidade>();
@@ -36,6 +46,10 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
             return resultado;
         }
 
+        /// <summary>
+        /// Obtém uma lista de todos os logs.
+        /// </summary>
+        /// <returns>Resultado contendo uma lista de entidades <see cref="LogEntidade"/> ou uma inconsistência.</returns>
         public async Task<Resultado<List<LogEntidade>>> ObterLista()
         {
             var resultado = new Resultado<List<LogEntidade>>();
@@ -48,75 +62,11 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
             return resultado;
         }
 
-
-        public async Task<Resultado<List<LogEntidade>>> ObterLogsFiltrados(
-          string dataHoraRecebimentoInicio,
-          string dataHoraRecebimentoFim,
-          string metodoHttp,
-          int codigoStatus,
-          string caminhoUrl,
-          decimal tempoRespostaInicial,
-          decimal tempoRespostaFinal,
-          int tamanhoRespostaInicial,
-          int tamanhoRespostaFinal,
-          string cashStatus)
-        {
-            var resultado = new Resultado<List<LogEntidade>>();
-
-            var query = context.Logs.Include(l => l.Linhas).AsQueryable();
-
-
-            //Filtros de Data
-
-            if (!UtilitarioHelper.StringEhNulaOuVazia(dataHoraRecebimentoInicio))
-            {
-                var dataInicial = UtilitarioHelper.ConverterStringParaDataTime(dataHoraRecebimentoInicio);
-                query = query.Where(l => l.DataHoraRecebimento >= dataInicial);
-            }
-            if (!UtilitarioHelper.StringEhNulaOuVazia(dataHoraRecebimentoFim))
-            {
-                var dataFinal = UtilitarioHelper.ConverterStringParaDataTime(dataHoraRecebimentoFim);
-                query = query.Where(l => l.DataHoraRecebimento <= dataFinal);
-            }
-         
-
-            // Filtros nos LogsLinhas
-            if (!UtilitarioHelper.StringEhNulaOuVazia(metodoHttp))
-                query = query.Where(l => l.Linhas.Any(ll => ll.MetodoHttp == metodoHttp));
-
-            if (codigoStatus > 0)
-                query = query.Where(l => l.Linhas.Any(ll => ll.CodigoStatus == codigoStatus));
-
-            if (!UtilitarioHelper.StringEhNulaOuVazia(caminhoUrl))
-                query = query.Where(l => l.Linhas.Any(ll => ll.CaminhoUrl.Contains(caminhoUrl)));
-
-            if (tempoRespostaInicial > 0)
-                query = query.Where(l => l.Linhas.Any(ll => ll.TempoResposta >= tempoRespostaInicial));
-
-            if (tempoRespostaFinal > 0)
-                query = query.Where(l => l.Linhas.Any(ll => ll.TempoResposta <= tempoRespostaFinal));
-
-            if (tamanhoRespostaInicial > 0)
-                query = query.Where(l => l.Linhas.Any(ll => ll.TamahoResposta >= tamanhoRespostaInicial));
-
-            if (tamanhoRespostaFinal > 0)
-                query = query.Where(l => l.Linhas.Any(ll => ll.TamahoResposta <= tamanhoRespostaFinal));
-
-            if (!UtilitarioHelper.StringEhNulaOuVazia(cashStatus))
-                query = query.Where(l => l.Linhas.Any(ll => ll.CacheStatus == cashStatus));
-
-
-            var logs = await query.ToListAsync();
-
-            if (!logs.Any())
-                resultado.AdicionarInconsistencia("SEM_REGISTROS", "Nenhum log foi encontrado com os filtros informados.");
-
-            resultado.Dados = logs;
-
-            return resultado;
-        }
-
-
+        /// <summary>
+        /// Cria um novo log no banco de dados.
+        /// </summary>
+        /// <param name="entity">Entidade de log a ser criada.</param>
+        /// <returns>Resultado contendo a entidade <see cref="LogEntidade"/> encontrada ou uma inconsistência.</returns>
         public async Task<Resultado<LogEntidade>> Criar(LogEntidade entity)
         {
             var resultado = new Resultado<LogEntidade>();
@@ -145,6 +95,12 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
             return resultado;
         }
 
+
+        /// <summary>
+        /// Atualiza um log existente no banco de dados.
+        /// </summary>
+        /// <param name="entity">Entidade de log a ser atualizada.</param>
+        /// <returns>Resultado contendo a entidade <see cref="LogEntidade"/> encontrada ou uma inconsistência.</returns>
         public async Task<Resultado<LogEntidade>> Atualizar(LogEntidade entity)
         {
             var resultado = new Resultado<LogEntidade>();
@@ -173,6 +129,12 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
             return resultado;
         }
 
+
+        /// <summary>
+        /// Deleta um log do banco de dados pelo seu ID.
+        /// </summary>
+        /// <param name="id">ID do log a ser deletado.</param>
+        /// <returns>Resultado contendo a entidade <see cref="LogEntidade"/> encontrada ou uma inconsistência.</returns>
         public async Task<Resultado<LogEntidade>> Deletar(int id)
         {
             var resultado = new Resultado<LogEntidade>();
@@ -197,6 +159,87 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
             {
                 resultado.AdicionarInconsistencia("ERRO_DESCONHECIDO", "Ocorreu um erro inesperado!");
             }
+
+            return resultado;
+        }
+
+
+        /// <summary>
+        /// Obtém logs filtrados com base em múltiplos parâmetros de busca.
+        /// </summary>
+        /// <param name="dataHoraRecebimentoInicio">Data de início para filtro de data e hora de recebimento.</param>
+        /// <param name="dataHoraRecebimentoFim">Data de fim para filtro de data e hora de recebimento.</param>
+        /// <param name="metodoHttp">Método HTTP para filtro.</param>
+        /// <param name="codigoStatus">Código de status para filtro.</param>
+        /// <param name="caminhoUrl">Caminho da URL para filtro.</param>
+        /// <param name="tempoRespostaInicial">Tempo mínimo de resposta para filtro.</param>
+        /// <param name="tempoRespostaFinal">Tempo máximo de resposta para filtro.</param>
+        /// <param name="tamanhoRespostaInicial">Tamanho mínimo da resposta para filtro.</param>
+        /// <param name="tamanhoRespostaFinal">Tamanho máximo da resposta para filtro.</param>
+        /// <param name="cashStatus">Status de cache para filtro.</param>
+        /// <returns>Resultado contendo uma lista de entidades <see cref="LogEntidade"/> ou uma inconsistência.</returns>
+        public async Task<Resultado<List<LogEntidade>>> ObterLogsFiltrados(
+        string dataHoraRecebimentoInicio,
+        string dataHoraRecebimentoFim,
+        string metodoHttp,
+        int codigoStatus,
+        string caminhoUrl,
+        decimal tempoRespostaInicial,
+        decimal tempoRespostaFinal,
+        int tamanhoRespostaInicial,
+        int tamanhoRespostaFinal,
+        string cashStatus)
+        {
+            var resultado = new Resultado<List<LogEntidade>>();
+
+            var query = context.Logs.Include(l => l.Linhas).AsQueryable();
+
+
+            //Filtros de Data
+            if (!ValidadorHelper.StringEhNulaOuVazia(dataHoraRecebimentoInicio))
+            {
+                var dataInicial = ConversorHelper.ConverterStringParaDataTime(dataHoraRecebimentoInicio);
+                query = query.Where(l => l.DataHoraRecebimento >= dataInicial);
+            }
+            if (!ValidadorHelper.StringEhNulaOuVazia(dataHoraRecebimentoFim))
+            {
+                var dataFinal = ConversorHelper.ConverterStringParaDataTime(dataHoraRecebimentoFim);
+                query = query.Where(l => l.DataHoraRecebimento <= dataFinal);
+            }
+
+
+            // Filtros nos LogsLinhas
+            if (!ValidadorHelper.StringEhNulaOuVazia(metodoHttp))
+                query = query.Where(l => l.Linhas.Any(ll => ll.MetodoHttp == metodoHttp));
+
+            if (codigoStatus > 0)
+                query = query.Where(l => l.Linhas.Any(ll => ll.CodigoStatus == codigoStatus));
+
+            if (!ValidadorHelper.StringEhNulaOuVazia(caminhoUrl))
+                query = query.Where(l => l.Linhas.Any(ll => ll.CaminhoUrl.Contains(caminhoUrl)));
+
+            if (tempoRespostaInicial > 0)
+                query = query.Where(l => l.Linhas.Any(ll => ll.TempoResposta >= tempoRespostaInicial));
+
+            if (tempoRespostaFinal > 0)
+                query = query.Where(l => l.Linhas.Any(ll => ll.TempoResposta <= tempoRespostaFinal));
+
+            if (tamanhoRespostaInicial > 0)
+                query = query.Where(l => l.Linhas.Any(ll => ll.TamahoResposta >= tamanhoRespostaInicial));
+
+            if (tamanhoRespostaFinal > 0)
+                query = query.Where(l => l.Linhas.Any(ll => ll.TamahoResposta <= tamanhoRespostaFinal));
+
+            if (!ValidadorHelper.StringEhNulaOuVazia(cashStatus))
+                query = query.Where(l => l.Linhas.Any(ll => ll.CacheStatus == cashStatus));
+
+
+            var logs = await query.ToListAsync();
+
+            if (!logs.Any())
+                resultado.AdicionarInconsistencia("SEM_REGISTROS", "Nenhum log foi encontrado com os filtros informados.");
+
+            resultado.Dados = logs;
 
             return resultado;
         }

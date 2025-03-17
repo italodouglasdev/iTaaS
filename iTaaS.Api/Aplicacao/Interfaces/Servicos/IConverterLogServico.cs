@@ -1,4 +1,5 @@
 ﻿using iTaaS.Api.Aplicacao.DTOs;
+using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
 
 namespace iTaaS.Api.Aplicacao.Interfaces.Servicos
 {

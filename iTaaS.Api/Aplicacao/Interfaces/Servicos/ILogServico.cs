@@ -1,6 +1,6 @@
 ﻿using iTaaS.Api.Aplicacao.DTOs;
+using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
 using iTaaS.Api.Dominio.Enumeradores;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace iTaaS.Api.Aplicacao.Interfaces.Servicos
@@ -40,11 +40,9 @@ namespace iTaaS.Api.Aplicacao.Interfaces.Servicos
          string cashStatus,
          TipoRetornoLog tipoRetornoLog);
 
-
         Task<Resultado<string>> ObtenhaPorIdentificador(
         int id,
         TipoRetornoLog tipoRetornoLog);
-
 
         Task<Resultado<string>> ObtenhaTransformadoPorIdentificador(
         int id,

@@ -3,12 +3,14 @@ using iTaaS.Api.Aplicacao.Interfaces.Servicos;
 using iTaaS.Api.Dominio.Enumeradores;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace iTaaS.Api.Controllers
 {
+    /// <summary>
+    /// EndPoints responsáveis por realizar a gestão dos Logs.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class LogController : ControllerBase
@@ -22,15 +24,15 @@ namespace iTaaS.Api.Controllers
 
 
         /// <summary>
-        /// Realiza a transformação de um log disponível em uma url
+        /// Importa e transforma um log a partir de uma URL.
         /// </summary>
-        /// <param name="url">Url em que o log está localizado</param>
-        /// <param name="tipoLogRetorno"></param>
-        /// <returns></returns>
+        /// <param name="url">URL do log a ser importado.</param>
+        /// <param name="TipoRetornoLog">Tipo do retorno do log ([0] ARQUIVO | [1] PATCH | [2] JSON).</param>
+        /// <returns>Retorna o log transformado como conteúdo de texto plano ou erros de inconsistência.</returns>
         [HttpPost("TranformarLogUrl")]
-        public async Task<ActionResult<LogDto>> TranformarLogUrl(string url, TipoRetornoLog tipoLogRetorno)
+        public async Task<ActionResult<LogDto>> TranformarLogUrl(string url, TipoRetornoLog TipoLogRetorno)
         {
-            var resultado = await LogService.ImportarPorUrl(url, tipoLogRetorno);
+            var resultado = await LogService.ImportarPorUrl(url, TipoLogRetorno);
 
             if (resultado.Sucesso)
             {
@@ -46,11 +48,16 @@ namespace iTaaS.Api.Controllers
         }
 
 
-        
+        /// <summary>
+        /// Importa e transforma um log a partir de um identificador.
+        /// </summary>
+        /// <param name="Id">Identificador do log.</param>
+        /// <param name="TipoRetornoLog">Tipo do retorno do log ([0] ARQUIVO | [1] PATCH | [2] JSON).</param>
+        /// <returns>Retorna o log transformado como conteúdo de texto plano ou erros de inconsistência.</returns>
         [HttpPost("TranformarLogId")]
-        public async Task<ActionResult<LogDto>> TranformarLogId(int Id, TipoRetornoLog tipoLogRetorno)
+        public async Task<ActionResult<LogDto>> TranformarLogId(int Id, TipoRetornoLog TipoLogRetorno)
         {
-            var resultado = await LogService.ImportarPorId(Id, tipoLogRetorno);
+            var resultado = await LogService.ImportarPorId(Id, TipoLogRetorno);
 
             if (resultado.Sucesso)
             {
@@ -64,6 +71,11 @@ namespace iTaaS.Api.Controllers
 
         }
 
+        /// <summary>
+        /// Visualiza um log salvo a partir do nome do arquivo.
+        /// </summary>
+        /// <param name="nomeArquivo">Nome do arquivo contendo o log.</param>
+        /// <returns>Retorna o conteúdo do log ou erros de inconsistência.</returns>
         [HttpGet("Ver/{nomeArquivo}")]
         public async Task<ActionResult<LogDto>> Ver(string nomeArquivo)
         {
@@ -80,12 +92,28 @@ namespace iTaaS.Api.Controllers
 
         }
 
+
+        /// <summary>
+        /// Busca logs salvos com base em diversos filtros.
+        /// </summary>
+        /// <param name="DataHoraRecebimentoInicio">Data e hora inicial do recebimento do log.</param>
+        /// <param name="DataHoraRecebimentoFim">Data e hora final do recebimento do log.</param>
+        /// <param name="MetodoHttp">Método HTTP utilizado na requisição (GET, POST, etc.).</param>
+        /// <param name="CodigoStatus">Código de status HTTP retornado.</param>
+        /// <param name="CaminhoUrl">URL acessada na requisição.</param>
+        /// <param name="TempoRespostaInicial">Tempo mínimo de resposta da requisição (em milissegundos).</param>
+        /// <param name="TempoRespostaFinal">Tempo máximo de resposta da requisição (em milissegundos).</param>
+        /// <param name="TamanhoRespostaInicial">Tamanho mínimo da resposta em bytes.</param>
+        /// <param name="TamanhoRespostaFinal">Tamanho máximo da resposta em bytes.</param>
+        /// <param name="CashStatus">Status do cache utilizado na requisição.</param>
+        /// <param name="TipoRetornoLog">Tipo do retorno do log ([0] ARQUIVO | [1] PATCH | [2] JSON).</param>
+        /// <returns>Retorna a lista de logs filtrados ou erros de inconsistência.</returns>
         [HttpGet("BuscarSalvos")]
-        public async Task<ActionResult<LogDto>> BuscarSalvos(string DataHoraRecebimentoInicio, string DataHoraReceimentoFim, string MetodoHttp, int CodigoStatus, string CaminhoUrl, decimal TempoRespostaInicial, decimal TempoRespostaFinal, int TamanhoRespostaInicial, int TamanhoRespostaFinal, string CashStatus, TipoRetornoLog tipoRetornoLog)
+        public async Task<ActionResult<LogDto>> BuscarSalvos(string DataHoraRecebimentoInicio, string DataHoraRecebimentoFim, string MetodoHttp, int CodigoStatus, string CaminhoUrl, decimal TempoRespostaInicial, decimal TempoRespostaFinal, int TamanhoRespostaInicial, int TamanhoRespostaFinal, string CashStatus, TipoRetornoLog TipoRetornoLog)
         {
             var resultado = await LogService.ObterLogsFiltrados(
                 DataHoraRecebimentoInicio,
-                DataHoraReceimentoFim,
+                DataHoraRecebimentoFim,
                 MetodoHttp,
                 CodigoStatus,
                 CaminhoUrl,
@@ -94,7 +122,7 @@ namespace iTaaS.Api.Controllers
                 TamanhoRespostaInicial,
                 TamanhoRespostaFinal,
                 CashStatus,
-                tipoRetornoLog);
+                TipoRetornoLog);
 
             if (resultado.Sucesso)
             {
@@ -107,12 +135,28 @@ namespace iTaaS.Api.Controllers
 
         }
 
+
+        /// <summary>
+        /// Busca logs salvos com base em diversos filtros.
+        /// </summary>
+        /// <param name="DataHoraRecebimentoInicio">Data e hora inicial do recebimento do log.</param>
+        /// <param name="DataHoraRecebimentoFim">Data e hora final do recebimento do log.</param>
+        /// <param name="MetodoHttp">Método HTTP utilizado na requisição (GET, POST, etc.).</param>
+        /// <param name="CodigoStatus">Código de status HTTP retornado.</param>
+        /// <param name="CaminhoUrl">URL acessada na requisição.</param>
+        /// <param name="TempoRespostaInicial">Tempo mínimo de resposta da requisição (em milissegundos).</param>
+        /// <param name="TempoRespostaFinal">Tempo máximo de resposta da requisição (em milissegundos).</param>
+        /// <param name="TamanhoRespostaInicial">Tamanho mínimo da resposta em bytes.</param>
+        /// <param name="TamanhoRespostaFinal">Tamanho máximo da resposta em bytes.</param>
+        /// <param name="CashStatus">Status do cache utilizado na requisição.</param>
+        /// <param name="TipoRetornoLog">Tipo do retorno do log ([0] ARQUIVO | [1] PATCH | [2] JSON).</param>
+        /// <returns>Retorna a lista de logs filtrados ou erros de inconsistência.</returns>
         [HttpGet("BuscarTransformados")]
-        public async Task<ActionResult<LogDto>> BuscarTransformados(string DataHoraRecebimentoInicio, string DataHoraReceimentoFim, string MetodoHttp, int CodigoStatus, string CaminhoUrl, decimal TempoRespostaInicial, decimal TempoRespostaFinal, int TamanhoRespostaInicial, int TamanhoRespostaFinal, string CashStatus, TipoRetornoLog tipoRetornoLog)
+        public async Task<ActionResult<LogDto>> BuscarTransformados(string DataHoraRecebimentoInicio, string DataHoraRecebimentoFim, string MetodoHttp, int CodigoStatus, string CaminhoUrl, decimal TempoRespostaInicial, decimal TempoRespostaFinal, int TamanhoRespostaInicial, int TamanhoRespostaFinal, string CashStatus, TipoRetornoLog TipoRetornoLog)
         {
             var resultado = await LogService.ObterLogsTransformados(
                 DataHoraRecebimentoInicio,
-                DataHoraReceimentoFim,
+                DataHoraRecebimentoFim,
                 MetodoHttp,
                 CodigoStatus,
                 CaminhoUrl,
@@ -121,7 +165,7 @@ namespace iTaaS.Api.Controllers
                 TamanhoRespostaInicial,
                 TamanhoRespostaFinal,
                 CashStatus,
-                tipoRetornoLog);
+                TipoRetornoLog);
 
             if (resultado.Sucesso)
             {
@@ -134,6 +178,13 @@ namespace iTaaS.Api.Controllers
 
         }
 
+
+        /// <summary>
+        /// Busca um log salvo a partir do identificador.
+        /// </summary>
+        /// <param name="Id">Identificador do log.</param>
+        /// <param name="tipoRetornoLog">Tipo de retorno esperado.</param>
+        /// <returns>Retorna o log salvo ou erros de inconsistência.</returns>
         [HttpGet("BuscarSalvoId/{Id}")]
         public async Task<ActionResult<LogDto>> BuscarSalvoId(int Id, TipoRetornoLog tipoRetornoLog)
         {
@@ -152,6 +203,13 @@ namespace iTaaS.Api.Controllers
 
         }
 
+
+        /// <summary>
+        /// Busca um log transformado a partir do identificador.
+        /// </summary>
+        /// <param name="Id">Identificador do log.</param>
+        /// <param name="tipoRetornoLog">Tipo de retorno esperado.</param>
+        /// <returns>Retorna o log transformado ou erros de inconsistência.</returns>
         [HttpGet("BuscarTransformadoId/{Id}")]
         public async Task<ActionResult<LogDto>> BuscarTransformadoId(int Id, TipoRetornoLog tipoRetornoLog)
         {
@@ -171,9 +229,11 @@ namespace iTaaS.Api.Controllers
         }
 
 
-
-             
-
+        /// <summary>
+        /// Cria um novo log no sistema.
+        /// </summary>
+        /// <param name="logDto">Objeto contendo as informações do log a ser criado.</param>
+        /// <returns>Retorna um status de sucesso ou erro caso os dados sejam inválidos.</returns>
         [HttpPost("Criar")]
         public async Task<ActionResult<LogDto>> Criar([FromBody] LogDto logDto)
         {
@@ -187,6 +247,12 @@ namespace iTaaS.Api.Controllers
             return Ok();
         }
 
+
+        /// <summary>
+        /// Atualiza um log existente no sistema.
+        /// </summary>
+        /// <param name="logDto">Objeto contendo os dados atualizados do log.</param>
+        /// <returns>Retorna o log atualizado ou um erro caso os dados sejam inválidos.</returns>
         [HttpPut("Salvar")]
         public async Task<ActionResult<LogDto>> Atualizar([FromBody] LogDto logDto)
         {
@@ -199,6 +265,12 @@ namespace iTaaS.Api.Controllers
             return Ok(logAtualizado);
         }
 
+
+        /// <summary>
+        /// Deleta um log do sistema com base no identificador fornecido.
+        /// </summary>
+        /// <param name="id">Identificador único do log a ser deletado.</param>
+        /// <returns>Retorna o log deletado ou um erro caso não seja encontrado.</returns>
         [HttpDelete("Deletar/{id}")]
         public async Task<ActionResult<LogDto>> Deletar(int id)
         {

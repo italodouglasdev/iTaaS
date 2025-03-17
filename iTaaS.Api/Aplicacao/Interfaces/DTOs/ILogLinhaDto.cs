@@ -1,8 +1,9 @@
-﻿namespace iTaaS.Api.Aplicacao.Interfaces.DTOs
+﻿using iTaaS.Api.Aplicacao.Interfaces.Entidades;
+
+namespace iTaaS.Api.Aplicacao.Interfaces.DTOs
 {
-    public interface ILogLinhaDto
+    public interface ILogLinhaDto : IDtoBase
     {
-        int Id { get; set; }
         int LogId { get; set; }
         string Provedor { get; set; }
         string MetodoHttp { get; set; }

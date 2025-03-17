@@ -1,5 +1,8 @@
 ﻿namespace iTaaS.Api.Dominio.Enumeradores
-{   
+{
+    /// <summary>
+    /// Define os diferentes tipos de retorno para os logs do sistema.
+    /// </summary>
     public enum TipoRetornoLog
     {
         /// <summary>

@@ -4,7 +4,7 @@ using iTaaS.Api.Dominio.Enumeradores;
 
 namespace iTaaS.Api.Dominio.Fabricas
 {
-    public class ConverterLogFabrica
+    public class LogFormatoFabrica
     {
         public static IConverterLogServico ObterConversor(TipoFormatoLog tipoFormato)
         {

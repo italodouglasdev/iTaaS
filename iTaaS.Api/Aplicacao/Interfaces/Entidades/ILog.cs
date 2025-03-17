@@ -12,7 +12,7 @@ namespace iTaaS.Api.Aplicacao.Interfaces.Entidades
 
         string UrlOrigem { get; set; }
 
-        ICollection<LogLinhaEntidade> Linhas { get; set; }
+        List<LogLinhaEntidade> Linhas { get; set; }
 
     }
 }

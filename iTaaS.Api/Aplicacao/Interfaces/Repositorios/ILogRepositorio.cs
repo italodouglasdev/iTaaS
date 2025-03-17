@@ -1,6 +1,5 @@
-﻿using iTaaS.Api.Aplicacao.DTOs;
+﻿using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
 using iTaaS.Api.Dominio.Entidades;
-using iTaaS.Api.Dominio.Enumeradores;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,7 +7,6 @@ namespace iTaaS.Api.Aplicacao.Interfaces.Repositorios
 {
     public interface ILogRepositorio : IRepositorioBase<LogEntidade>
     {
-
         Task<Resultado<List<LogEntidade>>> ObterLogsFiltrados(
              string dataHoraRecebimentoInicio,
              string dataHoraRecebimentoFim,

@@ -1,4 +1,5 @@
 ﻿using iTaaS.Api.Aplicacao.DTOs;
+using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
 using iTaaS.Api.Aplicacao.Interfaces.Servicos;
 using iTaaS.Api.Dominio.Helpers;
 using System;
@@ -50,7 +51,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 return resultadoArquivo;
             }
 
-            var consultaArvoreDiretorios = UtilitarioHelper.CriarArvoreDiretorios(logDto.DataHoraRecebimento);
+            var consultaArvoreDiretorios = SistemaArquivosHelper.CriarArvoreDiretorios(logDto.DataHoraRecebimento);
             if (!consultaArvoreDiretorios.Sucesso)
             {
                 resultadoArquivo.Inconsistencias = consultaArvoreDiretorios.Inconsistencias;
@@ -60,7 +61,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
             var nomeArquivo = logDto.ObtenhaNomeArquivo(SUFIXO_TIPO_LOG_MINHA_CDN);
             var caminhoArquivo = $"{consultaArvoreDiretorios.Dados}\\{nomeArquivo}";
-            var consultaArquivoTxt = UtilitarioHelper.CriarArquivoTxt(caminhoArquivo, resultadoDtoString.Dados);
+            var consultaArquivoTxt = SistemaArquivosHelper.CriarArquivoTxt(caminhoArquivo, resultadoDtoString.Dados);
             if (!consultaArquivoTxt.Sucesso)
             {
                 resultadoArquivo.Inconsistencias = consultaArquivoTxt.Inconsistencias;
@@ -139,7 +140,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
                     contadorLinhas++;
 
-                    var resultadoConversaoCampos = UtilitarioHelper.ConverterStringEmListaPorDelimitador(linha, DEMILITADOR_PIPE);
+                    var resultadoConversaoCampos = ConversorHelper.ConverterStringEmListaPorDelimitador(linha, DEMILITADOR_PIPE);
                     if (!resultadoConversaoCampos.Sucesso)
                     {
                         resultadoDto.AdicionarInconsistencia("FORMATO_INVALIDO", $"O formato da linha {contadorLinhas} é inválido!");
@@ -158,14 +159,14 @@ namespace iTaaS.Api.Aplicacao.Servicos
                     logLinha.Id = 0;
                     logLinha.LogId = 0;
 
-                    logLinha.TamahoResposta = UtilitarioHelper.ConverterStringParaInt(listaCamposLinha[INDEX_TAMANHO_RESPOSTA]);
-                    logLinha.CodigoStatus = UtilitarioHelper.ConverterStringParaInt(listaCamposLinha[INDEX_CODIGO_STATUS]);
+                    logLinha.TamahoResposta = ConversorHelper.ConverterStringParaInt(listaCamposLinha[INDEX_TAMANHO_RESPOSTA]);
+                    logLinha.CodigoStatus = ConversorHelper.ConverterStringParaInt(listaCamposLinha[INDEX_CODIGO_STATUS]);
                     logLinha.CacheStatus = listaCamposLinha[INDEX_CACHE_STATUS];
 
 
 
                     var campoComMetodoHttpUrl = listaCamposLinha[INDEX_METODO_HTTP_E_CAMINHO_URL];
-                    var resultadoConversaoCamposHttp = UtilitarioHelper.ConverterStringEmListaPorDelimitador(campoComMetodoHttpUrl, DEMILITADOR_ESPACO);
+                    var resultadoConversaoCamposHttp = ConversorHelper.ConverterStringEmListaPorDelimitador(campoComMetodoHttpUrl, DEMILITADOR_ESPACO);
                     if (!resultadoConversaoCamposHttp.Sucesso)
                     {
                         resultadoDto.AdicionarInconsistencia("FORMATO_INVALIDO", $"O formato da linha {contadorLinhas} é inválido!");
@@ -177,7 +178,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                     var listaCamposMetodoHttp = resultadoConversaoCamposHttp.Dados;
                     logLinha.MetodoHttp = listaCamposMetodoHttp[INDEX_METODO_HTTP].Replace("\"", "");
                     logLinha.CaminhoUrl = listaCamposMetodoHttp[INDEX_CAMINHO_URL];
-                    logLinha.TempoResposta = UtilitarioHelper.ConverterStringParaDecimal(listaCamposLinha[INDEX_TEMPO_RESPOSTA]);
+                    logLinha.TempoResposta = ConversorHelper.ConverterStringParaDecimal(listaCamposLinha[INDEX_TEMPO_RESPOSTA]);
 
                     resultadoDto.Dados.Linhas.Add(logLinha);
                 }
@@ -195,7 +196,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         {
             var resultadoDto = new Resultado<LogDto>();
 
-            var resultadoDeUrlParaString = UtilitarioHelper.ObtenhaStringDeUrl(url);
+            var resultadoDeUrlParaString = SistemaArquivosHelper.ObtenhaStringDeUrl(url);
             if (!resultadoDeUrlParaString.Sucesso)
             {
                 resultadoDto.Inconsistencias = resultadoDeUrlParaString.Inconsistencias;

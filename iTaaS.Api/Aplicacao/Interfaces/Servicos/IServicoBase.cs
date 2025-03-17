@@ -1,4 +1,4 @@
-﻿using iTaaS.Api.Aplicacao.DTOs;
+﻿using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

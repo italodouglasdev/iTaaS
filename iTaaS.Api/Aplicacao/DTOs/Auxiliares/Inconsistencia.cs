@@ -1,5 +1,8 @@
-﻿namespace iTaaS.Api.Aplicacao.DTOs
+﻿namespace iTaaS.Api.Aplicacao.DTOs.Auxiliares
 {
+    /// <summary>
+    /// Classe auxiliar responsável por armazenar as inconsitências
+    /// </summary>
     public class Inconsistencia
     {
         public string Codigo { get; set; }
