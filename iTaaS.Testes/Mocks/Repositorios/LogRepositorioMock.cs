@@ -1,156 +1,67 @@
-﻿using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
-using iTaaS.Api.Aplicacao.Interfaces.Repositorios;
-using iTaaS.Api.Dominio.Entidades;
+﻿using iTaaS.Api.Dominio.Entidades;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace iTaaS.Testes.Mocks.Repositorios
 {
-    public class LogRepositorioMock : ILogRepositorio
+    public class LogRepositorioMock
     {
-        private readonly List<LogEntidade> _logs;
-
-        public LogRepositorioMock()
+        public static List<LogEntidade> PopularLogs()
         {
-            _logs = new List<LogEntidade>();
-        }
-
-        public Task<Resultado<LogEntidade>> ObterPorId(int id)
-        {
-            var resultado = new Resultado<LogEntidade>();
-
-            var log = _logs.FirstOrDefault(l => l.Id == id);
-
-            if (log == null)
-                resultado.AdicionarInconsistencia("NAO_ENCONTRADO", $"Não foi possível localizar o Log Id {id}!");
-            else
-                resultado.Dados = log;
-
-            return Task.FromResult(resultado);
-        }
-
-        public Task<Resultado<List<LogEntidade>>> ObterLista()
-        {
-            var resultado = new Resultado<List<LogEntidade>>
+            return new List<LogEntidade>
             {
-                Dados = _logs
+            new LogEntidade { Id = 1, DataHoraRecebimento = DateTime.Now.AddDays(-1), Hash = "cb29e621-32c9-4978-aa42-28d471654141", Versao = "1.1", UrlOrigem = "https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-01.txt" },
+            new LogEntidade { Id = 2, DataHoraRecebimento = DateTime.Now.AddDays(-2), Hash = "ef200832-919a-4256-b34b-c4b8d17018e0", Versao = "1.1", UrlOrigem = "https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-02.txt" },
+            new LogEntidade { Id = 3, DataHoraRecebimento = DateTime.Now.AddDays(-3), Hash = "833dcbd8-ca91-4c85-9e6a-38ca6eb80c28", Versao = "1.1", UrlOrigem = "https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-03.txt" },
+            new LogEntidade { Id = 4, DataHoraRecebimento = DateTime.Now.AddDays(-4), Hash = "a1e6dd0e-4477-4499-ac9f-42b8c0087828", Versao = "1.1", UrlOrigem = "https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-04.txt" },
+            new LogEntidade { Id = 5, DataHoraRecebimento = DateTime.Now.AddDays(-5), Hash = "8f72be96-9bc3-4e4c-af60-ac796f0c0249", Versao = "1.1", UrlOrigem = "https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-05.txt" }
             };
-
-            if (!_logs.Any())
-                resultado.AdicionarInconsistencia("SEM_REGISTROS", "Nenhum log foi localizado!");
-
-            return Task.FromResult(resultado);
         }
 
-        public Task<Resultado<LogEntidade>> Criar(LogEntidade entity)
+        public static LogEntidade PopularLogEntidade(int idLog)
         {
-            var resultado = new Resultado<LogEntidade>();
-
-            if (entity == null)
+            var log = new LogEntidade
             {
-                resultado.AdicionarInconsistencia("ENTIDADE_NULA", "O Log informado não pode ser vazio ou nulo!");
-                return Task.FromResult(resultado);
+                Id = idLog,
+                DataHoraRecebimento = DateTime.Now.AddMinutes(-10),
+                Hash = "cb29e621-32c9-4978-aa42-28d471654142",
+                Versao = "1.1",
+                UrlOrigem = "https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-01.txt",
+                Linhas = new List<LogLinhaEntidade>
+                {
+                    new LogLinhaEntidade { MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 100.20M, TamahoResposta = 312, CacheStatus = "HIT" },
+                    new LogLinhaEntidade { MetodoHttp = "POST", CodigoStatus = 200, CaminhoUrl = "/myImages", TempoResposta = 319.40M, TamahoResposta = 101, CacheStatus = "MISS" },
+                    new LogLinhaEntidade { MetodoHttp = "GET", CodigoStatus = 404, CaminhoUrl = "/not-found", TempoResposta = 142.90M, TamahoResposta = 199, CacheStatus = "MISS" },
+                    new LogLinhaEntidade { MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 245.10M, TamahoResposta = 312, CacheStatus = "INVALIDATE" }
+                }
+            };
+          
+            foreach (var linha in log.Linhas)
+            {
+                linha.LogId = log.Id;
             }
 
-            entity.Id = _logs.Count + 1;
-            _logs.Add(entity);
-            resultado.Dados = entity;
-
-            return Task.FromResult(resultado);
+            return log;
         }
 
-        public Task<Resultado<LogEntidade>> Atualizar(LogEntidade entity)
-        {
-            var resultado = new Resultado<LogEntidade>();
+        //public static LogEntidade PopularLogEntidade(int idLog)
+        //{
+        //    return new LogEntidade
+        //    {
+        //        Id = 0,
+        //        DataHoraRecebimento = DateTime.Now.AddMinutes(-10),
+        //        Hash = "cb29e621-32c9-4978-aa42-28d471654142",
+        //        Versao = "1.1",
+        //        UrlOrigem = "https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-01.txt",
+        //        Linhas = new List<LogLinhaEntidade>
+        //         {
+        //             new LogLinhaEntidade { Id = 0, LogId = 0, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 100.20M, TamahoResposta = 312, CacheStatus = "HIT" },
+        //             new LogLinhaEntidade { Id = 0, LogId = 0, MetodoHttp = "POST", CodigoStatus = 200, CaminhoUrl = "/myImages", TempoResposta = 319.40M, TamahoResposta = 101, CacheStatus = "MISS" },
+        //             new LogLinhaEntidade { Id = 0, LogId = 0, MetodoHttp = "GET", CodigoStatus = 404, CaminhoUrl = "/not-found", TempoResposta = 142.90M, TamahoResposta = 199, CacheStatus = "MISS" },
+        //             new LogLinhaEntidade { Id = 0, LogId = 0, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 245.10M, TamahoResposta = 312, CacheStatus = "INVALIDATE" }
+        //         }
+        //    };
 
-            if (entity == null)
-            {
-                resultado.AdicionarInconsistencia("ENTIDADE_NULA", "O Log informado não pode ser vazio ou nulo!");
-                return Task.FromResult(resultado);
-            }
-
-            var index = _logs.FindIndex(l => l.Id == entity.Id);
-            if (index == -1)
-            {
-                resultado.AdicionarInconsistencia("NAO_ENCONTRADO", "Log não encontrado para atualização!");
-            }
-            else
-            {
-                _logs[index] = entity;
-                resultado.Dados = entity;
-            }
-
-            return Task.FromResult(resultado);
-        }
-
-        public Task<Resultado<LogEntidade>> Deletar(int id)
-        {
-            var resultado = new Resultado<LogEntidade>();
-            var log = _logs.FirstOrDefault(l => l.Id == id);
-
-            if (log == null)
-            {
-                resultado.AdicionarInconsistencia("NAO_ENCONTRADO", "Log não encontrado para exclusão!");
-            }
-            else
-            {
-                _logs.Remove(log);
-                resultado.Dados = log;
-            }
-
-            return Task.FromResult(resultado);
-        }
-
-        public Task<Resultado<List<LogEntidade>>> ObterLogsFiltrados(
-            string dataHoraRecebimentoInicio,
-            string dataHoraRecebimentoFim,
-            string metodoHttp,
-            int codigoStatus,
-            string caminhoUrl,
-            decimal tempoRespostaInicial,
-            decimal tempoRespostaFinal,
-            int tamanhoRespostaInicial,
-            int tamanhoRespostaFinal,
-            string cashStatus)
-        {
-            var resultado = new Resultado<List<LogEntidade>>();
-            var query = _logs.AsQueryable();
-
-            if (!string.IsNullOrEmpty(dataHoraRecebimentoInicio))
-            {
-                var dataInicial = DateTime.Parse(dataHoraRecebimentoInicio);
-                query = query.Where(l => l.DataHoraRecebimento >= dataInicial);
-            }
-            if (!string.IsNullOrEmpty(dataHoraRecebimentoFim))
-            {
-                var dataFinal = DateTime.Parse(dataHoraRecebimentoFim);
-                query = query.Where(l => l.DataHoraRecebimento <= dataFinal);
-            }
-            if (!string.IsNullOrEmpty(metodoHttp))
-                query = query.Where(l => l.Linhas.Any(ll => ll.MetodoHttp == metodoHttp));
-            if (codigoStatus > 0)
-                query = query.Where(l => l.Linhas.Any(ll => ll.CodigoStatus == codigoStatus));
-            if (!string.IsNullOrEmpty(caminhoUrl))
-                query = query.Where(l => l.Linhas.Any(ll => ll.CaminhoUrl.Contains(caminhoUrl)));
-            if (tempoRespostaInicial > 0)
-                query = query.Where(l => l.Linhas.Any(ll => ll.TempoResposta >= tempoRespostaInicial));
-            if (tempoRespostaFinal > 0)
-                query = query.Where(l => l.Linhas.Any(ll => ll.TempoResposta <= tempoRespostaFinal));
-            if (tamanhoRespostaInicial > 0)
-                query = query.Where(l => l.Linhas.Any(ll => ll.TamahoResposta >= tamanhoRespostaInicial));
-            if (tamanhoRespostaFinal > 0)
-                query = query.Where(l => l.Linhas.Any(ll => ll.TamahoResposta <= tamanhoRespostaFinal));
-            if (!string.IsNullOrEmpty(cashStatus))
-                query = query.Where(l => l.Linhas.Any(ll => ll.CacheStatus == cashStatus));
-
-            var logsFiltrados = query.ToList();
-            if (!logsFiltrados.Any())
-                resultado.AdicionarInconsistencia("SEM_REGISTROS", "Nenhum log foi encontrado com os filtros informados.");
-
-            resultado.Dados = logsFiltrados;
-            return Task.FromResult(resultado);
-        }
+        //}
     }
 }

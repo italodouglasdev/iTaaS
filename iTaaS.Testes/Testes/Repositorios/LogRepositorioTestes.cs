@@ -1,9 +1,12 @@
-﻿using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
-using iTaaS.Api.Aplicacao.Interfaces.Repositorios;
-using iTaaS.Api.Dominio.Entidades;
-using Moq;
+﻿using iTaaS.Api.Dominio.Entidades;
+using iTaaS.Api.Infraestrutura.BancoDeDados;
+using iTaaS.Api.Infraestrutura.Repositorios;
+using iTaaS.Testes.Mocks.Repositorios;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -11,150 +14,132 @@ namespace iTaaS.Testes.Testes.Repositorios
 {
     public class LogRepositorioTestes
     {
-        private readonly Mock<ILogRepositorio> LogRepositorioMock;
-
-        private List<LogEntidade> ListaLogs;
+        private readonly DbContextOptions<EntityContext> DbContextOptions;
 
         public LogRepositorioTestes()
         {
-            this.LogRepositorioMock = new Mock<ILogRepositorio>();
+            this.DbContextOptions = new DbContextOptionsBuilder<EntityContext>()
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
 
-            this.ObtenhaDados();
+
         }
 
-        private void ObtenhaDados()
+        private void PoupularBancoDadosVirtual(EntityContext context)
         {
-            this.ListaLogs = new List<LogEntidade>
+            context.Logs.AddRange(LogRepositorioMock.PopularLogs());
+            context.LogsLinhas.AddRange(LogLinhaRepositorioMock.PopularLogsLinhas());
+            context.SaveChanges();
+        }
+
+
+        [Fact]
+        public async Task ObterPorId()
+        {
+            using (var context = new EntityContext(this.DbContextOptions))
             {
-                new LogEntidade { Id = 1, DataHoraRecebimento = DateTime.Now.AddMinutes(-10), Hash = "cb29e621-32c9-4978-aa42-28d471654141", Versao = "1.1", UrlOrigem = "https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-01.txt", Linhas = new List<LogLinhaEntidade>
-                {
-                    new LogLinhaEntidade { Id = 1, LogId = 1, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 100.20M, TamahoResposta = 312, CacheStatus = "HIT" },
-                    new LogLinhaEntidade { Id = 2, LogId = 1, MetodoHttp = "POST", CodigoStatus = 200, CaminhoUrl = "/myImages", TempoResposta = 319.40M, TamahoResposta = 101, CacheStatus = "MISS" },
-                    new LogLinhaEntidade { Id = 3, LogId = 1, MetodoHttp = "GET", CodigoStatus = 404, CaminhoUrl = "/not-found", TempoResposta = 142.90M, TamahoResposta = 199, CacheStatus = "MISS" },
-                    new LogLinhaEntidade { Id = 4, LogId = 1, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 245.10M, TamahoResposta = 312, CacheStatus = "INVALIDATE" }
-                }},
-                new LogEntidade { Id = 2, DataHoraRecebimento = DateTime.Now.AddMinutes(-20), Hash = "ef200832-919a-4256-b34b-c4b8d17018e0", Versao = "1.1", UrlOrigem = "https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-02.txt", Linhas = new List<LogLinhaEntidade>
-                {
-                    new LogLinhaEntidade { Id = 5, LogId = 2, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 100.20M, TamahoResposta = 312, CacheStatus = "HIT" },
-                    new LogLinhaEntidade { Id = 6, LogId = 2, MetodoHttp = "POST", CodigoStatus = 200, CaminhoUrl = "/myImages", TempoResposta = 319.40M, TamahoResposta = 101, CacheStatus = "MISS" },
-                    new LogLinhaEntidade { Id = 7, LogId = 2, MetodoHttp = "GET", CodigoStatus = 404, CaminhoUrl = "/not-found", TempoResposta = 142.90M, TamahoResposta = 199, CacheStatus = "MISS" },
-                    new LogLinhaEntidade { Id = 8, LogId = 2, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 245.10M, TamahoResposta = 312, CacheStatus = "INVALIDATE" }
-                }},
-                new LogEntidade { Id = 3, DataHoraRecebimento = DateTime.Now.AddMinutes(-30), Hash = "833dcbd8-ca91-4c85-9e6a-38ca6eb80c28", Versao = "1.1", UrlOrigem = "https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-03.txt", Linhas = new List<LogLinhaEntidade>
-                {
-                    new LogLinhaEntidade { Id = 9, LogId = 3, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 100.20M, TamahoResposta = 312, CacheStatus = "HIT" },
-                    new LogLinhaEntidade { Id = 10, LogId = 3, MetodoHttp = "POST", CodigoStatus = 200, CaminhoUrl = "/myImages", TempoResposta = 319.40M, TamahoResposta = 101, CacheStatus = "MISS" },
-                    new LogLinhaEntidade { Id = 11, LogId = 3, MetodoHttp = "GET", CodigoStatus = 404, CaminhoUrl = "/not-found", TempoResposta = 142.90M, TamahoResposta = 199, CacheStatus = "MISS" },
-                    new LogLinhaEntidade { Id = 12, LogId = 3, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 245.10M, TamahoResposta = 312, CacheStatus = "INVALIDATE" }
-                }},
-                new LogEntidade { Id = 4, DataHoraRecebimento = DateTime.Now.AddMinutes(-40), Hash = "a1e6dd0e-4477-4499-ac9f-42b8c0087828", Versao = "1.1", UrlOrigem = "https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-04.txt", Linhas = new List<LogLinhaEntidade>
-                {
-                    new LogLinhaEntidade { Id = 13, LogId = 4, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 100.20M, TamahoResposta = 312, CacheStatus = "HIT" },
-                    new LogLinhaEntidade { Id = 14, LogId = 4, MetodoHttp = "POST", CodigoStatus = 200, CaminhoUrl = "/myImages", TempoResposta = 319.40M, TamahoResposta = 101, CacheStatus = "MISS" },
-                    new LogLinhaEntidade { Id = 15, LogId = 4, MetodoHttp = "GET", CodigoStatus = 404, CaminhoUrl = "/not-found", TempoResposta = 142.90M, TamahoResposta = 199, CacheStatus = "MISS" },
-                    new LogLinhaEntidade { Id = 16, LogId = 4, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 245.10M, TamahoResposta = 312, CacheStatus = "INVALIDATE" }
-                }},
-                new LogEntidade { Id = 5, DataHoraRecebimento = DateTime.Now.AddMinutes(-50), Hash = "8f72be96-9bc3-4e4c-af60-ac796f0c0249", Versao = "1.1", UrlOrigem = "https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-05.txt", Linhas = new List<LogLinhaEntidade>
-                {
-                    new LogLinhaEntidade { Id = 17, LogId = 5, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 100.20M, TamahoResposta = 312, CacheStatus = "HIT" },
-                    new LogLinhaEntidade { Id = 18, LogId = 5, MetodoHttp = "POST", CodigoStatus = 200, CaminhoUrl = "/myImages", TempoResposta = 319.40M, TamahoResposta = 101, CacheStatus = "MISS" },
-                    new LogLinhaEntidade { Id = 19, LogId = 5, MetodoHttp = "GET", CodigoStatus = 404, CaminhoUrl = "/not-found", TempoResposta = 142.90M, TamahoResposta = 199, CacheStatus = "MISS" },
-                    new LogLinhaEntidade { Id = 20, LogId = 5, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 245.10M, TamahoResposta = 312, CacheStatus = "INVALIDATE" }
-                }}
+                this.PoupularBancoDadosVirtual(context);
 
-            };
-         
-        }
+                var idLog = 1;
 
+                var repositorio = new LogRepositorio(context);
 
-        [Fact]
-        public async Task ObterPorId_DeveRetornarLog_QuandoIdExistente()
-        {
-            int id = 1;
+                var resultado = await repositorio.ObterPorId(idLog);
 
-            this.LogRepositorioMock.Setup(repo => repo.ObterPorId(id)).ReturnsAsync(new Resultado<LogEntidade> { Dados = this.ListaLogs[0] });
+                Assert.True(resultado.Sucesso);
+            }
 
-            var resultado = await this.LogRepositorioMock.Object.ObterPorId(id);
-
-            Assert.NotNull(resultado.Dados);
-
-            Assert.Equal(id, resultado.Dados.Id);
         }
 
         [Fact]
-        public async Task ObterPorId_DeveRetornarInconsistencia_QuandoIdNaoExistente()
+        public async Task Criar()
         {
-            int id = 99;
+            using (var context = new EntityContext(this.DbContextOptions))
+            {               
+                var log = LogRepositorioMock.PopularLogEntidade(6);
 
-            var resultado = new Resultado<LogEntidade>();
+                var repositorio = new LogRepositorio(context);
+                var resultado = await repositorio.Criar(log);
 
-            resultado.AdicionarInconsistencia("NAO_ENCONTRADO", "Log não encontrado");
-
-            var resultadoEsperado = resultado;
-           
-            this.LogRepositorioMock.Setup(repo => repo.ObterPorId(id)).ReturnsAsync(resultadoEsperado);
-         
-            resultado = await this.LogRepositorioMock.Object.ObterPorId(id);
-         
-            Assert.Null(resultado.Dados);
-
-            Assert.False(resultado.Sucesso);
+                Assert.True(resultado.Sucesso);
+            }
         }
 
         [Fact]
-        public async Task ObterLista_DeveRetornarLogs_QuandoExistiremLogs()
+        public async Task Atualizar()
         {
-            this.LogRepositorioMock.Setup(repo => repo.ObterLista()).ReturnsAsync(new Resultado<List<LogEntidade>> { Dados = this.ListaLogs });
+            using (var context = new EntityContext(this.DbContextOptions))
+            {
+                this.PoupularBancoDadosVirtual(context);
 
-            var resultado = await this.LogRepositorioMock.Object.ObterLista();
+                var log = context.Logs.FirstOrDefault();
+                log.DataHoraRecebimento = DateTime.Now;
+                await context.SaveChangesAsync();
 
-            Assert.NotEmpty(resultado.Dados);
+                var repositorio = new LogRepositorio(context);
+                var resultado = await repositorio.Atualizar(log);
 
-            Assert.Equal(5, resultado.Dados.Count);
+                Assert.True(resultado.Sucesso);
+            }
         }
 
         [Fact]
-        public async Task Criar_DeveRetornarLogCriado()
+        public async Task Deletar()
         {
-            var novoLog = new LogEntidade { Id = 3, DataHoraRecebimento = DateTime.Now };
+            using (var context = new EntityContext(this.DbContextOptions))
+            {
+                this.PoupularBancoDadosVirtual(context);
 
-            this.LogRepositorioMock.Setup(repo => repo.Criar(novoLog)).ReturnsAsync(new Resultado<LogEntidade> { Dados = novoLog });
+                var repositorio = new LogRepositorio(context);
 
-            var resultado = await this.LogRepositorioMock.Object.Criar(novoLog);
+                var resultado = await repositorio.Deletar(1);
 
-            Assert.NotNull(resultado.Dados);
+                Assert.True(resultado.Sucesso);
 
-            Assert.Equal(3, resultado.Dados.Id);
+            }
+        }
+
+
+
+        [Fact]
+        public async Task ObterLista()
+        {
+            using (var context = new EntityContext(this.DbContextOptions))
+            {
+                this.PoupularBancoDadosVirtual(context);
+
+                var repositorio = new LogRepositorio(context);
+
+                var resultado = await repositorio.ObterLista();         
+
+                Assert.True(resultado.Sucesso);
+            }
         }
 
         [Fact]
-        public async Task Atualizar_DeveRetornarLogAtualizado()
+        public async Task ObterLogsFiltrados()
         {
-            var logAtualizado = this.ListaLogs[0];
+            using (var context = new EntityContext(this.DbContextOptions))
+            {
+                this.PoupularBancoDadosVirtual(context);
 
-            logAtualizado.DataHoraRecebimento = DateTime.Now.AddHours(1);
+                var repositorio = new LogRepositorio(context);               
 
-            this.LogRepositorioMock.Setup(repo => repo.Atualizar(logAtualizado)).ReturnsAsync(new Resultado<LogEntidade> { Dados = logAtualizado });
+                var resultado = await repositorio.ObterLogsFiltrados(
+                    dataHoraRecebimentoInicio: DateTime.Now.AddDays(-1).ToString("yyyyMMddHHmm"),
+                    dataHoraRecebimentoFim: DateTime.Now.AddDays(1).ToString("yyyyMMddHHmm"),
+                    metodoHttp: "",
+                    codigoStatus: 0,
+                    caminhoUrl: "",
+                    tempoRespostaInicial: 0,
+                    tempoRespostaFinal: 0,
+                    tamanhoRespostaInicial: 0,
+                    tamanhoRespostaFinal: 0,
+                    cashStatus: ""
+                );
 
-            var resultado = await this.LogRepositorioMock.Object.Atualizar(logAtualizado);
-
-            Assert.NotNull(resultado.Dados);
-
-            Assert.Equal(logAtualizado.DataHoraRecebimento, resultado.Dados.DataHoraRecebimento);
-        }
-
-        [Fact]
-        public async Task Deletar_DeveRetornarLogDeletado()
-        {
-            int id = 1;
-
-            this.LogRepositorioMock.Setup(repo => repo.Deletar(id)).ReturnsAsync(new Resultado<LogEntidade> { Dados = this.ListaLogs[0] });
-
-            var resultado = await this.LogRepositorioMock.Object.Deletar(id);
-
-            Assert.NotNull(resultado.Dados);
-
-            Assert.Equal(id, resultado.Dados.Id);
+                Assert.True(resultado.Sucesso);
+            }
         }
     }
 }

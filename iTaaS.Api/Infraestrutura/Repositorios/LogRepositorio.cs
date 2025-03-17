@@ -1,5 +1,4 @@
-﻿using iTaaS.Api.Aplicacao.DTOs;
-using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
+﻿using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
 using iTaaS.Api.Aplicacao.Interfaces.Repositorios;
 using iTaaS.Api.Dominio.Entidades;
 using iTaaS.Api.Dominio.Helpers;
@@ -83,8 +82,10 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
             try
             {
                 entity.Hash = Guid.NewGuid().ToString();
+
                 await context.Logs.AddAsync(entity);
                 await context.SaveChangesAsync();
+
                 resultado.Dados = entity;
             }
             catch (DbUpdateException ex)
