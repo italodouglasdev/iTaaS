@@ -7,28 +7,24 @@ using System.Text;
 
 namespace iTaaS.Api.Aplicacao.Servicos
 {
-    public class LogAgoraServico : ILogTipoServico
+    public class LogAgoraServico : ILogTipoFormatoServico
     {
 
         private const string PROVEDOR = "MINHA CDN";
 
-        private const string SUFIXO_TIPO_LOG_AGORA = "LOG_AGORA";       
+        private const string SUFIXO_TIPO_LOG_AGORA = "LOG_AGORA";
 
-
-        public Resultado<LogDto> ConverterDeArquivoParaDto(string caminho)
-        {
-            throw new NotImplementedException();
-        }
 
         public Resultado<string> ConverterDeArquivoParaString(string caminho)
         {
             var resultadoString = new Resultado<string>();
 
-
             var consultaLerArquivo = SistemaArquivosHelper.LerArquivoTxt(caminho);
             if (!consultaLerArquivo.Sucesso)
+            {
                 resultadoString.Inconsistencias = consultaLerArquivo.Inconsistencias;
-
+                return resultadoString;
+            }
 
             var consultaListaParaString = ConversorHelper.ConverterDeListaParaString(consultaLerArquivo.Dados);
             if (!consultaListaParaString.Sucesso)
@@ -57,14 +53,16 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 return resultadoArquivo;
             }
 
-
-            var nomeArquivo = logDto.ObtenhaNomeArquivo(SUFIXO_TIPO_LOG_AGORA);
-            var caminhoArquivo = $"{consultaArvoreDiretorios.Dados}\\{nomeArquivo}";
-            var consultaArquivoTxt = SistemaArquivosHelper.CriarArquivoTxt(caminhoArquivo, resultadoDtoString.Dados);
-            if (!consultaArquivoTxt.Sucesso)
+            var caminhoArquivo = $"{consultaArvoreDiretorios.Dados}\\{logDto.ObtenhaNomeArquivo(SUFIXO_TIPO_LOG_AGORA)}";
+            var consultaArquivoString = ConverterDeArquivoParaString(caminhoArquivo);
+            if (!consultaArquivoString.Sucesso)
             {
-                resultadoArquivo.Inconsistencias = consultaArquivoTxt.Inconsistencias;
-                return resultadoArquivo;
+                var consultaArquivoTxt = SistemaArquivosHelper.CriarArquivoTxt(caminhoArquivo, resultadoDtoString.Dados);
+                if (!consultaArquivoTxt.Sucesso)
+                {
+                    resultadoArquivo.Inconsistencias = consultaArquivoTxt.Inconsistencias;
+                    return resultadoArquivo;
+                }
             }
 
             resultadoArquivo.Dados = $"{urlBase}/Api/Log/BuscarTransformadoId/{logDto.Id}";
@@ -83,28 +81,41 @@ namespace iTaaS.Api.Aplicacao.Servicos
             strinBuilder.AppendLine($"#Date: {logDto.DataHoraRecebimento.ToString("dd/MM/yyyy HH:mm:ss")}");
             strinBuilder.AppendLine($"#Fields: provider http-method status-code uri-path time-taken response-size cache-status");
             strinBuilder.AppendLine($"");
+
             foreach (var dtoLogLinha in logDto.Linhas)
                 strinBuilder.AppendLine($"\"{PROVEDOR}\" {dtoLogLinha.MetodoHttp} {dtoLogLinha.CodigoStatus} {dtoLogLinha.CaminhoUrl} {ConversorHelper.ConverterDecimalParaInt(dtoLogLinha.TempoResposta)} {dtoLogLinha.TamahoResposta} {dtoLogLinha.CacheStatus}");
+                                  
 
-            resultado.Dados = strinBuilder.ToString();
+            var caminhoArquivo = $"{SistemaArquivosHelper.ObtenhaCaminhoDiretorioPorDataHora(logDto.DataHoraRecebimento)}\\{logDto.ObtenhaNomeArquivo(SUFIXO_TIPO_LOG_AGORA)}";
+            var consultaArquivoString = ConverterDeArquivoParaString(caminhoArquivo);
+            if (!consultaArquivoString.Sucesso)
+            {
+                var consultaArquivoTxt = SistemaArquivosHelper.CriarArquivoTxt(caminhoArquivo, strinBuilder.ToString());
+                if (!consultaArquivoTxt.Sucesso)
+                {
+                    resultado.Inconsistencias = consultaArquivoTxt.Inconsistencias;
+                    return resultado;
+                }
+
+                consultaArquivoString = ConverterDeArquivoParaString(caminhoArquivo);
+            }
+
+            if (!consultaArquivoString.Sucesso)
+            {
+                resultado.Inconsistencias = consultaArquivoString.Inconsistencias;
+                return resultado;
+            }
+
+            resultado.Dados = consultaArquivoString.Dados;
 
             return resultado;
-        }
-
-        public Resultado<string> ConverterDeStringParaArquivo(string logString, string caminho)
-        {
-            throw new NotImplementedException();
-        }
+        }       
 
         public Resultado<LogDto> ConverterDeStringParaDto(string logString)
         {
             throw new NotImplementedException();
         }
-
-        public Resultado<string> ConverterDeUrlParaArquivo(string url, string caminho)
-        {
-            throw new NotImplementedException();
-        }
+   
 
         public Resultado<LogDto> ConverterDeUrlParaDto(string url)
         {

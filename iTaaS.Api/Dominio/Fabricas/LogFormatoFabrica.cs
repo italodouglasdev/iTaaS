@@ -6,7 +6,7 @@ namespace iTaaS.Api.Dominio.Fabricas
 {
     public class LogFormatoFabrica
     {       
-        public static ILogTipoServico ObterConversor(TipoFormatoLog tipoFormato)
+        public static ILogTipoFormatoServico ObterConversor(TipoFormatoLog tipoFormato)
         {
             if (tipoFormato == TipoFormatoLog.AGORA)
                 return new LogAgoraServico();

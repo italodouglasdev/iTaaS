@@ -40,8 +40,8 @@ namespace iTaaS.Api
             services.AddScoped<ILogLinhaRepositorio, LogLinhaRepositorio>();
             services.AddScoped<ILogLinhaMapeador, LogLinhaMapeador>();            
 
-            services.AddTransient<ILogTipoServico, LogMinhaCdnServico>();
-            services.AddTransient<ILogTipoServico, LogAgoraServico>();
+            services.AddTransient<ILogTipoFormatoServico, LogMinhaCdnServico>();
+            services.AddTransient<ILogTipoFormatoServico, LogAgoraServico>();
 
 
             //Entity FrameWork  

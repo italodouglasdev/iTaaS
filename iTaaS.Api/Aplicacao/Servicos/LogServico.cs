@@ -185,7 +185,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
                 resultadoConversaoDtoArquivo = conversorLog.ConverterDeDtoParaArquivo(this.HttpContextoServico.ObtenhaUrlBase(), resultadoObtenhaPorId.Dados);
             }
             else if (tipoLogRetorno == TipoRetornoLog.RETORNAR_ARQUIVO)
-            {
+            {               
                 resultadoConversaoDtoArquivo = conversorLog.ConverterDeDtoParaString(resultadoObtenhaPorId.Dados);
             }
             else
