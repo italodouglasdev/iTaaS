@@ -31,6 +31,8 @@ namespace iTaaS.Api.Migrations
 
                     b.Property<string>("UrlOrigem");
 
+                    b.Property<string>("Versao");
+
                     b.HasKey("Id");
 
                     b.ToTable("Logs");

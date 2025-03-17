@@ -95,7 +95,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var strinBuilder = new StringBuilder();
 
             foreach (var dtoLogLinha in logDto.Linhas)
-                strinBuilder.AppendLine($"{dtoLogLinha.TamahoResposta}|{dtoLogLinha.CodigoStatus}|{dtoLogLinha.CacheStatus}|\"{dtoLogLinha.MetodoHttp} {dtoLogLinha.CaminhoUrl} HTTP/1.1\"|{dtoLogLinha.TempoResposta}");
+                strinBuilder.AppendLine($"{dtoLogLinha.TamahoResposta}|{dtoLogLinha.CodigoStatus}|{dtoLogLinha.CacheStatus}|\"{dtoLogLinha.MetodoHttp} {dtoLogLinha.CaminhoUrl} HTTP/{logDto.Versao}\"|{dtoLogLinha.TempoResposta.ToString("F1").Replace(",",".")}");
 
             var consultaArvoreDiretorios = SistemaArquivosHelper.CriarArvoreDiretorios(logDto.DataHoraRecebimento);
             if (!consultaArvoreDiretorios.Sucesso)

@@ -150,6 +150,20 @@ namespace iTaaS.Api.Dominio.Helpers
 
             resultado.Dados = caminhoArquivo;
 
+            var diretorioDoArquivo = ObtenhaCaminhoDiretorioPorCaminhoArquivo(caminhoArquivo);
+            var diretorioDoArquivoExiste = DiretorioExiste(diretorioDoArquivo);
+            if (!diretorioDoArquivoExiste)
+            {
+                diretorioDoArquivoExiste = DiretorioCriar(diretorioDoArquivo);
+
+                if (!diretorioDoArquivoExiste)
+                {
+                    resultado.AdicionarInconsistencia("SISTEMS_ARQUIVOS", "Não foi possível criar o arquivo!");
+                    return resultado;
+                }
+            }
+
+
             try
             {
                 File.WriteAllText(caminhoArquivo, texto);
@@ -194,7 +208,7 @@ namespace iTaaS.Api.Dominio.Helpers
             }
             catch (AggregateException ex) when (ex.InnerException is HttpRequestException httpEx)
             {
-                resultado.AdicionarInconsistencia("ERRO_REDE", "Erro na requisição HTTP!");  
+                resultado.AdicionarInconsistencia("ERRO_REDE", "Erro na requisição HTTP!");
             }
             catch (Exception ex)
             {
@@ -202,6 +216,13 @@ namespace iTaaS.Api.Dominio.Helpers
             }
 
             return resultado;
+        }
+
+
+        public static string ObtenhaCaminhoDiretorioPorCaminhoArquivo(string caminhoArquivo)
+        {
+            return Path.GetDirectoryName(caminhoArquivo);
+
         }
 
 

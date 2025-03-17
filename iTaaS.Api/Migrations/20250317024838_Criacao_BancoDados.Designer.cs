@@ -10,7 +10,7 @@ using iTaaS.Api.Infraestrutura.BancoDeDados;
 namespace iTaaS.Api.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20250316233723_Criacao_BancoDados")]
+    [Migration("20250317024838_Criacao_BancoDados")]
     partial class Criacao_BancoDados
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,8 @@ namespace iTaaS.Api.Migrations
                     b.Property<string>("Hash");
 
                     b.Property<string>("UrlOrigem");
+
+                    b.Property<string>("Versao");
 
                     b.HasKey("Id");
 

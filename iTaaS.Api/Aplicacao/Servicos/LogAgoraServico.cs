@@ -79,7 +79,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
 
             var strinBuilder = new StringBuilder();
 
-            strinBuilder.AppendLine($"#Version: 1.0");
+            strinBuilder.AppendLine($"#Version: {logDto.Versao}");
             strinBuilder.AppendLine($"#Date: {logDto.DataHoraRecebimento.ToString("dd/MM/yyyy HH:mm:ss")}");
             strinBuilder.AppendLine($"#Fields: provider http-method status-code uri-path time-taken response-size cache-status");
             strinBuilder.AppendLine($"");
