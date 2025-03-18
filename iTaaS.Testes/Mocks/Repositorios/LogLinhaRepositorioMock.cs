@@ -1,4 +1,5 @@
-﻿using iTaaS.Api.Dominio.Entidades;
+﻿using iTaaS.Api.Aplicacao.DTOs;
+using iTaaS.Api.Dominio.Entidades;
 using System.Collections.Generic;
 
 namespace iTaaS.Testes.Mocks.Repositorios
@@ -28,6 +29,14 @@ namespace iTaaS.Testes.Mocks.Repositorios
                 new LogLinhaEntidade { Id = 16, LogId = 4, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 245.10M, TamahoResposta = 312, CacheStatus = "INVALIDATE" }
             };
         }
+
+
+        public static LogLinhaEntidade PopularLogLinhaEntidade(int Id)
+        {
+            return new LogLinhaEntidade { Id = Id, LogId = 1, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 100.20M, TamahoResposta = 312, CacheStatus = "HIT" };
+
+        }
+
 
     }
 }

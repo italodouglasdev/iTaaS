@@ -27,5 +27,14 @@ namespace iTaaS.Testes.Mocks.Repositorios
                 new LogLinhaDto { Id = 16, LogId = 4, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 245.10M, TamahoResposta = 312, CacheStatus = "INVALIDATE" }
             };
         }
+
+
+        public static LogLinhaDto PopularLogLinhaDto(int Id)
+        {
+            return new LogLinhaDto { Id = Id, LogId = 1, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 100.20M, TamahoResposta = 312, CacheStatus = "HIT" };
+
+        }
+
+
     }
 }
