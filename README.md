@@ -177,5 +177,4 @@ dotnet test
 - Entity Framework Core
 - SQL Server
 - Swagger
-- Docker
 - xUnit
