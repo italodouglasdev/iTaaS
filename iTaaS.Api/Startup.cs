@@ -1,4 +1,7 @@
-﻿using iTaaS.Api.Aplicacao.Mapeadores;
+﻿using iTaaS.Api.Aplicacao.Interfaces.Mapeadores;
+using iTaaS.Api.Aplicacao.Interfaces.Repositorios;
+using iTaaS.Api.Aplicacao.Interfaces.Servicos;
+using iTaaS.Api.Aplicacao.Mapeadores;
 using iTaaS.Api.Aplicacao.Servicos;
 using iTaaS.Api.Infraestrutura.BancoDeDados;
 using iTaaS.Api.Infraestrutura.Repositorios;
@@ -9,12 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using System;
 using System.IO;
 using System.Reflection;
-using System;
-using iTaaS.Api.Aplicacao.Interfaces.Servicos;
-using iTaaS.Api.Aplicacao.Interfaces.Mapeadores;
-using iTaaS.Api.Aplicacao.Interfaces.Repositorios;
 
 namespace iTaaS.Api
 {
@@ -26,8 +26,7 @@ namespace iTaaS.Api
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+      
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
@@ -72,8 +71,7 @@ namespace iTaaS.Api
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+     
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
