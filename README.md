@@ -38,25 +38,65 @@ Este projeto contém os testes automatizados da aplicação, garantindo a qualid
 - **Mocks**: Objetos simulados para testar funcionalidades sem acessar diretamente a base de dados.
 - **Testes**: Implementação dos casos de teste.
 
-## 📂 Endpoints da API
+## 📌 Endpoints da API
 
 A API disponibiliza os seguintes endpoints principais:
 
-### Usuários
-- **GET /api/usuarios** - Obtém a lista de usuários
-- **GET /api/usuarios/{id}** - Obtém um usuário específico pelo ID
-- **POST /api/usuarios** - Cria um novo usuário
-- **PUT /api/usuarios/{id}** - Atualiza um usuário existente
-- **DELETE /api/usuarios/{id}** - Remove um usuário
+### Logs
 
-### Autenticação
-- **POST /api/auth/login** - Realiza login e retorna um token JWT
-- **POST /api/auth/register** - Registra um novo usuário
+- **POST /api/Log/TranformarLogUrl**
+  - **Função**: Importa e transforma um log a partir de uma URL.
+  - **Tipo HTTP**: POST
+  - **Entrada**: Parâmetros `url` (string) e `tipoRetornoLog` (enum: 0 - ARQUIVO, 1 - PATCH, 2 - JSON).
+  - **Saída**: Objeto `LogDto` contendo os dados do log transformado.
 
-### Produtos
-- **GET /api/produtos** - Lista todos os produtos disponíveis
-- **POST /api/produtos** - Cadastra um novo produto
-- **DELETE /api/produtos/{id}** - Exclui um produto
+- **POST /api/Log/TranformarLogId**
+  - **Função**: Importa e transforma um log a partir de um identificador.
+  - **Tipo HTTP**: POST
+  - **Entrada**: Parâmetros `id` (int) e `tipoRetornoLog` (enum: 0 - ARQUIVO, 1 - PATCH, 2 - JSON).
+  - **Saída**: Objeto `LogDto` contendo os dados do log transformado.
+
+- **GET /api/Log/BuscarSalvos**
+  - **Função**: Busca logs salvos com base em diversos filtros.
+  - **Tipo HTTP**: GET
+  - **Entrada**: Filtros opcionais como `dataHoraRecebimentoInicio`, `dataHoraRecebimentoFim`, `metodoHttp`, `codigoStatus`, entre outros.
+  - **Saída**: Lista de objetos `LogDto` com os logs filtrados.
+
+- **GET /api/Log/BuscarTransformados**
+  - **Função**: Busca logs transformados com base em filtros.
+  - **Tipo HTTP**: GET
+  - **Entrada**: Parâmetros similares ao endpoint `/api/Log/BuscarSalvos`.
+  - **Saída**: Lista de objetos `LogDto` transformados.
+
+- **GET /api/Log/BuscarSalvoId/{identificador}**
+  - **Função**: Busca um log salvo a partir do identificador.
+  - **Tipo HTTP**: GET
+  - **Entrada**: Parâmetro `identificador` (int).
+  - **Saída**: Objeto `LogDto`.
+
+- **GET /api/Log/BuscarTransformadoId/{identificador}**
+  - **Função**: Busca um log transformado a partir do identificador.
+  - **Tipo HTTP**: GET
+  - **Entrada**: Parâmetro `identificador` (int).
+  - **Saída**: Objeto `LogDto`.
+
+- **POST /api/Log/Criar**
+  - **Função**: Cria um novo log no sistema.
+  - **Tipo HTTP**: POST
+  - **Entrada**: Objeto JSON `LogDto`.
+  - **Saída**: Objeto `LogDto` criado.
+
+- **PUT /api/Log/Salvar**
+  - **Função**: Atualiza um log existente.
+  - **Tipo HTTP**: PUT
+  - **Entrada**: Objeto JSON `LogDto` atualizado.
+  - **Saída**: Objeto `LogDto` atualizado.
+
+- **DELETE /api/Log/Deletar/{id}**
+  - **Função**: Deleta um log do sistema pelo identificador.
+  - **Tipo HTTP**: DELETE
+  - **Entrada**: Parâmetro `id` (int).
+  - **Saída**: Confirmação da exclusão.
 
 ## 🌐 API Hospedada
 
