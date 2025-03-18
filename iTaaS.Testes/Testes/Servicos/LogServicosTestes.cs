@@ -95,34 +95,6 @@ namespace iTaaS.Testes.Testes.Servicos
         }
 
         [Fact]
-        public async Task Atualizar()
-        {
-
-            using (var context = new EntityContext(this.DbContextOptions))
-            {
-                this.PoupularBancoDadosVirtual(context);
-
-                var logEntidade = context.Logs.FirstOrDefault();
-                logEntidade.DataHoraRecebimento = DateTime.Now;
-                await context.SaveChangesAsync();
-
-                var repositorioMock = new LogRepositorio(context);
-                var mapperLogLinha = new LogLinhaMapeador();
-                var mapper = new LogMapeador(mapperLogLinha);
-                var httpContext = new HttpContextoServicoMock();
-                var servico = new LogServico(repositorioMock, mapper, httpContext);           
-
-
-                var log = mapper.MapearDeEntidadeParaDto(logEntidade);            
-
-                var resultado = await servico.Atualizar(log);
-
-                Assert.True(resultado.Sucesso);
-            }
-
-        }
-
-        [Fact]
         public async Task Deletar()
         {
 

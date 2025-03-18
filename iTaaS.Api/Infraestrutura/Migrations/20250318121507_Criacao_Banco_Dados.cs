@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace iTaaS.Api.Migrations
 {
-    public partial class Criacao_BancoDados : Migration
+    public partial class Criacao_Banco_Dados : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

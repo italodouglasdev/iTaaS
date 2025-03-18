@@ -51,9 +51,15 @@ namespace iTaaS.Api
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "iTaaS API",
+                    Title = "ItaaS - Conversor de Logs API",
                     Version = "v1",
-                    Description = "API para o serviço de logs",
+                    Description = "API de importação, transformação e gerenciamento de logs, oferecendo endpoints para criação, busca e manipulação de logs em diversos formatos.",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Italo Douglas Vasconcelos de Alencar",
+                        Email = "italodouglas.dev@gmail.com",
+                        Url = new Uri("https://italodouglas.dev")
+                    }
                 });
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

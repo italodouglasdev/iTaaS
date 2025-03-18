@@ -10,8 +10,8 @@ using iTaaS.Api.Infraestrutura.BancoDeDados;
 namespace iTaaS.Api.Migrations
 {
     [DbContext(typeof(EntityContext))]
-    [Migration("20250317024838_Criacao_BancoDados")]
-    partial class Criacao_BancoDados
+    [Migration("20250318121507_Criacao_Banco_Dados")]
+    partial class Criacao_Banco_Dados
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

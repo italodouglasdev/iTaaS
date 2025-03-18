@@ -1,8 +1,8 @@
-﻿# ItaaS - Conversor de Logs
+﻿# ItaaS - Conversor de Logs API
 
 O projeto ItaaS segue uma arquitetura bem organizada, separando responsabilidades em diferentes camadas para manter um código limpo, modular e de fácil manutenção. Abaixo está um resumo das principais camadas e seus respectivos papéis:
 
-## 📂 ItaaS.Api
+## 🚀 ItaaS.Api
 Este é o projeto principal da API, onde estão configurados os serviços e endpoints para exposição dos recursos.
 
 ### 📂 Aplicacao (Camada de Aplicação)

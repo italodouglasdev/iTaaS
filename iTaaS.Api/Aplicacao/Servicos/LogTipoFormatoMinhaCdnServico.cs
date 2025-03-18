@@ -33,6 +33,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         private const int INDEX_VERSAO = 2;
         private const int INDEX_TEMPO_RESPOSTA = 4;
 
+
         /// <summary>
         /// Converte um arquivo de log em uma string.
         /// </summary>
@@ -114,7 +115,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
             var strinBuilder = new StringBuilder();
 
             foreach (var dtoLogLinha in logDto.Linhas)
-                strinBuilder.AppendLine($"{dtoLogLinha.TamahoResposta}|{dtoLogLinha.CodigoStatus}|{dtoLogLinha.CacheStatus}|\"{dtoLogLinha.MetodoHttp} {dtoLogLinha.CaminhoUrl} HTTP/{logDto.Versao}\"|{dtoLogLinha.TempoResposta.ToString("F1").Replace(",",".")}");
+                strinBuilder.AppendLine($"{dtoLogLinha.TamahoResposta}|{dtoLogLinha.CodigoStatus}|{dtoLogLinha.CacheStatus}|\"{dtoLogLinha.MetodoHttp} {dtoLogLinha.CaminhoUrl} HTTP/{logDto.Versao}\"|{dtoLogLinha.TempoResposta.ToString("F1").Replace(",", ".")}");
 
             var consultaArvoreDiretorios = SistemaArquivosHelper.CriarArvoreDiretorios(logDto.DataHoraRecebimento);
             if (!consultaArvoreDiretorios.Sucesso)

@@ -41,6 +41,7 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
             return resultado;
         }
 
+
         /// <summary>
         /// Obtém todos os registros de log de linha.
         /// </summary>
@@ -58,6 +59,7 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
 
             return resultado;
         }
+
 
         /// <summary>
         /// Cria um novo registro de log de linha.
@@ -92,6 +94,7 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
             return resultado;
         }
 
+
         /// <summary>
         /// Atualiza um registro de log de linha existente.
         /// </summary>
@@ -124,6 +127,7 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
 
             return resultado;
         }
+
 
         /// <summary>
         /// Deleta um registro de log de linha pelo ID.

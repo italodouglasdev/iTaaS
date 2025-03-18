@@ -1,6 +1,5 @@
 ﻿namespace iTaaS.Api.Aplicacao.DTOs.Auxiliares
 {
-
     /// <summary>
     /// Classe auxiliar responsável por agrupar os tipos de Log para retorno da API
     /// </summary>

@@ -34,12 +34,12 @@ namespace iTaaS.Api.Aplicacao.Mapeadores
             };
         }
 
+
         /// <summary>
         /// Converte um DTO do tipo <see cref="LogLinhaDto"/> em uma entidade do tipo <see cref="LogLinhaEntidade"/>.
         /// </summary>
         /// <param name="dto">Objeto do DTO <see cref="LogLinhaDto"/> a ser convertido.</param>
         /// <returns>Um objeto <see cref="LogLinhaEntidade"/> correspondente ao DTO fornecido ou <c>null</c> se o DTO for <c>null</c>.</returns>
-
         public LogLinhaEntidade MapearDeDtoParaEntidade(LogLinhaDto dto)
         {
             if (dto == null)
@@ -58,12 +58,12 @@ namespace iTaaS.Api.Aplicacao.Mapeadores
             };
         }
 
+
         /// <summary>
         /// Converte uma lista de entidades do tipo <see cref="LogLinhaEntidade"/> em uma lista de DTOs do tipo <see cref="LogLinhaDto"/>.
         /// </summary>
         /// <param name="listaEntities">Lista de entidades <see cref="LogLinhaEntidade"/> a ser convertida.</param>
         /// <returns>Uma lista de <see cref="LogLinhaDto"/> correspondente ou <c>null</c> se a lista fornecida for <c>null</c>.</returns>
-
         public List<LogLinhaDto> MapearListaDeEntitadesParaDtos(List<LogLinhaEntidade> listaEntities)
         {
             if (listaEntities == null)
@@ -78,12 +78,12 @@ namespace iTaaS.Api.Aplicacao.Mapeadores
 
         }
 
+
         /// <summary>
         /// Converte uma lista de DTOs do tipo <see cref="LogLinhaDto"/> em uma lista de entidades do tipo <see cref="LogLinhaEntidade"/>.
         /// </summary>
         /// <param name="listaDtos">Lista de DTOs <see cref="LogLinhaDto"/> a ser convertida.</param>
         /// <returns>Uma lista de <see cref="LogLinhaEntidade"/> correspondente ou <c>null</c> se a lista fornecida for <c>null</c>.</returns>
-
         public List<LogLinhaEntidade> MapearListaDeDtosParaEntitades(List<LogLinhaDto> listaDtos)
         {
             if (listaDtos == null)

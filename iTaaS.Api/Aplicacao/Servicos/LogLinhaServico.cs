@@ -72,7 +72,6 @@ namespace iTaaS.Api.Aplicacao.Servicos
         /// </summary>
         /// <param name="dtoLogLinha">Objeto DTO contendo os dados do log a ser criado.</param>
         /// <returns>Resultado contendo a dto <see cref="LogDto"/> encontrada ou uma inconsistência.</returns>
-
         public async Task<Resultado<LogLinhaDto>> Criar(LogLinhaDto dtoLogLinha)
         {
             var resultadoService = new Resultado<LogLinhaDto>();

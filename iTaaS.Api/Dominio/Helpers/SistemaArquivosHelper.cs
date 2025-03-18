@@ -212,12 +212,16 @@ namespace iTaaS.Api.Dominio.Helpers
             return resultado;
         }
 
+        /// <summary>
+        /// Obtém o caminho do diretório de um arquivo especificado.
+        /// </summary>
+        /// <param name="caminhoArquivo">O caminho completo do arquivo.</param>
+        /// <returns>O caminho do diretório onde o arquivo está localizado.</returns>
         public static string ObtenhaCaminhoDiretorioPorCaminhoArquivo(string caminhoArquivo)
         {
             return Path.GetDirectoryName(caminhoArquivo);
 
         }
-
 
     }
 
