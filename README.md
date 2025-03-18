@@ -1,11 +1,11 @@
-﻿# Estrutura do Projeto ItaaS
+﻿# ItaaS - Conversor de Logs
 
 O projeto ItaaS segue uma arquitetura bem organizada, separando responsabilidades em diferentes camadas para manter um código limpo, modular e de fácil manutenção. Abaixo está um resumo das principais camadas e seus respectivos papéis:
 
-## 📌 ItaaS.Api
+## 📂 ItaaS.Api
 Este é o projeto principal da API, onde estão configurados os serviços e endpoints para exposição dos recursos.
 
-### Aplicacao (Camada de Aplicação)
+### 📂 Aplicacao (Camada de Aplicação)
 Contém as regras de negócio e a lógica de manipulação de dados antes de chegar à camada de infraestrutura.
 
 - **DTOs**: Objetos de transferência de dados usados para comunicação entre camadas.
@@ -14,10 +14,10 @@ Contém as regras de negócio e a lógica de manipulação de dados antes de che
 - **Serviços**: Implementação da lógica de negócio.
 - **Validadores**: Classes para validação de dados.
 
-### Controllers (Camada de Apresentação)
+### 📂 Controllers (Camada de Apresentação)
 Contém os endpoints da API que lidam com as requisições HTTP e direcionam para os serviços correspondentes.
 
-### Dominio (Camada de Domínio)
+### 📂 Dominio (Camada de Domínio)
 Define o núcleo do sistema com as regras fundamentais.
 
 - **Entidades**: Representações das tabelas do banco de dados.
@@ -25,30 +25,20 @@ Define o núcleo do sistema com as regras fundamentais.
 - **Fabricas**: Padrões para criação de objetos complexos.
 - **Helpers**: Classes auxiliares com métodos utilitários.
 
-### Infraestrutura (Camada de Acesso a Dados)
+### 📂 Infraestrutura (Camada de Acesso a Dados)
 Responsável pela comunicação com o banco de dados e armazenamento de informações.
 
 - **BancoDeDados**: Configurações do banco.
 - **Migrations**: Scripts de versionamento do banco de dados (usando Entity Framework).
 - **Repositorios**: Implementações de acesso aos dados, seguindo o padrão Repository.
 
-## 📌 ItaaS.Testes
+## 📂 ItaaS.Testes
 Este projeto contém os testes automatizados da aplicação, garantindo a qualidade e o funcionamento correto do sistema.
 
 - **Mocks**: Objetos simulados para testar funcionalidades sem acessar diretamente a base de dados.
 - **Testes**: Implementação dos casos de teste.
 
-## 🛠 Tecnologias Utilizadas
-
-- Visual Studio 2022
-- .NET Core 2.1
-- Entity Framework Core
-- SQL Server
-- Swagger
-- Docker
-- xUnit
-
-## 📌 Endpoints da API
+## 📂 Endpoints da API
 
 A API disponibiliza os seguintes endpoints principais:
 
@@ -109,3 +99,12 @@ Para rodar os testes, execute:
 dotnet test
 ```
 
+## 🛠 Tecnologias Utilizadas
+
+- Visual Studio 2022
+- .NET Core 2.1
+- Entity Framework Core
+- SQL Server
+- Swagger
+- Docker
+- xUnit
