@@ -24,15 +24,23 @@ Após uma pesquisa, a empresa firmou contrato com a **MINHA CDN**, que utiliza u
 
 A API possui os seguintes endpoints:
 
-- **Transformação de Logs**
-  - Entrada pode ser uma URL ou um identificador salvo no banco.
-  - Saída pode ser salva em um arquivo ou retornada diretamente na resposta.
+- **Transformação de Logs**   
 
+  - Método: POST
+  - Descrição: Recebe uma URL ou um identificador salvo no banco de dados e retorna o log transformado.
+  - Entrada:   URL ou identificador do log.
+  - Saída: Arquivo (formato específico) ou retorno direto em JSON ou Patch.
+  
 - **Gerenciamento de Logs**
-  - Buscar logs salvos.
-  - Buscar logs transformados no backend.
-  - Buscar logs por identificador.
-  - Salvar logs no banco de dados.
+
+  - Método: GET
+  - Descrição: Permite realizar buscas e manipular logs.
+  - Buscar logs salvos: Retorna todos os logs que foram previamente salvos no banco de dados.
+  - Buscar logs transformados no backend: Retorna os logs que já foram processados e transformados.
+  - Buscar logs por identificador: Permite buscar logs específicos usando um identificador único.
+  
+  - Método: POST
+  - Salvar logs no banco de dados: Recebe os logs e os salva no banco para futuras consultas.
 
 ---
 
