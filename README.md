@@ -1,22 +1,15 @@
-﻿# Conversor de Logs - iTaaS Solution
+﻿# iTaaS Solution
 
-## 🌜 Descrição
-
-Arquivos de log podem revelar muito sobre o comportamento de um sistema em um ambiente de produção. A extração de dados desses arquivos auxilia na tomada de decisões para o planejamento de negócios e desenvolvimento.
-
-A **iTaaS Solution** é uma empresa focada em entrega de conteúdo, e um dos seus maiores desafios de negócio era o **custo com CDN (Content Delivery Network)**. Custos altos aumentam o preço final para os clientes, reduzem lucros e dificultam a entrada em mercados menores.
-
-Após uma pesquisa, a empresa firmou contrato com a **MINHA CDN**, que utiliza um formato de log diferente do atual sistema de relatórios de faturamento, chamado **"Agora"**. O objetivo do projeto é desenvolver uma **API REST** que converta os arquivos de log do formato **MINHA CDN** para o formato **Agora**.
-
----
 
 ## 🔧 Tecnologias Utilizadas
 
+- **Visual Studio 2022**
 - **.NET Core 2.1**
 - **Entity Framework Core**
 - **SQL Server**
-- **Swagger** (para facilitar os testes)
-- **Docker** (opcional, para facilitar a execução)
+- **Swagger**
+- **Docker**
+- **xUnit**
 
 ---
 
@@ -24,29 +17,59 @@ Após uma pesquisa, a empresa firmou contrato com a **MINHA CDN**, que utiliza u
 
 A API possui os seguintes endpoints:
 
-- **Transformação de Logs**   
+### 🔹 POST /api/Log/TranformarLogUrl
 
-  - Método: POST
-  - Descrição: Recebe uma URL ou um identificador salvo no banco de dados e retorna o log transformado.
-  - Entrada:   URL ou identificador do log.
-  - Saída: Arquivo (formato específico) ou retorno direto em JSON ou Patch.
-  
-- **Gerenciamento de Logs**
+ - Descrição: Importa e transforma um log a partir de uma URL fornecida.
+ - Retorno: Arquivo, JSON ou Patch (conforme o tipo solicitado)
 
-  - Método: GET
-  - Descrição: Permite realizar buscas e manipular logs.
-  - Buscar logs salvos: Retorna todos os logs que foram previamente salvos no banco de dados.
-  - Buscar logs transformados no backend: Retorna os logs que já foram processados e transformados.
-  - Buscar logs por identificador: Permite buscar logs específicos usando um identificador único.
-  
-  - Método: POST
-  - Salvar logs no banco de dados: Recebe os logs e os salva no banco para futuras consultas.
+
+### 🔹 POST /api/Log/TranformarLogId
+
+ - Descrição: Importa e transforma um log a partir de um identificador fornecido.
+ - Retorno: Arquivo, JSON ou Patch (conforme o tipo solicitado)
+
+
+### 🔹 GET /api/Log/BuscarSalvos
+
+ - Descrição: Busca logs salvos com filtros (data, status, tempo de resposta, etc.).
+ - Retorno: Lista de logs salvos
+
+### 🔹 GET /api/Log/BuscarTransformados
+
+ - Descrição: Busca logs transformados com filtros semelhantes
+ - Retorno: Lista de logs transformados
+
+### 🔹 GET /api/Log/BuscarSalvoId/{identificador}
+
+ - Descrição: Busca um log salvo por identificador
+ - Retorno: Log salvo específico
+
+### 🔹 GET /api/Log/BuscarTransformadoId/{identificador}
+
+ - Descrição: Busca um log transformado por identificador
+ - Retorno: Log transformado específico
+
+### 🔹 POST /api/Log/Criar
+
+ - Descrição: Cria um novo log.
+ - Retorno: Confirmação da criação do log com os detalhes
+
+### 🔹 PUT /api/Log/Salvar
+
+ - Descrição: Atualiza um log
+ - Retorno: Confirmação da criação do log com os detalhes
+
+### 🔹 DELETE /api/Log/Deletar/{identificador}
+
+ - Descrição: Deleta um log por por identificador
+ - Retorno: Confirmação da criação do log com os detalhes
+
 
 ---
 
 ## 📂 Exemplo de Conversão
 
-### 🔹 Log de Entrada - Formato MINHA CDN
+### 🔸 Log de Entrada - Formato MINHA CDN
 
 ```txt
 312|200|HIT|"GET /robots.txt HTTP/1.1"|100.2
@@ -81,7 +104,7 @@ A API possui os seguintes endpoints:
    ```json
    {
       "ConnectionStrings": {
-         "DefaultConnection": "Server=localhost;Database=MinhaCDN;User Id=sa;Password=your_password;"
+         "DefaultConnection": "Initial Catalog=BANCO; User ID=USUARIO; Password=SENHA; Data Source=SERVIDOR; Encrypt=False;"
       }
    }
    ```
