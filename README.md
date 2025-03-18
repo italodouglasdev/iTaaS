@@ -1,5 +1,12 @@
-﻿# iTaaS Solution
+﻿# Conversor de Logs - iTaaS Solution
 
+## 🌜 Descrição
+
+Arquivos de log podem revelar muito sobre o comportamento de um sistema em um ambiente de produção. A extração de dados desses arquivos auxilia na tomada de decisões para o planejamento de negócios e desenvolvimento.
+
+A **iTaaS Solution** é uma empresa focada em entrega de conteúdo, e um dos seus maiores desafios de negócio era o **custo com CDN (Content Delivery Network)**. Custos altos aumentam o preço final para os clientes, reduzem lucros e dificultam a entrada em mercados menores.
+
+Após uma pesquisa, a empresa firmou contrato com a **MINHA CDN**, que utiliza um formato de log diferente do atual sistema de relatórios de faturamento, chamado **"Agora"**. O objetivo do projeto é desenvolver uma **API REST** que converta os arquivos de log do formato **MINHA CDN** para o formato **Agora**.
 
 ## 🔧 Tecnologias Utilizadas
 
