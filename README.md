@@ -43,7 +43,6 @@ Este projeto contém os testes automatizados da aplicação, garantindo a qualid
 Para facilitar os testes, a API está hospedada no seguinte endereço:  
 🔗 **[https://itaas.italodouglas.dev](https://itaas.italodouglas.dev)**
 
----
 
 ## 🚀 Como Executar
 
@@ -60,7 +59,15 @@ Para facilitar os testes, a API está hospedada no seguinte endereço:
       }
    }
    ```
-3. Execute a aplicação:
+3. Restaure ou **Excute** o **Script de Crianção** do banco de dados:
+ O arquivos de Backup e Script do banco de dados estão disponíveis no diretório **[Banco de Dados](https://github.com/italodouglasdev/iTaaS/tree/master/BancoDeDados)**.
+
+ - **iTaaSDb_Zerado_SQL_Server_2012.bak**: Backup compatível com SQL SERVER 2012 ou superior.
+
+ - **Banco_Dados_Script_SQL_Server_Criacao.sql** : Script para criação do banco de dados compatível com SQL SERVER 2008 ou superior.
+ 
+
+4. Execute a aplicação:
    ```sh
    dotnet run
    ```
@@ -149,7 +156,7 @@ A API disponibiliza os seguintes endpoints principais:
   - **Entrada**: Parâmetro `id` (int).
   - **Saída**: Confirmação da exclusão.
 
----
+
 
 ## 🧪 Testes Unitários
 Os testes unitários foram implementados para garantir a conversão correta dos logs e seguem boas práticas como:
