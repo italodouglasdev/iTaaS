@@ -99,8 +99,6 @@ namespace iTaaS.Testes.Testes.Repositorios
             }
         }
 
-
-
         [Fact]
         public async Task ObterLista()
         {

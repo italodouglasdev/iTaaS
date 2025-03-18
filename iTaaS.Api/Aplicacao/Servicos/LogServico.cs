@@ -27,8 +27,7 @@ namespace iTaaS.Api.Aplicacao.Servicos
         private readonly ILogRepositorio LogRepository;
         private readonly ILogMapeador LogMapper;
         private readonly IHttpContextoServico HttpContextoServico;
-
-
+             
         public LogServico(ILogRepositorio LogRepository, ILogMapeador LogMapper, IHttpContextoServico HttpContextoServico)
         {
             this.LogRepository = LogRepository;
