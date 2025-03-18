@@ -44,24 +44,6 @@ namespace iTaaS.Testes.Mocks.Repositorios
             return log;
         }
 
-        //public static LogEntidade PopularLogEntidade(int idLog)
-        //{
-        //    return new LogEntidade
-        //    {
-        //        Id = 0,
-        //        DataHoraRecebimento = DateTime.Now.AddMinutes(-10),
-        //        Hash = "cb29e621-32c9-4978-aa42-28d471654142",
-        //        Versao = "1.1",
-        //        UrlOrigem = "https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-01.txt",
-        //        Linhas = new List<LogLinhaEntidade>
-        //         {
-        //             new LogLinhaEntidade { Id = 0, LogId = 0, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 100.20M, TamahoResposta = 312, CacheStatus = "HIT" },
-        //             new LogLinhaEntidade { Id = 0, LogId = 0, MetodoHttp = "POST", CodigoStatus = 200, CaminhoUrl = "/myImages", TempoResposta = 319.40M, TamahoResposta = 101, CacheStatus = "MISS" },
-        //             new LogLinhaEntidade { Id = 0, LogId = 0, MetodoHttp = "GET", CodigoStatus = 404, CaminhoUrl = "/not-found", TempoResposta = 142.90M, TamahoResposta = 199, CacheStatus = "MISS" },
-        //             new LogLinhaEntidade { Id = 0, LogId = 0, MetodoHttp = "GET", CodigoStatus = 200, CaminhoUrl = "/robots.txt", TempoResposta = 245.10M, TamahoResposta = 312, CacheStatus = "INVALIDATE" }
-        //         }
-        //    };
-
-        //}
+      
     }
 }

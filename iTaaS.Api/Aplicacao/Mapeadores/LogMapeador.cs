@@ -20,7 +20,6 @@ namespace iTaaS.Api.Aplicacao.Mapeadores
         }
 
 
-
         /// <summary>
         /// Converte uma entidade do tipo <see cref="LogEntidade"/> em um DTO do tipo <see cref="LogDto"/>.
         /// </summary>
