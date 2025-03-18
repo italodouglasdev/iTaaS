@@ -1,9 +1,6 @@
-﻿Aqui está o `README.md` atualizado com as informações sobre o Swagger e a hospedagem do projeto.  
+﻿# Conversor de Logs - iTaaS Solution
 
-```md
-# Conversor de Logs - iTaaS Solution
-
-## 📜 Descrição
+## 🌜 Descrição
 
 Arquivos de log podem revelar muito sobre o comportamento de um sistema em um ambiente de produção. A extração de dados desses arquivos auxilia na tomada de decisões para o planejamento de negócios e desenvolvimento.
 
@@ -98,7 +95,7 @@ Para facilitar os testes, a API está hospedada no seguinte endereço:
 
 ---
 
-## 🧪 Testes Unitários
+## 🥾 Testes Unitários
 
 Os testes unitários foram implementados para garantir a conversão correta dos logs e seguem boas práticas como:
 
@@ -117,6 +114,4 @@ dotnet test
 ## 📌 Considerações Finais
 
 Este projeto não apenas resolve um problema técnico, mas também ajuda a iTaaS Solution a reduzir custos operacionais e melhorar a eficiência de sua análise de dados. 🚀
-```
 
-Esse `README.md` está mais profissional, organizado e contém todas as informações importantes. Se precisar de ajustes, só avisar! 🚀
