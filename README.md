@@ -1,14 +1,48 @@
-﻿# 📌 Conversor de Logs - MINHA CDN para Agora
+﻿Aqui está o `README.md` atualizado com as informações sobre o Swagger e a hospedagem do projeto.  
 
-## 📖 Sobre o Projeto
+```md
+# Conversor de Logs - iTaaS Solution
+
+## 📜 Descrição
+
 Arquivos de log podem revelar muito sobre o comportamento de um sistema em um ambiente de produção. A extração de dados desses arquivos auxilia na tomada de decisões para o planejamento de negócios e desenvolvimento.
 
-A **iTaaS Solution** é uma empresa focada em entrega de conteúdo e enfrentava altos custos com CDN (Content Delivery Network), o que impactava seus clientes e seus lucros. Para resolver isso, firmaram um contrato com a empresa **"MINHA CDN"**.
+A **iTaaS Solution** é uma empresa focada em entrega de conteúdo, e um dos seus maiores desafios de negócio era o **custo com CDN (Content Delivery Network)**. Custos altos aumentam o preço final para os clientes, reduzem lucros e dificultam a entrada em mercados menores.
 
-O desafio deste projeto é converter os logs gerados no formato **"MINHA CDN"** para o formato **"Agora"**, que é utilizado pelo sistema da empresa para relatórios de faturamento.
+Após uma pesquisa, a empresa firmou contrato com a **MINHA CDN**, que utiliza um formato de log diferente do atual sistema de relatórios de faturamento, chamado **"Agora"**. O objetivo do projeto é desenvolver uma **API REST** que converta os arquivos de log do formato **MINHA CDN** para o formato **Agora**.
 
-## 📂 Exemplo de Logs
-### 📥 Entrada (Formato "MINHA CDN")
+---
+
+## 🔧 Tecnologias Utilizadas
+
+- **.NET Core 2.1**
+- **Entity Framework Core**
+- **SQL Server**
+- **Swagger** (para facilitar os testes)
+- **Docker** (opcional, para facilitar a execução)
+
+---
+
+## 🚀 Funcionalidades
+
+A API possui os seguintes endpoints:
+
+- **Transformação de Logs**
+  - Entrada pode ser uma URL ou um identificador salvo no banco.
+  - Saída pode ser salva em um arquivo ou retornada diretamente na resposta.
+
+- **Gerenciamento de Logs**
+  - Buscar logs salvos.
+  - Buscar logs transformados no backend.
+  - Buscar logs por identificador.
+  - Salvar logs no banco de dados.
+
+---
+
+## 📂 Exemplo de Conversão
+
+### 🔹 Log de Entrada - Formato MINHA CDN
+
 ```txt
 312|200|HIT|"GET /robots.txt HTTP/1.1"|100.2
 101|200|MISS|"POST /myImages HTTP/1.1"|319.4
@@ -16,7 +50,8 @@ O desafio deste projeto é converter os logs gerados no formato **"MINHA CDN"** 
 312|200|INVALIDATE|"GET /robots.txt HTTP/1.1"|245.1
 ```
 
-### 📤 Saída (Formato "Agora")
+### 🔸 Log Convertido - Formato Agora
+
 ```txt
 #Version: 1.0
 #Date: 15/12/2017 23:01:06
@@ -27,58 +62,61 @@ O desafio deste projeto é converter os logs gerados no formato **"MINHA CDN"** 
 "MINHA CDN" GET 200 /robots.txt 245 312 REFRESH_HIT
 ```
 
-## 🔗 Endpoints da API
-A API Restful foi desenvolvida para realizar as seguintes operações:
+---
 
-1️⃣ **Transformar um Log de Entrada no formato "MINHA CDN" para "Agora"**
-   - O log pode vir de uma **URL** ou ser um **identificador de um log salvo**
-   - O resultado pode ser salvo em um arquivo no servidor ou retornado diretamente na resposta
+## 🛠 Como Executar
 
-2️⃣ **Buscar Logs Salvos**
+1. **Clone o repositório**  
+   ```bash
+   git clone https://github.com/seu-usuario/seu-repositorio.git
+   cd seu-repositorio
+   ```
 
-3️⃣ **Buscar Logs Transformados no Backend**
-   - Retorna tanto o log original no formato "MINHA CDN" quanto a saída convertida no formato "Agora"
+2. **Configure a conexão com o banco no `appsettings.json`**  
+   ```json
+   {
+      "ConnectionStrings": {
+         "DefaultConnection": "Server=localhost;Database=MinhaCDN;User Id=sa;Password=your_password;"
+      }
+   }
+   ```
 
-4️⃣ **Buscar Logs Salvos por Identificador**
+3. **Execute a aplicação**  
+   ```bash
+   dotnet run
+   ```
 
-5️⃣ **Buscar Logs Transformados por Identificador**
+4. **Acesse a API via Swagger**  
+   - **URL:** [`http://localhost:5000/swagger`](http://localhost:5000/swagger)
 
-6️⃣ **Salvar Logs**
+---
 
-## 🛠️ Tecnologias Utilizadas
-- **.NET Core 2.1**
-- **Entity Framework Core**
-- **SQL Server**
+## 🌐 API Hospedada
 
-## 🚀 Como Executar o Projeto
-1️⃣ **Clone o repositório**
-```bash
-git clone https://github.com/seuusuario/seuprojeto.git
-```
+Para facilitar os testes, a API está hospedada no seguinte endereço:  
+🔗 **[https://itaas.italodouglas.dev](https://itaas.italodouglas.dev)**
 
-2️⃣ **Acesse o diretório do projeto**
-```bash
-cd seuprojeto
-```
+---
 
-3️⃣ **Configure a string de conexão com o SQL Server** no `appsettings.json`
+## 🧪 Testes Unitários
 
-4️⃣ **Execute a aplicação**
-```bash
-dotnet run
-```
+Os testes unitários foram implementados para garantir a conversão correta dos logs e seguem boas práticas como:
 
-## 📌 Testes
-O projeto inclui **testes unitários** utilizando **Mocks** para garantir a qualidade do código. Os testes estão em um projeto separado e podem ser executados com:
+- **Princípios SOLID**
+- **Mocks para serviços externos**
+- **Testes de integração e unitários separados**
+
+Para rodar os testes, execute:
+
 ```bash
 dotnet test
 ```
 
-## 🔗 Link para Arquivo de Teste
-Para testar, use o arquivo de exemplo disponível:
-[Baixar Arquivo de Log](https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-01.txt)
-
 ---
 
-✉️ **Contato:** Se tiver dúvidas ou sugestões, sinta-se à vontade para abrir uma **issue** ou entrar em contato. 😊
+## 📌 Considerações Finais
 
+Este projeto não apenas resolve um problema técnico, mas também ajuda a iTaaS Solution a reduzir custos operacionais e melhorar a eficiência de sua análise de dados. 🚀
+```
+
+Esse `README.md` está mais profissional, organizado e contém todas as informações importantes. Se precisar de ajustes, só avisar! 🚀
