@@ -23,7 +23,6 @@ namespace iTaaS.Api.Dominio.Helpers
             return Directory.Exists(caminhoDiretorio);
         }
 
-
         /// <summary>
         /// Cria um diretório no caminho especificado.
         /// </summary>
@@ -35,7 +34,6 @@ namespace iTaaS.Api.Dominio.Helpers
 
             return DiretorioExiste(caminhoDiretorio);
         }
-
 
         /// <summary>
         /// Deleta um diretório no caminho especificado.
@@ -87,7 +85,6 @@ namespace iTaaS.Api.Dominio.Helpers
             return resultado;
         }
 
-
         /// <summary>
         /// Verifica se um arquivo existe no caminho especificado.
         /// </summary>
@@ -105,7 +102,6 @@ namespace iTaaS.Api.Dominio.Helpers
             return resultado;
 
         }
-
 
         /// <summary>
         /// Lê o conteúdo de um arquivo texto e retorna uma lista de strings.
@@ -136,7 +132,6 @@ namespace iTaaS.Api.Dominio.Helpers
 
             return resultado;
         }
-
 
         /// <summary>
         /// Cria ou substitui um arquivo de texto no caminho especificado com o texto fornecido.
@@ -175,7 +170,6 @@ namespace iTaaS.Api.Dominio.Helpers
 
             return resultado;
         }
-
 
         /// <summary>
         /// Obtém uma string de uma URL fornecida.
@@ -217,7 +211,6 @@ namespace iTaaS.Api.Dominio.Helpers
 
             return resultado;
         }
-
 
         public static string ObtenhaCaminhoDiretorioPorCaminhoArquivo(string caminhoArquivo)
         {

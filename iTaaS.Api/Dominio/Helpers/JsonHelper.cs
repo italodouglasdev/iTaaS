@@ -1,12 +1,10 @@
 ﻿using iTaaS.Api.Aplicacao.DTOs.Auxiliares;
 using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace iTaaS.Api.Dominio.Helpers
 {
     public class JsonHelper
     {
-
         public static Resultado<string> Serializar(object objeto)
         {
             var resultado = new Resultado<string>();
@@ -24,7 +22,7 @@ namespace iTaaS.Api.Dominio.Helpers
 
         }
 
-        public static Resultado<T> Serializar<T>(string texto)
+        public static Resultado<T> Deserializar<T>(string texto)
         {
             var resultado = new Resultado<T>();
 
@@ -40,8 +38,6 @@ namespace iTaaS.Api.Dominio.Helpers
             return resultado;
 
         }
-
-
 
     }
 }
