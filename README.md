@@ -37,67 +37,7 @@ Este projeto contém os testes automatizados da aplicação, garantindo a qualid
 
 - **Mocks**: Objetos simulados para testar funcionalidades sem acessar diretamente a base de dados.
 - **Testes**: Implementação dos casos de teste.
-
-## 📌 Endpoints da API
-
-A API disponibiliza os seguintes endpoints principais:
-
-### Logs
-
-- **POST /api/Log/TranformarLogUrl**
-  - **Função**: Importa e transforma um log a partir de uma URL.
-  - **Tipo HTTP**: POST
-  - **Entrada**: Parâmetros `url` (string) e `tipoRetornoLog` (enum: 0 - ARQUIVO, 1 - PATCH, 2 - JSON).
-  - **Saída**: Objeto `LogDto` contendo os dados do log transformado.
-
-- **POST /api/Log/TranformarLogId**
-  - **Função**: Importa e transforma um log a partir de um identificador.
-  - **Tipo HTTP**: POST
-  - **Entrada**: Parâmetros `id` (int) e `tipoRetornoLog` (enum: 0 - ARQUIVO, 1 - PATCH, 2 - JSON).
-  - **Saída**: Objeto `LogDto` contendo os dados do log transformado.
-
-- **GET /api/Log/BuscarSalvos**
-  - **Função**: Busca logs salvos com base em diversos filtros.
-  - **Tipo HTTP**: GET
-  - **Entrada**: Filtros opcionais como `dataHoraRecebimentoInicio`, `dataHoraRecebimentoFim`, `metodoHttp`, `codigoStatus`, entre outros.
-  - **Saída**: Lista de objetos `LogDto` com os logs filtrados.
-
-- **GET /api/Log/BuscarTransformados**
-  - **Função**: Busca logs transformados com base em filtros.
-  - **Tipo HTTP**: GET
-  - **Entrada**: Parâmetros similares ao endpoint `/api/Log/BuscarSalvos`.
-  - **Saída**: Lista de objetos `LogDto` transformados.
-
-- **GET /api/Log/BuscarSalvoId/{identificador}**
-  - **Função**: Busca um log salvo a partir do identificador.
-  - **Tipo HTTP**: GET
-  - **Entrada**: Parâmetro `identificador` (int).
-  - **Saída**: Objeto `LogDto`.
-
-- **GET /api/Log/BuscarTransformadoId/{identificador}**
-  - **Função**: Busca um log transformado a partir do identificador.
-  - **Tipo HTTP**: GET
-  - **Entrada**: Parâmetro `identificador` (int).
-  - **Saída**: Objeto `LogDto`.
-
-- **POST /api/Log/Criar**
-  - **Função**: Cria um novo log no sistema.
-  - **Tipo HTTP**: POST
-  - **Entrada**: Objeto JSON `LogDto`.
-  - **Saída**: Objeto `LogDto` criado.
-
-- **PUT /api/Log/Salvar**
-  - **Função**: Atualiza um log existente.
-  - **Tipo HTTP**: PUT
-  - **Entrada**: Objeto JSON `LogDto` atualizado.
-  - **Saída**: Objeto `LogDto` atualizado.
-
-- **DELETE /api/Log/Deletar/{id}**
-  - **Função**: Deleta um log do sistema pelo identificador.
-  - **Tipo HTTP**: DELETE
-  - **Entrada**: Parâmetro `id` (int).
-  - **Saída**: Confirmação da exclusão.
-
+  
 ## 🌐 API Hospedada
 
 Para facilitar os testes, a API está hospedada no seguinte endereço:  
@@ -126,6 +66,90 @@ Para facilitar os testes, a API está hospedada no seguinte endereço:
    ```
 4. Acesse a API via Swagger:
    🔗 **http://localhost:{porta}**
+
+## 📌 Endpoints da API
+
+A API disponibiliza os seguintes endpoints principais:
+
+### Logs
+
+- **POST /api/Log/TranformarLogUrl**
+  - **Função**: Importa e transforma um log a partir de uma URL.
+  - **Tipo HTTP**: POST
+  - **Entrada**: Parâmetros `url` (string) e `tipoRetornoLog` (enum: 0 - ARQUIVO, 1 - PATCH, 2 - JSON).
+  - **Saída**: Objeto `LogDto` contendo os dados do log transformado.
+
+- **POST /api/Log/TranformarLogId**
+  - **Função**: Importa e transforma um log a partir de um identificador.
+  - **Tipo HTTP**: POST
+  - **Entrada**: Parâmetros `id` (int) e `tipoRetornoLog` (enum: 0 - ARQUIVO, 1 - PATCH, 2 - JSON).
+  - **Saída**: Objeto `LogDto` contendo os dados do log transformado.
+
+- **GET /api/Log/BuscarSalvos**
+  - **Função**: Busca logs salvos com base em diversos filtros.
+  - **Tipo HTTP**: GET
+  - **Parâmetros de entrada**:
+    - `dataHoraRecebimentoInicio` (string): Data e hora inicial do recebimento do log.
+    - `dataHoraRecebimentoFim` (string): Data e hora final do recebimento do log.
+    - `metodoHttp` (string): Método HTTP utilizado na requisição (GET, POST, etc.).
+    - `codigoStatus` (int): Código de status HTTP retornado.
+    - `caminhoUrl` (string): URL acessada na requisição.
+    - `tempoRespostaInicial` (double): Tempo mínimo de resposta da requisição (ms).
+    - `tempoRespostaFinal` (double): Tempo máximo de resposta da requisição (ms).
+    - `tamanhoRespostaInicial` (int): Tamanho mínimo da resposta em bytes.
+    - `tamanhoRespostaFinal` (int): Tamanho máximo da resposta em bytes.
+    - `cashStatus` (string): Status do cache utilizado na requisição.
+    - `tipoRetornoLog` (enum: 0 - ARQUIVO, 1 - PATCH, 2 - JSON): Tipo do retorno do log.
+  - **Saída**: Lista de objetos `LogDto` com os logs filtrados.
+
+- **GET /api/Log/BuscarTransformados**
+  - **Função**: Busca logs transformados com base em diversos filtros.
+  - **Tipo HTTP**: GET
+  - **Parâmetros de entrada**:
+    - `dataHoraRecebimentoInicio` (string): Data e hora inicial do recebimento do log.
+    - `dataHoraRecebimentoFim` (string): Data e hora final do recebimento do log.
+    - `metodoHttp` (string): Método HTTP utilizado na requisição (GET, POST, etc.).
+    - `codigoStatus` (int): Código de status HTTP retornado.
+    - `caminhoUrl` (string): URL acessada na requisição.
+    - `tempoRespostaInicial` (double): Tempo mínimo de resposta da requisição (ms).
+    - `tempoRespostaFinal` (double): Tempo máximo de resposta da requisição (ms).
+    - `tamanhoRespostaInicial` (int): Tamanho mínimo da resposta em bytes.
+    - `tamanhoRespostaFinal` (int): Tamanho máximo da resposta em bytes.
+    - `cashStatus` (string): Status do cache utilizado na requisição.
+    - `tipoRetornoLog` (enum: 0 - ARQUIVO, 1 - PATCH, 2 - JSON): Tipo do retorno do log.
+  - **Saída**: Lista de objetos `LogDto` com os logs transformados filtrados.
+
+- **GET /api/Log/BuscarSalvoId/{identificador}**
+  - **Função**: Busca um log salvo a partir do identificador.
+  - **Tipo HTTP**: GET
+  - **Entrada**: Parâmetro `identificador` do log (int).
+  - **Saída**: Objeto `LogDto`.
+
+- **GET /api/Log/BuscarTransformadoId/{identificador}**
+  - **Função**: Busca um log transformado a partir do identificador.
+  - **Tipo HTTP**: GET
+  - **Entrada**: Parâmetro `identificador` do log (int).
+  - **Saída**: Objeto `LogDto`.
+
+- **POST /api/Log/Criar**
+  - **Função**: Cria um novo log no sistema.
+  - **Tipo HTTP**: POST
+  - **Entrada**: Objeto JSON `LogDto`.
+  - **Saída**: Objeto `LogDto` criado.
+
+- **PUT /api/Log/Salvar**
+  - **Função**: Atualiza um log existente.
+  - **Tipo HTTP**: PUT
+  - **Entrada**: Objeto JSON `LogDto` atualizado.
+  - **Saída**: Objeto `LogDto` atualizado.
+
+- **DELETE /api/Log/Deletar/{id}**
+  - **Função**: Deleta um log do sistema pelo identificador.
+  - **Tipo HTTP**: DELETE
+  - **Entrada**: Parâmetro `id` (int).
+  - **Saída**: Confirmação da exclusão.
+
+---
 
 ## 🧪 Testes Unitários
 Os testes unitários foram implementados para garantir a conversão correta dos logs e seguem boas práticas como:
