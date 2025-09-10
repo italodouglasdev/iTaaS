@@ -34,7 +34,8 @@ namespace iTaaS.Api.Infraestrutura.Repositorios
             var entity = await context.LogsLinhas.FindAsync(id);
 
             if (entity == null)
-                resultado.AdicionarInconsistencia("NAO_ENCONTRADO_Y", "Registro não encontrado.");
+            
+                resultado.AdicionarInconsistencia("NAO_ENCONTRADO_X", "Registro não encontrado.");
 
             resultado.Dados = entity;
 
